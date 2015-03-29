@@ -1,0 +1,30 @@
+\begin{thebibliography}{1}
+
+\bibitem{McCune}
+W.~W. McCune.
+\newblock Experiments with discrimination-tree indexing and path indexing for
+  term retrieval.
+\newblock {\em Journal of Automated Reasoning}, 9(2), 1992.
+
+\bibitem{Stickel}
+Stickel.
+\newblock The path-indexing method for indexing terms.
+\newblock In {\em Technical Report}, page 473. Artificial Intelligence Center,
+  SRI International, October 1989.
+
+\bibitem{Knuth}
+D.~E. Knuth.
+\newblock On the translation of languages from left to right.
+\newblock {\em Information and Control}, 8(6), 1965.
+
+\bibitem{Baader}
+F.~Baader and W.~Snyder.
+\newblock Unification theory.
+\newblock {\em Handbook of Automated Reasoning}, I:447--533, 2001.
+
+\bibitem{Richard}
+Richard~J. Fateman and Eylon Caspi.
+\newblock Parsing tex into mathematics.
+\newblock August 1989.
+
+\end{thebibliography}

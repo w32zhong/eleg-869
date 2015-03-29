@@ -1,0 +1,59 @@
+% 
+% This is the Title and Approval Page file (thesis-tap.tex) for
+% a master's thesis.
+%
+% The order of the commands below is very important.
+% You may choose to add or eliminate a \prefacesection 
+% in the front material but the order should remain 
+% the same especially \maketocloflot followed by 
+% \prefacesectiontoc{Abstract}
+
+% Title and author are also used for PDF file properties
+% No special character or commands can be used for the PDF definition; 
+% use the [options] paramater to specify a different title or author 
+% to remove special characters or commands like \\ for example.
+\title[An Efficient Similarity-Based Search Engine for Mathematical Content in LaTeX Markup]{An Efficient Similarity Based Search Engine for Mathematical Content in \LaTeX \ Markup}
+\author[Wei Zhong]{Wei Zhong}
+\type{thesis}
+\degree{Master of Science}
+\majorfieldtrue\majorfield{Electrical and Computer Engineering}
+\degreedate{Spring 2015}
+% Optional PDF properties
+\keywords{Mathematical Content Search,Search Engine,Information Retrieval,IR,Mathematical Language Search}
+\subject{Master of Science in Electrical and Computer Engineering}
+
+\maketitlepage % Generates Title Page
+
+\begin{approvalpage}
+\prof{Fouad E. Kiamilev, Ph.D.}
+\chair{Kenneth E. Barner, Ph.D.}{Chair of the Department of Electrical and Computer Engineering}
+\dean{Babatunde A. Ogunnaike, Ph.D.}{Dean of the College of Engineering}
+\end{approvalpage}
+
+\begin{front} % Starts front material (Roman style page numbers)
+
+\prefacesection{Acknowledgments}
+\input{acknowl} % This file (acknowl.tex) contains the text
+                % for the acknowledgments.
+
+
+% Table of Contents is always created, but you
+% may set \tablespagefalse and \figurespagefalse 
+% if you don't want these generated automatically
+% (i.e. List of Tables and List of Figures).
+% These are set to true by default (i.e. \tablespagetrue,
+% \figurespagetrue).
+
+% Uncomment if you do not want a List of Figures.
+%\figurespagefalse
+
+% Uncomment if you do not want a List of Tables.
+%\tablespagefalse 
+
+\maketocloflot
+
+\prefacesectiontoc{Abstract}
+\input{abstract} % This file (abstract.tex) contains the text
+                 % for an abstract.
+
+\end{front}

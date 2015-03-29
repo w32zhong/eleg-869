@@ -1,0 +1,34 @@
+% This file (thesis-main.tex) is the main file for a master's thesis.
+\documentclass {udthesis}
+% preamble
+
+% Include graphicx package for the example image used
+% Use LaTeX->PDF if including graphics such as .jpg, .png or .pdf.
+% Use LaTeX->PS->PDF if including graphics such as .ps or .eps
+% Best practice to not specify the file extension for included images,
+% so when LaTeX is building it will look for the appropriate image type.
+\usepackage{graphicx}
+\graphicspath{{./res/}}
+                
+\begin{document}
+\include{thesis-tap}
+                   % This file (thesis-tap.tex) contains the Title
+                   % and Approval Page information for a master's thesis.
+
+\include{chap-test}    
+                   
+
+\include{bibtex}	 % This file (bibtex.tex) contains the text
+                   % for a bibliography if using BibTeX with
+                   % sample.bib
+                                      
+%\include{app}      % This file (app.tex) contains the text
+                   % for one Appendix. 
+                   
+\include{appA}     % This file (appA.tex) contains the text
+                   % for Appendix A. 
+                   
+\include{appB}     % This file (appB.tex) contains the text
+                   % for Appendix B.   
+       
+\end{document}

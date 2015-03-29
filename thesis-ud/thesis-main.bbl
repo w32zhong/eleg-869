@@ -1,0 +1,13 @@
+\begin{thebibliography}{1}
+
+\bibitem{ddd}
+Author and Author.
+\newblock {\em Title of Book}.
+\newblock Publisher.
+
+\bibitem{fff}
+Author.
+\newblock Title of article.
+\newblock {\em Title of Journal}, month.
+
+\end{thebibliography}
