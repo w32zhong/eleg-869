@@ -2,6 +2,10 @@
 \documentclass {udthesis}
 % preamble
 
+\usepackage{algorithmicx}
+\usepackage{algorithm}% http://ctan.org/pkg/algorithms
+\usepackage{algpseudocode}% http://ctan.org/pkg/algorithmicx
+
 % Include graphicx package for the example image used
 % Use LaTeX->PDF if including graphics such as .jpg, .png or .pdf.
 % Use LaTeX->PS->PDF if including graphics such as .ps or .eps
@@ -17,7 +21,7 @@
 
 \include{chap-test}    
                    
-
+\renewcommand{\bibname}{References}
 \include{bibtex}	 % This file (bibtex.tex) contains the text
                    % for a bibliography if using BibTeX with
                    % sample.bib

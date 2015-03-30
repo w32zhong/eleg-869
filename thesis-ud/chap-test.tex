@@ -38,24 +38,38 @@ This is the information for the first section of the first chapter.
 \newpage
 
 \begin{figure}
+\begin{minipage}[b]{2.65in}
 \begin{center}
-\begin{minipage}[b]{2.55in}
-\begin{center}
-\includegraphics[width=2.55in]{ant}
+\includegraphics[width=2.85in]{ant}
 \\hello
 \end{center}
 \end{minipage}
 \hspace*{.375in}
-\begin{minipage}[b]{2.55in}
+\begin{minipage}[b]{2.65in}
 \begin{center}
-\includegraphics[width=2.55in]{search-page}
+\includegraphics[width=2.85in]{search-page}
 \\world
 \end{center}
 \end{minipage}
-\end{center}
 \caption{Figure Example}
+\end{figure}
+
+\begin{figure}
+\begin{algorithmic}[1]
+\Procedure{Euclid}{$a,b$}\Comment{The g.c.d. of a and b}
+\State $r \gets a\bmod b$
+\While{$r\not=0$}
+\State $a\gets b$
+\State $b\gets r$
+\State $r\gets a\bmod b$
+\EndWhile
+\State \textbf{return} $b$
+\EndProcedure
+\end{algorithmic}
+\caption{Euclid’s algorithm}
 \end{figure}
 
 
 One of my chapter headings\cite{ddd} is \cite{fff} at the bottom of a page and I'd like to drop it down to start off the next page. Any suggestions would be much appreciated.
 $$ a+\pi^2 \ $$
+
