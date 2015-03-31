@@ -1,0 +1,4 @@
+AuthUserFile /var/www/kmcs/download/NTCIR_2014_dataset/.htpasswd
+AuthName "NTCIR 2014 Dataset"
+AuthType Basic
+require valid-user

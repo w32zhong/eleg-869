@@ -1,0 +1,115 @@
+\chapter{Background}
+Apart from general text content, structured information is also widely contained by digital document. Among these, a lot of mathematical content (including documents on Internet), are represented using markups like \LaTeX\  or MathML, which is in a rich structural way. 
+Information Retrieval on those structured data in mathematics language is not that well-studied or exhaustively covered by mainstream IR research, compared to that with general text. 
+Thus it can be challenging yet very helpful given the contribution and importance of mathematics to our science. 
+
+However, the structured sense of mathematical language, as well as many its semantic properties (see section~\ref{difficulties}), makes general text retrieval models deficient to provide good search results. Through this paper, we have made our efforts to tackle some of these problems. 
+The ideas used in this paper, on the other hand, may also be applied by other fields of structured data retrieval besides that from mathematical language. 
+
+\section{Math IR Categories}
+
+Mathematical information involves a wide spectrum of topics, 
+we are, of cause, not focusing on every aspects in mathematical information retrieval. 
+It is good to clarify our concentration in this paper here, by first listing a set of categories that a mathematical information retrieval system may be classified into,
+and define our target field of study.
+Listed here, are considered four possible categories of topic for mathematical information retrieval:
+
+\begin{enumerate}
+\item Boolean or Similarity Search
+\item Math Detection and Recognition
+\item Evaluation, Derivation and Calculation
+\item Knowledge Mining 
+\end{enumerate}
+
+The first one is the area where we focus in this paper. Specifically, we are proposing a similarity search method for math content. We measure the similarity degree between query and document both entirely
+(some math-aware search engines~\footnote{WolframAlpha: \url{https://www.wolframalpha.com/} and Zentralblatt math \\from MathWebSearch: \url{http://search.mathweb.org/zbl/}} support queries in mathematical formulae and normal text together) in \LaTeX\ , and return documents ordered by score which indicates the similarity degree. 
+
+
+For the second one,
+
+As for the third one, because the nature of mathematical language, a query (e.g. an algebra expression) can be evaluated and potentially derived into an alternate form, or calculated. 
+The result value of evaluation or derived form may also be considered being relevant to that query. 
+These potentially require a system to handle symbolic or value calculations and even a good knowledge of derivation rules implied by different mathematical expression
+(computational engine \textit{Symbolab}~\footnote{Symbolab Web Search: \url{http://www.symbolab.com}}, for example).
+
+
+clear The purpose of this paper,  restrict
+For instance,  may utlilize in a proof may want to know which identitis
+you gotten stuck in a proof and wanted to know which identities
+representations in latex
+
+\section{Difficulties}
+\label{difficulties}
+Some publications already cover a lot on the difficulties on mathematical content information retrieval, also in respective of the differences between mainstream IR approach with those in math search, and the inadequacy to apply general text search method (e.g. bag of words model) to content in mathematical language.
+
+well listed in paper [x]
+
+Search for mathematical expressions is difficult for a number of reasons.
+
+\section{Related Work}
+
+Our system Cowpie \footnote{demo page: \url{infolab.ece.udel.edu:8912/cowpie/}} \cite{WolframAlpha}
+
+Search systems play an essential role in our daily lives because there are
+a huge number of pages on the Web. However, we sometimes encounter
+problems with how to search for or what to submit as a query when we
+want to search for things that cannot be easily expressed in natural language.
+
+Information Retrieval technology has reached maturity, math retrieval is still in
+its nascent stages, and many challenges remain. Those challenges are due in part
+A math expression is often written in a symbolic language with several lev-
+els of abstraction, and often contains rich structural information. Additionally,
+notational ambiguities, and syntactical and semantic equivalences, make math
+knowledge harder to search.
+
+
+As computers appeared, one of the important tasks that emerged was
+storing and searching large sets of documents. The inverted index was an
+early and natural development in this field. It can be thought of like an index
+in a book: it is a structure that maps each term to a list of documents that
+contains it. In its most simple form, an inverted index only allows us to find
+the documents that contain a given term
+
+More and more math knowledge has become available on the Web, and search
+is a gate to such vast treasure of digital mathematics content [11]. Even though
+Information Retrieval technology has reached maturity, math retrieval is still in
+its nascent stages, and many chal
+
+Unlike general text content, mathematical language, by its nature, has many differences from other textual documents. 
+
+Math information retrieval (MIR) starts to be recognized
+as an important very domain-specific sort of information re-
+trieval research field.
+
+Mathematical expressions are objects with complex
+structures and rather few distinct symbols and terms.
+
+many challenges remain. Those challenges are due in part
+to the significant difference of math knowledge from other.
+A math expression is often written in a symbolic language with several lev-
+els of abstraction, and often contains rich structural information.
+
+\section{Overview}
+\subsection{Considerations}
+\subsection{Property}
+
+interchangeably 
+
+MathML vs LaTeX
+
+First,
+one mathematical formula may use different notations and
+thus has different representations. 1 Second, two semanti-
+cally different mathematical document can contain the same
+number of terms. 2 Also, the order of terms in math language
+sometimes matters but can be mutable in other cases, which
+implies it is impractical to uniformly apply one single lan-
+guage model to mathematical content.
+
+\section{Related Work}
+
+An inverted index is the tool used most commonly in text search. It is
+a lookup table from words to the documents that contain them. This idea has
+been modified to allow for word locality, phrase searching, index compression,
+and distributed indexing. With these and other improvements, systems can
+be built to quickly search massive

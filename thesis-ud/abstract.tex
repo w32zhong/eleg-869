@@ -1,5 +1,5 @@
-The structured sense of mathematical language, as well as many its semantic properties, makes general text retrieval models (e.g. “bag of words” model) deficient to provide good search result. 
-
-In this paper, we have addressed the problems of measuring the similarity degree between mathematical formulae and proposed an approach to parse mathematical content (particularly in \LaTeX \ markup) into a tree representation, index syntactic information from math formulae, and a search method to capture some level of query-document subgraph isomorphism, combined with a pruning method to speed search. 
-We build our own proof-of-concept prototype search engine to demonstrate the ideas mentioned in this paper, and thus are able to present some evaluation results. 
-Through this paper, we have showed another possibility to tackle a number of the problems in math-aware search.
+In this paper, we have addressed the problems of searching content in mathematical language, particularly measuring the similarity degree (in terms of structural and semantical) between mathematical expressions, summarized some general properties from mathematical semantics, that a search engine should be aware of. To better deal with these problems in an efficient way, we propose some ideas including: 
+(1) A list of grammar rules to parse mathematical content (particularly in \LaTeX \ markup) into a tree representation in order to preserve as much as information from mathematical expressions; 
+(2) An index approach to break down the tree representation into what we call branch words to enable fast search in a similar fashion with inverted index, with parallelism potential; 
+(3) A search method to capture some level of query-document subgraph isomorphism, combined with two pruning methods to both speed search and improve effectiveness. 
+We also build our own proof-of-concept prototype search engine to demonstrate these ideas, and thus are able to present some evaluation results through this paper.
