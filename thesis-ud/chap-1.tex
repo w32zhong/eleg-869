@@ -6,15 +6,15 @@ Thus it can be challenging yet very helpful given the contribution and importanc
 However, the structured sense of mathematical language, as well as many its semantic properties (see section~\ref{measure_sim}), makes general text retrieval models deficient to provide good search results. Through this paper, we have made our efforts to tackle some of these problems. 
 Some of the ideas used in this paper deals with "tree structured" data in a general way, have the potential to be applied by other fields of structured data retrieval besides that from mathematical language. 
 
-\section{Math IR Categories}
+\section{Math IR Topics}
 
 Mathematical information involves a wide spectrum of topics, 
 we are, of cause, not focusing on every aspects in mathematical information retrieval. 
-It is good to clarify our concentration in this paper here, by first listing a set of categories that a mathematical information retrieval system may be classified into,
+It is good to clarify our concentration in this paper here, by first listing a set of concentrations that a mathematical information retrieval topics may be classified into,
 and define our target field of study.
 
 \pagebreak
-Listed here, are considered four possible categories of topic for mathematical information retrieval:
+Listed here, are considered four possible concentrations of topic for mathematical information retrieval:
 
 \begin{enumerate}
 \item Boolean or Similarity Search
@@ -36,19 +36,31 @@ The result value of evaluation or derived form may also be considered being rele
 These potentially require a system to handle symbolic or value calculation, or even a good knowledge of derivation rules implied by different mathematical expression
 (e.g. computational engine \textit{Symbolab}~\footnote{Symbolab Web Search: \url{http://www.symbolab.com}}).
 
-Besides the first three categories, there are many other topics. Knowledge mining, for example, will need deeper level of understanding on math content. Topics like this need system to answer a query like: ``Find an article related to the \textit{Four Color Theorem}", which is an example from NTCIR Math task open information retrieval~\cite{ntcirtopic}.
+Besides the first three concentrations, there are many other topics. Knowledge mining, for example, will need deeper level of understanding on math content. A typical goal of this topic is to give a solution or answer based on information retrieved from math content. e.g. ``Find an article related to the \textit{Four Color Theorem}"~\cite{ntcirtopic}.
+
+These concentrations somehow overlap in some cases, for example, some derivation can be used to better assess the similarity between math formulae, e.g. $\dfrac{a + b}{c}$ and $\dfrac{a}{c} + \dfrac{b}{c}$ should be considered as relevant.
+Therefore even boolean or similarity search possibly involves certain level of understanding of mathematics. In terms of similarity, however, we only address the measurement for structural and symbol differences in this paper, without considering further topics lured from measuring math content similarity, such as evaluation or derivation.
 
 \section{Issues in Measuring Similarity}
 \label{measure_sim}
+Different from general text, there are a number of new problems in measuring mathematical expression similarity. 
+Among these, we select and focus on those regarding to structural similarity and symbolic differences between expressions. 
+At the same time trying to respect the semantical information inferred from structure or symbols in mathematical expressions.
+But even without caring about the possible derivations and high level knowledge inference, there are still many new problems.
 
-For the first one we would write extended expand.
+Firstly, differences of symbols, structure and possible semantic rules in mathematics should be captured, and not one by one, but in an cooperative manner to measure similarity. 
+To illustrate this point, we know that only respecting symbolic information is of course not sufficient in mathematical language. e.g. $ax+(b+c)$ in most cases is not equivalent to $(a+b)x+c$ (although they have the same set of symbols).
+And the order of tokens in math expression can be commutative in some cases but not always. For example, commutative property in math makes $a+b=b+c$ for addition operation, but on the other hand $\dfrac a b$ is most likely not equivalent to $\dfrac b a$.
+These make many general text search methods (e.g. \textit{bag of words} model, \textit{tf-idf} weighting) inadequate. 
+Moreover, symbols can be used interchangeably to represent the same meaning, e.g. $a^2+b^2=c^2$ and $x^2+y^2=z^2$. 
+However, interchangeability comes with some constrains to maintain the same semantical meaning, that is, changes of symbols in expression preserve more syntactic similarity when changes are made by substitution. e.g. For query $x(1+x)$, expression $a(1+a)$ are considered more relevant than $a(1+b)$. 
 
+Secondly, trying to capture semantic information from expressions will help measure similarity but introduce ambiguity. 
+Apart from the cases covered in \cite{parsing_tex}, semantic incorrect written markups, which is somehow common in many online documents, e.g. writing ``sin" in \LaTeX\ markup instead of macro ``\textbackslash sin", will make it difficult to tell whether it is a product of three symbols or a \textit{sine} function, thus need to disambiguate. 
+And depending on what level of semantical meaning we want to capture, ambiguity cases can be different. 
+Consider $f(2x+1)$, if we want to know if $f$ is a function rather than a variable, the only possibility is looking for implicit contexts, but we can nevertheless always think of it as a product without losing the possibility to search similar expression like $f(1 + 2y)$, the same way goes reciprocal $a^{-1}$ and inverse function $f^{-1}$. 
+Most often, even if no semantic ambiguity occurs, efforts are needed to capture some semantical meanings. e.g. In $\displaystyle\int f(x) \dfrac{\mathrm{d}x}{\sin x}$ and $\sin 2 \pi$, it is not easy to figure out, without a little knowledge on integral or trigonometric function, that integral is applied to $\dfrac {f(x)} {\sin x}$ and the scope applied by sine function is $2 \pi$. 
 
-Some publications already cover a lot on the difficulties on mathematical content information retrieval, also in respective of the differences between mainstream IR approach with those in math search, and the inadequacy to apply general text search method (e.g. bag of words model) to content in mathematical language.
-
-well listed in paper [x]
-
-Search for mathematical expressions is difficult for a number of reasons.
 
 \section{Related Work}
 
