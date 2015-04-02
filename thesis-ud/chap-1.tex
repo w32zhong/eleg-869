@@ -43,7 +43,7 @@ Therefore even boolean or similarity search possibly involves certain level of u
 
 \section{Issues in Measuring Similarity}
 \label{measure_sim}
-Different from general text, there are a number of new problems in measuring mathematical expression similarity. 
+Unlike general text content, mathematical language, by its nature, has many differences from other textual documents, there are a number of new problems in measuring mathematical expression similarity. 
 Among these, we select and focus on those regarding to structural similarity and symbolic differences between expressions. 
 At the same time trying to respect the semantical information inferred from structure or symbols in mathematical expressions.
 But even without caring about the possible derivations and high level knowledge inference, there are still many new problems.
@@ -55,7 +55,11 @@ These make many general text search methods (e.g. \textit{bag of words} model, \
 Moreover, symbols can be used interchangeably to represent the same meaning, e.g. $a^2+b^2=c^2$ and $x^2+y^2=z^2$. 
 However, interchangeability comes with some constrains to maintain the same semantical meaning, that is, changes of symbols in expression preserve more syntactic similarity when changes are made by substitution. e.g. For query $x(1+x)$, expression $a(1+a)$ are considered more relevant than $a(1+b)$. 
 
-Secondly, trying to capture semantic information from expressions will help measure similarity but introduce ambiguity. 
+Secondly, how we evaluate structural similarity between expressions is a question. A complete query may structurally be a part of a document, or only some parts of a query match somewhere in a document expression.
+In cases when a set of matches occur within some measure of ``distance", we may consider them to contribute similarity as a whole, but when matches occur ``far away" for a query expression, then under the semantic implication of mathematics, they probably will not contribute the similarity degree in any way.
+We need a metres to score these similarity under certain criteria and set up standard and rules for relevance assessments.
+
+Lastly, trying to capture semantic information from expressions will help measure similarity but introduce ambiguity. 
 Apart from the cases covered in \cite{parsing_tex}, semantic incorrect written markups, which is somehow common in many online documents, e.g. writing ``sin" in \LaTeX\ markup instead of macro ``\textbackslash sin", will make it difficult to tell whether it is a product of three symbols or a \textit{sine} function, thus need to disambiguate. 
 And depending on what level of semantical meaning we want to capture, ambiguity cases can be different. 
 Consider $f(2x+1)$, if we want to know if $f$ is a function rather than a variable, the only possibility is looking for implicit contexts, but we can nevertheless always think of it as a product without losing the possibility to search similar expression like $f(1 + 2y)$, the same way goes reciprocal $a^{-1}$ and inverse function $f^{-1}$. 
@@ -63,69 +67,18 @@ Most often, even if no semantic ambiguity occurs, efforts are needed to capture 
 
 
 \section{Related Work}
+Mathematical boolean or similarity search is not a new topic, and conference in this topic is getting increasingly research attention and the proposed systems have progressed considerably~\cite{ov}. 
+
+Originally text-based systems are using existing models to deal with mathematical search. 
+DLMF project from NIST ~\cite{Youssef0}~\cite{Youssef1} developed an TexSN (i.e. Textualization, Serialization/Scoping, and Normalization) process to convert math to text. 
+The MIaS system~\cite{mias} try to reorder commutative operations and normalize variable and constance into unified symbols. 
+These texted-based approaches build a math search engine on top of conventional text search technology. 
+The conversion process loses considerable structural, and captures little semantics.
 
 Our system Cowpie \footnote{demo page: \url{infolab.ece.udel.edu:8912/cowpie/}} \cite{WolframAlpha}
 
-Search systems play an essential role in our daily lives because there are
-a huge number of pages on the Web. However, we sometimes encounter
-problems with how to search for or what to submit as a query when we
-want to search for things that cannot be easily expressed in natural language.
-
-Information Retrieval technology has reached maturity, math retrieval is still in
-its nascent stages, and many challenges remain. Those challenges are due in part
-A math expression is often written in a symbolic language with several lev-
-els of abstraction, and often contains rich structural information. Additionally,
-notational ambiguities, and syntactical and semantic equivalences, make math
-knowledge harder to search.
-
-
-As computers appeared, one of the important tasks that emerged was
-storing and searching large sets of documents. The inverted index was an
-early and natural development in this field. It can be thought of like an index
-in a book: it is a structure that maps each term to a list of documents that
-contains it. In its most simple form, an inverted index only allows us to find
-the documents that contain a given term
-
-More and more math knowledge has become available on the Web, and search
-is a gate to such vast treasure of digital mathematics content [11]. Even though
-Information Retrieval technology has reached maturity, math retrieval is still in
-its nascent stages, and many chal
-
-Unlike general text content, mathematical language, by its nature, has many differences from other textual documents. 
-
-Math information retrieval (MIR) starts to be recognized
-as an important very domain-specific sort of information re-
-trieval research field.
-
-Mathematical expressions are objects with complex
-structures and rather few distinct symbols and terms.
-
-many challenges remain. Those challenges are due in part
-to the significant difference of math knowledge from other.
-A math expression is often written in a symbolic language with several lev-
-els of abstraction, and often contains rich structural information.
-
-\section{Overview}
-\subsection{Considerations}
-\subsection{Property}
-
-interchangeably 
-
 MathML vs LaTeX
 
-First,
-one mathematical formula may use different notations and
-thus has different representations. 1 Second, two semanti-
-cally different mathematical document can contain the same
-number of terms. 2 Also, the order of terms in math language
-sometimes matters but can be mutable in other cases, which
-implies it is impractical to uniformly apply one single lan-
-guage model to mathematical content.
+distributed indexing to quickly search massive
 
-\section{Related Work}
-
-An inverted index is the tool used most commonly in text search. It is
-a lookup table from words to the documents that contain them. This idea has
-been modified to allow for word locality, phrase searching, index compression,
-and distributed indexing. With these and other improvements, systems can
-be built to quickly search massive
+Further more, a query may be specified with wildcards and thus will match any document with an expression substitution to that wildcard. 

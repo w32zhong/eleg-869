@@ -1,0 +1,53 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: thesis-main.aux
+A level-1 auxiliary file: thesis-tap.aux
+A level-1 auxiliary file: chap-1.aux
+A level-1 auxiliary file: bibtex.aux
+The style file: unsrt.bst
+A level-1 auxiliary file: appA.aux
+A level-1 auxiliary file: appB.aux
+Database file #1: sample.bib
+Warning--I didn't find a database entry for "WolframAlpha"
+You've used 7 entries,
+            1791 wiz_defined-function locations,
+            488 strings with 4673 characters,
+and the built_in function-call counts, 920 in all, are:
+= -- 77
+> -- 25
+< -- 0
++ -- 13
+- -- 6
+* -- 20
+:= -- 163
+add.period$ -- 21
+call.type$ -- 7
+change.case$ -- 6
+chr.to.int$ -- 0
+cite$ -- 7
+duplicate$ -- 55
+empty$ -- 108
+format.name$ -- 6
+if$ -- 205
+int.to.chr$ -- 0
+int.to.str$ -- 7
+missing$ -- 7
+newline$ -- 38
+num.names$ -- 6
+pop$ -- 30
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 20
+stack$ -- 0
+substring$ -- 0
+swap$ -- 7
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 6
+width$ -- 8
+write$ -- 71
+(There was 1 warning)

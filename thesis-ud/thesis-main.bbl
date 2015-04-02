@@ -1,0 +1,43 @@
+\begin{thebibliography}{1}
+
+\bibitem{iir}
+Hinrich~Schutze Christopher D.~Manning, Prabhakar~Paghavan.
+\newblock {\em Introduction to Information Retrieval}.
+\newblock Cambridge University Press, 2008.
+
+\bibitem{ntcirtopic}
+Topics for the ntcir-10 math task full-text search queries.
+\newblock
+  \url{http://ntcir-math.nii.ac.jp/wp-content/blogs.dir/13/files/2014/02/NTCIR10-math-topics.pdf}.
+\newblock Accessed: 2015-03-31.
+
+\bibitem{parsing_tex}
+Eylon~Caspi Richard J.~Fateman.
+\newblock Parsing tex into mathematics.
+\newblock {\em SIGSAM Bulletin (ACM Special Interest Group on Symbolic and
+  Algebraic Manipulation)}, 1999.
+
+\bibitem{ov}
+Iadh~Ounis Akiko~Aizawa, Michael~Kohlhase.
+\newblock Ntcir-11 math-2 task overview.
+\newblock {\em The 11th NTCIR Conference}, 2014.
+
+\bibitem{Youssef0}
+Youssef~A. Miller~B.
+\newblock Technical aspects of the digital library of mathematical functions.
+\newblock {\em Annals of Mathematics and Artificial Intelligence 38(1-3),
+  121–136}, 2003.
+
+\bibitem{Youssef1}
+Youssef A.
+\newblock Information search and retrieval of mathematical contents: Issues and
+  methods.
+\newblock {\em The ISCA 14th Int’l Conf. on Intelligent and Adaptive Systems
+  and Software Engineering (IASSE 2005)}, 2005.
+
+\bibitem{mias}
+Martin~Líška Petr~Sojka.
+\newblock The art of mathematics retrieval.
+\newblock {\em ACM Conference on Document Engineering, DocEng 2011}, 2011.
+
+\end{thebibliography}
