@@ -1,3 +1,5 @@
+.PHONY: thesis-main.pdf
+
 thesis-main.pdf: thesis-main.tex *.tex
 	pdflatex $<	
 	bibtex thesis-main.aux

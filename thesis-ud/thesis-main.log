@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  2 APR 2015 11:47
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  3 APR 2015 02:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -411,11 +411,11 @@ l.17 L
                    \relax 
 l.39 B
       esides the first three concentrations, there are many other topics. Kn...
-[2] [3] [4]
+[2] [3] [4] [5]
 
-LaTeX Warning: Citation `WolframAlpha' on page 5 undefined on input line 78.
+LaTeX Warning: Citation `WolframAlpha' on page 6 undefined on input line 92.
 
-) [5]
+) [6]
 \openout2 = `bibtex.aux'.
 
  (./bibtex.tex (./thesis-main.bbl
@@ -425,9 +425,15 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `\uppercase' on input line 1.
 
 
+Underfull \hbox (badness 6526) in paragraph at lines 9--13
+[]\OT1/cmr/m/n/12 Topics for the ntcir-10 math task full-text search queries.  
+[][]$\OT1/cmtt/m/n/12 http :
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 9--13
-\OT1/cmtt/m/n/12 nii . ac . jp / wp-[]content / blogs . dir / 13 / files / 2014
- / 02 / NTCIR10-[]math-[]topics .
+\OT1/cmtt/m/n/12 / / ntcir-[]math . nii . ac . jp / wp-[]content / blogs . dir 
+/ 13 / files / 2014 / 02 /
  []
 
 Missing character: There is no â in font cmti12!
@@ -436,15 +442,20 @@ Missing character: There is no “ in font cmti12!
 Missing character: There is no â in font cmti12!
 Missing character: There is no € in font cmti12!
 Missing character: There is no ™ in font cmti12!
-Missing character: There is no Ã in font cmr12!
-Missing character: There is no ­ in font cmr12!
 Missing character: There is no Å in font cmr12!
 Missing character: There is no ¡ in font cmr12!
-)) [6
+Missing character: There is no Å in font cmr12!
+Missing character: There is no ¡ in font cmr12!
+[7
 
 
 
 ]
+Missing character: There is no Ã in font cmr12!
+Missing character: There is no ­ in font cmr12!
+Missing character: There is no Å in font cmr12!
+Missing character: There is no ¡ in font cmr12!
+)) [8]
 \openout2 = `appA.aux'.
 
  (./appA.tex
@@ -452,7 +463,7 @@ Appendix A.
 
 Package hyperref Warning: bookmark level for unknown appendix defaults to 0.
 
-) [7
+) [9
 
 
 
@@ -461,7 +472,7 @@ Package hyperref Warning: bookmark level for unknown appendix defaults to 0.
 
  (./appB.tex
 Appendix B.
-) [8
+) [10
 
 
 
@@ -473,7 +484,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 40.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 40.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 40.
 Package rerunfilecheck Info: File `thesis-main.out' has not changed.
-(rerunfilecheck)             Checksum: 9F55C217B65FA3EBB95B9FE49D9A27B9;509.
+(rerunfilecheck)             Checksum: A25D2475A8C2F52E05945C82B550FA67;587.
 
 
 LaTeX Warning: There were undefined references.
@@ -481,13 +492,13 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 40.
  ) 
 Here is how much of TeX's memory you used:
- 6574 strings out of 495028
- 94199 string characters out of 6181497
- 183368 words of memory out of 5000000
- 9634 multiletter control sequences out of 15000+600000
+ 6590 strings out of 495028
+ 94428 string characters out of 6181497
+ 183583 words of memory out of 5000000
+ 9641 multiletter control sequences out of 15000+600000
  8480 words of font info for 31 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 35i,6n,30p,507b,363s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 35i,6n,30p,507b,454s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texli
@@ -498,10 +509,10 @@ ype1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
 s/cm/cmtt12.pfb>
-Output written on thesis-main.pdf (13 pages, 133194 bytes).
+Output written on thesis-main.pdf (15 pages, 139077 bytes).
 PDF statistics:
- 197 PDF objects out of 1000 (max. 8388607)
- 170 compressed objects within 2 object streams
- 41 named destinations out of 1000 (max. 500000)
- 73 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 225 PDF objects out of 1000 (max. 8388607)
+ 196 compressed objects within 2 object streams
+ 50 named destinations out of 1000 (max. 500000)
+ 81 words of extra memory for PDF output out of 10000 (max. 10000000)
 

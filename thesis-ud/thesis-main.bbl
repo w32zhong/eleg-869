@@ -1,7 +1,7 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{iir}
-Hinrich~Schutze Christopher D.~Manning, Prabhakar~Paghavan.
+Christopher~D. Manning, Prabhakar Paghavan, and Hinrich Schutze.
 \newblock {\em Introduction to Information Retrieval}.
 \newblock Cambridge University Press, 2008.
 
@@ -12,31 +12,65 @@ Topics for the ntcir-10 math task full-text search queries.
 \newblock Accessed: 2015-03-31.
 
 \bibitem{parsing_tex}
-Eylon~Caspi Richard J.~Fateman.
+Richard J, Fateman, and Eylon Caspi.
 \newblock Parsing tex into mathematics.
 \newblock {\em SIGSAM Bulletin (ACM Special Interest Group on Symbolic and
   Algebraic Manipulation)}, 1999.
 
 \bibitem{ov}
-Iadh~Ounis Akiko~Aizawa, Michael~Kohlhase.
+Akiko Aizawa, Michael Kohlhase, and Iadh Ounis.
 \newblock Ntcir-11 math-2 task overview.
 \newblock {\em The 11th NTCIR Conference}, 2014.
 
-\bibitem{Youssef0}
-Youssef~A. Miller~B.
+\bibitem{egomath13}
+Jozef Misutka.
+\newblock Mathematical search engine.
+\newblock Master's thesis, Charles University in Prague, May 2013.
+
+\bibitem{WikiMirs13}
+Xuan Hu, Liangcai Gao, Xiaoyan Lin, Zhi Tang, Xiaofan Lin, and Josef~B. Baker.
+\newblock Wikimirs: A mathematical information retrieval system for wikipedia.
+\newblock {\em Proceedings of the 13th ACM/IEEE-CS joint conference on Digital
+  libraries. Pages 11-20}, 2013.
+
+\bibitem{symbolpairs15}
+David Stalnaker and Richard Zanibbi.
+\newblock Math expression retrieval using an inverted index over symbol pairs.
+\newblock {\em Proc. SPIE 9402, Document Recognition and Retrieval XXII,
+  940207}, 2015.
+
+\bibitem{Youssef14}
+Qun Zhang and Abdou Youssef.
+\newblock An approach to math-similarity search.
+\newblock {\em Intelligent Computer Mathematics. International Conference,
+  CICM}, 2014.
+
+\bibitem{Youssef03}
+Miller B. and Youssef A.
 \newblock Technical aspects of the digital library of mathematical functions.
 \newblock {\em Annals of Mathematics and Artificial Intelligence 38(1-3),
   121–136}, 2003.
 
-\bibitem{Youssef1}
+\bibitem{Youssef05}
 Youssef A.
 \newblock Information search and retrieval of mathematical contents: Issues and
   methods.
 \newblock {\em The ISCA 14th Int’l Conf. on Intelligent and Adaptive Systems
   and Software Engineering (IASSE 2005)}, 2005.
 
-\bibitem{mias}
-Martin~Líška Petr~Sojka.
+\bibitem{extending08}
+Jozef Mišutka and Leo Galamboš.
+\newblock Extending full text search engine for mathematical content.
+\newblock {\em Towards Digital Mathematics Library.}, 2008.
+
+\bibitem{queryf_datan07}
+Robert Miner and Rajesh Munavalli.
+\newblock {\em An Approach to Mathematical Search Through Query Formulation and
+  Data Normalization}.
+\newblock Springer Berlin Heidelberg, 2007.
+
+\bibitem{mias11}
+Petr Sojka and Martin Líška.
 \newblock The art of mathematics retrieval.
 \newblock {\em ACM Conference on Document Engineering, DocEng 2011}, 2011.
 

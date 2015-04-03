@@ -63,17 +63,31 @@ Lastly, trying to capture semantic information from expressions will help measur
 Apart from the cases covered in \cite{parsing_tex}, semantic incorrect written markups, which is somehow common in many online documents, e.g. writing ``sin" in \LaTeX\ markup instead of macro ``\textbackslash sin", will make it difficult to tell whether it is a product of three symbols or a \textit{sine} function, thus need to disambiguate. 
 And depending on what level of semantical meaning we want to capture, ambiguity cases can be different. 
 Consider $f(2x+1)$, if we want to know if $f$ is a function rather than a variable, the only possibility is looking for implicit contexts, but we can nevertheless always think of it as a product without losing the possibility to search similar expression like $f(1 + 2y)$, the same way goes reciprocal $a^{-1}$ and inverse function $f^{-1}$. 
-Most often, even if no semantic ambiguity occurs, efforts are needed to capture some semantical meanings. e.g. In $\displaystyle\int f(x) \dfrac{\mathrm{d}x}{\sin x}$ and $\sin 2 \pi$, it is not easy to figure out, without a little knowledge on integral or trigonometric function, that integral is applied to $\dfrac {f(x)} {\sin x}$ and the scope applied by sine function is $2 \pi$. 
+Most often, even if no semantic ambiguity occurs, efforts are needed to capture some semantical meanings. e.g. In $\displaystyle\int f(x) \dfrac{\mathrm{d}x}{\sin x}$ and $\sin 2 \pi$, it is not easy to figure out, without a little knowledge on integral or trigonometric function, that integral is applied to $\dfrac {f(x)} {\sin x}$ and the scope applied by sine function is $2 \pi$, if we want to capture the subordinative relationship information.
 
 
 \section{Related Work}
-Mathematical boolean or similarity search is not a new topic, and conference in this topic is getting increasingly research attention and the proposed systems have progressed considerably~\cite{ov}. 
+Boolean or similarity search for mathematical content is not a new topic, conference in this topic is getting increasingly research attention and the proposed systems have progressed considerably~\cite{ov}. 
+And a variety of approaches have already emerged in a early timeline~\cite{egomath13}.
+But there are a limited major ideas, from different angle, to deal with mathematical structured data. \cite{WikiMirs13,symbolpairs15,Youssef14} use the same way to classify them into text-based and tree-based (structure-based). Here we follow the same classification and give a recap and an overview on their core ideas.
 
-Originally text-based systems are using existing models to deal with mathematical search. 
-DLMF project from NIST ~\cite{Youssef0}~\cite{Youssef1} developed an TexSN (i.e. Textualization, Serialization/Scoping, and Normalization) process to convert math to text. 
-The MIaS system~\cite{mias} try to reorder commutative operations and normalize variable and constance into unified symbols. 
-These texted-based approaches build a math search engine on top of conventional text search technology. 
-The conversion process loses considerable structural, and captures little semantics.
+\subsection{Text-based methods}
+Many researchers are utilizing existing models to deal with mathematical search, and use texted-based approaches to capture structural information on top of matured text search engine and tools (such as \textit{Apache Lucene}). 
+
+DLMF project from NIST~\cite{Youssef03} uses ``flattening process" to convert math to textualized terms, and normalize them into \textit{sorted parse tree normal form} which creates a unique form for all possible orders of nodes (e.g. in a associative or commutative operator). 
+Then further introduces serialization and scoping to stack terms~\cite{Youssef05}, trying to capture structure information by using text-IR based systems that supports phrase search. 
+Similar idea is also used by \cite{extending08}, expressions are also augmented for various possible representations, but variables are also replaced and normalized. 
+The problem with augmentation in mathematical expression is obvious, complex expressions with many commutative operators will cost a lot of storage space, the benefits of capturing expression variances will be overshadowed.
+
+The Mathdex search engine~\cite{queryf_datan07}, from another perspective, uses query likelihood approach to estimate how likely the document will generate the query expression by a n-gram from root expression to sub-expression and tokens.
+
+
+=============
+The conversion process loses considerable structural, and captures little semantics. There are approaches structure-based approaches~\cite{WikiMirs13} generate intermediate structure information
+
+The MIaS system~\cite{mias11} try to reorder commutative operations and normalize variable and constance into unified symbols. 
+
+=====================
 
 Our system Cowpie \footnote{demo page: \url{infolab.ece.udel.edu:8912/cowpie/}} \cite{WolframAlpha}
 
