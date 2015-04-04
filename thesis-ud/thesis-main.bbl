@@ -123,6 +123,11 @@ Michael Kohlhase.
 Michael Kohlhase.
 \newblock Mathwebsearch 0.5: Scaling an open formula search engine.
 
+\bibitem{AIbook}
+Stuart Russell and Peter Norvig.
+\newblock {\em {Artificial Intelligence: A Modern Approach (3rd Edition)}}.
+\newblock Prentice Hall, December 2009.
+
 \bibitem{graf96}
 Peter Graf.
 \newblock {\em Term Indexing}.
@@ -157,11 +162,6 @@ Thomas Schellenberg, Bo~Yuan, and Richard Zanibbi.
   mathematical expressions.
 \newblock {\em Proc. SPIE 8297, Document Recognition and Retrieval XIX,
   82970I}, 2012.
-
-\bibitem{symbollayout13:thesis}
-David Stalnaker.
-\newblock Math expression retrieval using symbol pairs in layout trees.
-\newblock Master's thesis, Rochester Institute of Technology, 2013.
 
 \bibitem{symbolpair15:2}
 David Stalnaker and Richard Zanibbi.

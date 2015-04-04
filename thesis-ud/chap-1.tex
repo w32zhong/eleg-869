@@ -102,8 +102,8 @@ Math GO!~\cite{Adeel_mathgo} is anther system advances some transitional method 
 What text-based methods share in common is they are converting math language symbols to bags of searchable words, the intrinsic defect when using a bag of words to replace structured information will make conversion process lose considerable information or very inefficient.
 In order to cope with the disadvantages from text-based approach, structure-based methods generally generate intermediate tree-variance structure, and use these information to index or search.
 
-\subsubsection*{Unification algorithm}
-Whelp~\cite{whelp04} and MathWebSearch (MWS) directed by Kohlhase~\cite{Kohlhase06,Kohlhase0p4,Kohlhase0p5}, derived from \textit{automatic theorem proving} and unification theory, is in a boolean search category. The system of MWS uses \textit{term indexing}~\cite{graf96} in a \textit{substitution tree} index to to minimize access time and storage. Because the subexpression is not easy to search using substitution tree, WMS indexes all sub-terms, but the increased index size remains manageable~\cite{Kohlhase06}. However, their index relies on RAM memory, even scaling can accommodate nearly entire arXiv site ($72\%$ paper on arXiv), the RAM usage will be 170 GB~\cite{Kohlhase0p5}, which already needs a considerable hardware resources.
+\subsubsection*{Term Indexing}
+Whelp~\cite{whelp04} and MathWebSearch (MWS) directed by Kohlhase~\cite{Kohlhase06,Kohlhase0p4,Kohlhase0p5}, derived from \textit{automatic theorem proving} and \textit{unification theory}~\cite{AIbook}. The system of MWS uses \textit{term indexing}~\cite{graf96} in a \textit{substitution tree index}~\cite{graf96} to to minimize access time and storage. Because the subexpression is not easy to search using substitution tree, MWS indexes all sub-terms, but the increased index size remains manageable~\cite{Kohlhase06}. However, their index relies on RAM memory, even scaling can accommodate nearly entire arXiv site ($72\%$ paper on arXiv), the RAM usage will be 170 GB~\cite{Kohlhase0p5}, which already needs a considerable hardware resources.
 
 \subsubsection*{Leaf-root path}
 \cite{MathMLleafroot} uses leaf to root XML path in a MathML object to represent math formula. When efficiency is considered, it only indexes the first and deepest path (to indicate how a formula is started and presumably the most characteristic part of a formula); 
@@ -113,13 +113,13 @@ when user wants to obtain the perfect-match result, it indexes all the MathML ob
 Very similar idea is proposed by \cite{signifjap} and used in \cite{signfused}. The authors of latter transform MathML to an ``apply free" markup from which the leaf-root path are extracted. Leaf-root path is also used to evaluate similarity between MathML formula.
 
 \subsubsection*{Symbol layout tree}
-A \textit{symbol layout tree}~\cite{symbollayout12} or \textit{presentation tree}~\cite{WikiMirs13} describes geometric layouts of symbols in a formula. 
+A \textit{symbol layout tree}~\cite{symbollayout12} (SLT) or \textit{presentation tree}~\cite{WikiMirs13} describes geometric layouts of symbols in a formula. 
 WikiMirs~\cite{WikiMirs13} uses two templates to parse \LaTeX\  markup with two typical operator terms: explicit ones (``\bbb frac", ``\bbb sqrt", etc.) and implicit ones (``$+$", ``$\div$", etc.) to form a presentation tree, then extracts original terms and generalized terms from normalized presentation tree, to provide the flexibility of both fuzzy and exact search. Term level, and df-idf idea of factors are used in scoring.
- 
-\cite{symbollayout13:thesis} 
-\cite{symbolpairs15} 
-\cite{symbolpair15:2} 
-\cite{WikiMirs13} 
+\cite{symbollayout12} uses symbol layout tree as a kind of substitution tree, each branch in the tree represents a binding chain for variables, and every child node is an instance of its parent for a generalized term. 
+They introduce \textit{baseline size} to help group similar expressions together in their substitution SLT in order to decrease tree branch factor, however, this makes a single substitution variable not able to match multiple terms along the baseline. 
+Also their implementation makes it unable to index certain formula (e.g. a left-side superscript) and have to generate many queries (e.g. all possible format variations and sub-expressions etc.) for a single query at the time of search.
+Furthermore, to differentiate similarity on boolean results, they use bag of words model in ranking.
+Later \cite{symbolpairs15,symbolpair15:2} have developed a \textit{symbol pairs} idea to capture a relative position information between symbol pairs. Due to the many possible combinations of symbol pairs in a complex math expression, the storage cost is intrinsically large. However, the key-value storage style will be suitable for fast lookup (e.g. HASH). 
 
 \subsubsection*{Other structure-based methods}
 A novel indexing scheme and lookup algorithm is proposed by \cite{newretrievalsystem}, its index has hash signature for each subtree because they have observed a lot of common subtree structure occur in math formula collection. This idea will result in a slower index growth. Their lookup algorithm supports wildcards, and performs a boolean match test. Although their lookup time is generally below 700ms, but the index size where query lookup time is tested is unclear, but presumably no greater than 70,000 expressions.

@@ -13,37 +13,37 @@ Warning--empty note in Kohlhase0p4
 Warning--empty note in Kohlhase0p5
 You've used 38 entries,
             1791 wiz_defined-function locations,
-            645 strings with 9622 characters,
-and the built_in function-call counts, 8051 in all, are:
-= -- 727
-> -- 329
+            646 strings with 9609 characters,
+and the built_in function-call counts, 8098 in all, are:
+= -- 728
+> -- 333
 < -- 14
-+ -- 125
-- -- 87
-* -- 394
-:= -- 1254
++ -- 126
+- -- 88
+* -- 399
+:= -- 1255
 add.period$ -- 116
 call.type$ -- 38
-change.case$ -- 35
+change.case$ -- 34
 chr.to.int$ -- 0
 cite$ -- 40
-duplicate$ -- 425
-empty$ -- 782
-format.name$ -- 87
-if$ -- 1893
+duplicate$ -- 429
+empty$ -- 790
+format.name$ -- 88
+if$ -- 1907
 int.to.chr$ -- 0
 int.to.str$ -- 38
-missing$ -- 34
+missing$ -- 36
 newline$ -- 190
 num.names$ -- 37
-pop$ -- 137
+pop$ -- 142
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 248
+skip$ -- 249
 stack$ -- 0
 substring$ -- 361
-swap$ -- 139
+swap$ -- 140
 text.length$ -- 14
 text.prefix$ -- 0
 top$ -- 0
@@ -51,5 +51,5 @@ type$ -- 0
 warning$ -- 2
 while$ -- 66
 width$ -- 40
-write$ -- 398
+write$ -- 397
 (There were 2 warnings)
