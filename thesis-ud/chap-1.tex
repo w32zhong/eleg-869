@@ -1,4 +1,5 @@
 \chapter{Background}
+
 Apart from general text content, structured information is also widely contained by digital document. Among these, a lot of mathematical content (including documents on Internet), are represented using markups like \LaTeX\  , MathML~\footnote{\url{http://www.w3.org/Math/}} or OpenMath~\footnote{\url{http://www.openmath.org/}}, which is in a rich structural way. 
 Information Retrieval on those structured data in mathematics language is not that well-studied or exhaustively covered by mainstream IR research, compared to that with general text. 
 Thus it can be challenging yet very helpful given the contribution and importance of mathematics to our science. 
@@ -95,7 +96,7 @@ Although named as structured-based approach, \cite{not-really-struct} is using \
 
 The Mathdex search engine~\cite{queryf_datan07}, from another perspective, uses query likelihood approach~\cite{iir} to estimate how likely the document will generate the query expression by a n-gram from root expression to sub-expression and tokens.
 
-Math GO!~\cite{Adeel_mathgo} is anther system advances some transitional method to better search math content. It tries to find all the symbols and map formula pattern to pattern name keyword (like \textit{matrix} or \textit{root}), and proposes to replace term frequency by co-occurrence of a term with other terms.
+Math GO!~\cite{Adeel_mathgo} is anther system advances some transitional method to better search math content. It tries to find all the symbols and map formula pattern to pattern name keywords (like \textit{matrix} or \textit{root}), and proposes to replace term frequency by co-occurrence of a term with other terms.
 
 \subsection{Structure-based methods}
 What text-based methods share in common is they are converting math language symbols to bags of searchable words, the intrinsic defect when using a bag of words to replace structured information will make conversion process lose considerable information or very inefficient.
@@ -111,12 +112,10 @@ when user wants to obtain the perfect-match result, it indexes all the MathML ob
 
 Very similar idea is proposed by \cite{signifjap} and used in \cite{signfused}. The authors of latter transform MathML to an ``apply free" markup from which the leaf-root path are extracted. Leaf-root path is also used to evaluate similarity between MathML formula.
 
-For the second issue addressed in section~\ref{measure_sim}, specifically, to assess the structural similarity, \cite{improving09} gives some formal definitions, e.g. quantified score function and a \mbox{$n$-similarity} relation to address two similar expressions if they meet a threshold similarity score.
-
 \subsubsection*{Symbol layout tree}
-A \textit{symbol layout tree} is previously defined in 
-
-\cite{symbollayout12} 
+A \textit{symbol layout tree}~\cite{symbollayout12} or \textit{presentation tree}~\cite{WikiMirs13} describes geometric layouts of symbols in a formula. 
+WikiMirs~\cite{WikiMirs13} uses two templates to parse \LaTeX\  markup with two typical operator terms: explicit ones (``\bbb frac", ``\bbb sqrt", etc.) and implicit ones (``$+$", ``$\div$", etc.) to form a presentation tree, then extracts original terms and generalized terms from normalized presentation tree, to provide the flexibility of both fuzzy and exact search. Term level, and df-idf idea of factors are used in scoring.
+ 
 \cite{symbollayout13:thesis} 
 \cite{symbolpairs15} 
 \cite{symbolpair15:2} 
@@ -143,6 +142,8 @@ ing to find documents only with occurrences of variable c.
 
 Our system Cowpie \footnote{demo page: \url{infolab.ece.udel.edu:8912/cowpie/}}
 
+\let\thefootnote\relax\footnote{Contact author: clock126@126.com or
+\url{http://www.eecis.udel.edu/~zhongwei}}
 MathML vs LaTeX
 
 distributed indexing to quickly search massive
@@ -155,3 +156,5 @@ a formal definition of similarity is missing in the literature. Here we formally
 define the similarity between two mathematical expressions
 
 \section{Basic Definitions}
+
+For the second issue addressed in section~\ref{measure_sim}, specifically, to assess the structural similarity, \cite{improving09} gives some formal definitions, e.g. quantified score function and a \mbox{$n$-similarity} relation to address two similar expressions if they meet a threshold similarity score.

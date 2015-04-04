@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  4 APR 2015 04:32
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  4 APR 2015 05:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -400,7 +400,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.17 L
+l.18 L
       isted here, are considered four possible concentrations of topic for m...
 [1
 
@@ -410,7 +410,7 @@ l.17 L
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.45 
+l.46 
       [2] [3] [4] [5] [6] [7] [8] [9]) [10]
 \openout2 = `chap-2.aux'.
 
@@ -492,21 +492,21 @@ Appendix B.
 
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 41.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 41.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 44.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 44.
  (./thesis-main.aux (./thesis-tap.aux) (./chap-1.aux) (./chap-2.aux)
 (./bibtex.aux) (./appA.aux) (./appB.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 41.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 41.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 44.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 44.
 Package rerunfilecheck Info: File `thesis-main.out' has not changed.
 (rerunfilecheck)             Checksum: 60FD0827C794F77C91F7935A3D53C91D;867.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 41.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 44.
  ) 
 Here is how much of TeX's memory you used:
- 6670 strings out of 495028
- 95480 string characters out of 6181497
+ 6672 strings out of 495028
+ 95494 string characters out of 6181497
  185943 words of memory out of 5000000
- 9670 multiletter control sequences out of 15000+600000
+ 9671 multiletter control sequences out of 15000+600000
  8480 words of font info for 31 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  35i,5n,30p,798b,452s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -521,10 +521,10 @@ blic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
 tt12.pfb>
-Output written on thesis-main.pdf (22 pages, 167627 bytes).
+Output written on thesis-main.pdf (22 pages, 168851 bytes).
 PDF statistics:
- 359 PDF objects out of 1000 (max. 8388607)
- 320 compressed objects within 4 object streams
- 94 named destinations out of 1000 (max. 500000)
+ 364 PDF objects out of 1000 (max. 8388607)
+ 325 compressed objects within 4 object streams
+ 95 named destinations out of 1000 (max. 500000)
  113 words of extra memory for PDF output out of 10000 (max. 10000000)
 

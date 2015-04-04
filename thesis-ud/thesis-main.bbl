@@ -151,12 +151,6 @@ Yokoi Keisuke and Aizawa Akiko.
 \newblock {\em Towards a Digital Mathematics Library. Grand Bend, Ontario,
   Canada}, pages 27--35, 2009.
 
-\bibitem{improving09}
-Kamali Shahab and Tompa~Frank Wm.
-\newblock Improving mathematics retrieval.
-\newblock {\em Towards a Digital Mathematics Library. Grand Bend, Ontario,
-  Canada}, pages 37--48, 2009.
-
 \bibitem{symbollayout12}
 Thomas Schellenberg, Bo~Yuan, and Richard Zanibbi.
 \newblock Layout-based substitution tree indexing and retrieval for
@@ -220,5 +214,11 @@ T.~Nguyen, S.~Hui, and K.~Chang.
 \newblock A lattice-based approach for mathematical search using formal concept
   analysis.
 \newblock {\em Expert Systems with Applications}, 2012.
+
+\bibitem{improving09}
+Kamali Shahab and Tompa~Frank Wm.
+\newblock Improving mathematics retrieval.
+\newblock {\em Towards a Digital Mathematics Library. Grand Bend, Ontario,
+  Canada}, pages 37--48, 2009.
 
 \end{thebibliography}

@@ -1,0 +1,21 @@
+After a briefly review on one of David Stalnaker's paper "Math expression retrieval using an inverted index over symbol pairs" (published in Oct 2014), I get a rough idea on its method. But there are many differences between his and mine approach.
+
+It also constructs a tree structure (so called Symbol Layout Tree (SLT)) in order to attain structural information in a math formula, but the tree is rooted at the leftmost symbol, it records a relative position information (e.g. ABOVE, WITHIN, most symbols will be ADJACENT (at right)).
+
+Similar to my branch words approach, it uses Symbol Pairs to search. The Symbol pairs capture a relative position information between pair:
+
+This symbol pair representation is a tuple (s1, s2, d, v) where s 1 and s 2 are the two symbols in the pair. The
+distance, d, is the length of the path between s 1 and s 2 when traversing the SLT.  
+
+ (quoted from section 3.1)
+
+While my branch word approach is intended to capture the structure shape by seeing a formula as a tree.
+
+You can have a try on his search engine site for a first impression on its effectiveness:
+http://saskatoon.cs.rit.edu/tangent/random
+
+The search speed is very good, I guess the reason he is using symbol pairs is to utilize hash table:
+  
+The index is a hash table mapping symbol pairs.
+ 
+(quoted from section 3.2)
