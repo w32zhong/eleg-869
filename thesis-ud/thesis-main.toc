@@ -1,9 +1,13 @@
 \contentsline {prefacesection}{Abstract}{v}{chapter*.6}
 \contentsline {chapter}{\numberline {1}Background}{1}{chapter.1}
-\contentsline {section}{\numberline {1.1}Math IR Topics}{1}{section.1.1}
+\contentsline {section}{\numberline {1.1}Math IR Domains}{1}{section.1.1}
 \contentsline {section}{\numberline {1.2}Issues in Measuring Similarity}{3}{section.1.2}
 \contentsline {section}{\numberline {1.3}Related Work}{5}{section.1.3}
 \contentsline {subsection}{\numberline {1.3.1}Text-based methods}{5}{subsection.1.3.1}
-\contentsline {chapter}{\uppercase {References}}{7}{chapter*.7}
-\contentsline {appendix}{\numberline {A}Title of Appendix A}{9}{appendix.A}
-\contentsline {appendix}{\numberline {B}Title of Appendix B}{10}{appendix.B}
+\contentsline {subsection}{\numberline {1.3.2}Structure-based methods}{6}{subsection.1.3.2}
+\contentsline {subsection}{\numberline {1.3.3}Other related work}{8}{subsection.1.3.3}
+\contentsline {section}{\numberline {1.4}Basic Definitions}{10}{section.1.4}
+\contentsline {chapter}{\numberline {2}Methodology}{11}{chapter.2}
+\contentsline {chapter}{\uppercase {References}}{12}{chapter*.11}
+\contentsline {appendix}{\numberline {A}Title of Appendix A}{16}{appendix.A}
+\contentsline {appendix}{\numberline {B}Title of Appendix B}{17}{appendix.B}

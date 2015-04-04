@@ -1,12 +1,12 @@
 \chapter{Background}
-Apart from general text content, structured information is also widely contained by digital document. Among these, a lot of mathematical content (including documents on Internet), are represented using markups like \LaTeX\  or MathML~\footnote{\url{http://www.w3.org/Math/}}, which is in a rich structural way. 
+Apart from general text content, structured information is also widely contained by digital document. Among these, a lot of mathematical content (including documents on Internet), are represented using markups like \LaTeX\  , MathML~\footnote{\url{http://www.w3.org/Math/}} or OpenMath~\footnote{\url{http://www.openmath.org/}}, which is in a rich structural way. 
 Information Retrieval on those structured data in mathematics language is not that well-studied or exhaustively covered by mainstream IR research, compared to that with general text. 
 Thus it can be challenging yet very helpful given the contribution and importance of mathematics to our science. 
 
 However, the structured sense of mathematical language, as well as many its semantic properties (see section~\ref{measure_sim}), makes general text retrieval models deficient to provide good search results. Through this paper, we have made our efforts to tackle some of these problems. 
 Some of the ideas used in this paper deals with "tree structured" data in a general way, have the potential to be applied by other fields of structured data retrieval besides that from mathematical language. 
 
-\section{Math IR Topics}
+\section{Math IR Domains}
 
 Mathematical information involves a wide spectrum of topics, 
 we are, of cause, not focusing on every aspects in mathematical information retrieval. 
@@ -23,9 +23,16 @@ Listed here, are considered four possible concentrations of topic for mathematic
 \item Other topics 
 \end{enumerate}
 
-The first one is doing mathematical information retrieval by searching, and finding the most relevant context of document that matches the query, very similar to the most common ways that other general text search engines will do, by boolean or similarity search~\cite{iir}. 
+The first one is doing mathematical information retrieval by searching, and finding the most relevant context of documents that match the query, very similar to the most common ways that other general text search engines will do, by boolean or similarity search. 
 The only difference is, the query may contain mathematical expressions. 
-Instance of such search engine can be useful in many ways, for example, student may utilize it to know which identity can be applied to a formulae in order to give a proof of that formulae.
+Instances 
+(examples online are  
+SearchOnMath~\footnote{\url{http://searchonmath.com}},
+Uniquation~\footnote{\url{http://uniquation.com/en}}
+and 
+Tangent~\footnote{\url{http://saskatoon.cs.rit.edu/tangent/random}}
+)
+of such search engine can be useful in many ways, for example, student may utilize it to know which identity can be applied to a formulae in order to give a proof of that formulae.
 This is the area where we focus in this paper. Specifically, we are proposing a series of methods for similarity search of math content. And our method is using query only in \LaTeX\ markup 
 (some math-aware search engines~\footnote{WolframAlpha: \url{https://www.wolframalpha.com/} and Zentralblatt math \\from MathWebSearch: \url{http://search.mathweb.org/zbl/}} support queries in mathematical formulae and normal text together), and return documents ordered by score which indicates the similarity degree. 
 
@@ -34,12 +41,15 @@ Digital mathematical content document can also be in an image format (e.g. gener
 Because the nature of mathematical language, a query (e.g. an algebra expression) can be evaluated and potentially derived into an alternate form, or calculated. 
 The result value of evaluation or derived form may also be considered being relevant to that query. 
 These potentially require a system to handle symbolic or value calculation, or even a good knowledge of derivation rules implied by different mathematical expression
-(e.g. computational engine \textit{Symbolab}~\footnote{Symbolab Web Search: \url{http://www.symbolab.com}}).
+(e.g. computational engine \textit{Symbolab}~\footnote{Symbolab Web Search: \url{http://www.symbolab.com}} and WolframAlpha).
 
 Besides the first three concentrations, there are many other topics. Knowledge mining, for example, will need deeper level of understanding on math content. A typical goal of this topic is to give a solution or answer based on information retrieved from math content. e.g. ``Find an article related to the \textit{Four Color Theorem}"~\cite{ntcirtopic}.
 
 These concentrations somehow overlap in some cases, for example, some derivation can be used to better assess the similarity between math formulae, e.g. $\dfrac{a + b}{c}$ and $\dfrac{a}{c} + \dfrac{b}{c}$ should be considered as relevant.
-Therefore even boolean or similarity search possibly involves certain level of understanding of mathematics. In terms of similarity, however, we only address the measurement for structural and symbol differences in this paper, without considering further topics lured from measuring math content similarity, such as evaluation or derivation.
+Or, mathematical knowledge being used be know the same meaning (thus high similarity) between $ \dbinom n 1 $ and $C_n^1$.
+Therefore even boolean or similarity search possibly involves certain level of understanding of mathematics. In terms of similarity, however, we only address the measurement for structural and symbol differences in this paper, without considering further topics lured from measuring math content similarity, such as evaluation, derivation or knowledge inference.
+
+As supplementary, \cite{goodsurvey} gives a comprehensive review on mathematical IR researches and covers many topics across different domains.
 
 \section{Issues in Measuring Similarity}
 \label{measure_sim}
@@ -57,7 +67,7 @@ However, interchangeability comes with some constrains to maintain the same sema
 
 Secondly, how we evaluate structural similarity between expressions is a question. A complete query may structurally be a part of a document, or only some parts of a query match somewhere in a document expression.
 In cases when a set of matches occur within some measure of ``distance", we may consider them to contribute similarity as a whole, but when matches occur ``far away" for a query expression, then under the semantic implication of mathematics, they probably will not contribute the similarity degree in any way.
-We need a metres to score these similarity under certain criteria and set up standard and rules for relevance assessments.
+We need metres to score these similarity under certain criteria and set up standard and rules for relevance assessments. 
 
 Lastly, trying to capture semantic information from expressions will help measure similarity but introduce ambiguity. 
 Apart from the cases covered in \cite{parsing_tex}, semantic incorrect written markups, which is somehow common in many online documents, e.g. writing ``sin" in \LaTeX\ markup instead of macro ``\textbackslash sin", will make it difficult to tell whether it is a product of three symbols or a \textit{sine} function, thus need to disambiguate. 
@@ -76,23 +86,72 @@ Many researchers are utilizing existing models to deal with mathematical search,
 
 DLMF project from NIST~\cite{Youssef03} uses ``flattening process" to convert math to textualized terms, and normalize them into \textit{sorted parse tree normal form} which creates a unique form for all possible orders of nodes (e.g. in a associative or commutative operator). 
 Then further introduces serialization and scoping to stack terms~\cite{Youssef05}, trying to capture structure information by using text-IR based systems that supports phrase search. 
-Similar idea is also used by \cite{extending08}, expressions are also augmented for various possible representations, but variables are also replaced and normalized. 
-The problem with augmentation in mathematical expression is obvious, complex expressions with many commutative operators will cost a lot of storage space, the benefits of capturing expression variances will be overshadowed.
+Similar idea is also used by \cite{extending08}, expressions are also augmented for various possible representations, but variables are also replaced and normalized, but they are using postfix notation, allows to search subexpressions without knowing the operator between them.  
+MIaS system~\cite{mias11a,mias11,mias:thesis}, like the methods above, are also trying to reorder commutative operations and normalize variable and constance into unified symbols, doing augmentation in a similar fashion. 
 
-The Mathdex search engine~\cite{queryf_datan07}, from another perspective, uses query likelihood approach to estimate how likely the document will generate the query expression by a n-gram from root expression to sub-expression and tokens.
+Augmentation comes with a trade-off between storage demand for combination of both symbols (e.g. \textit{a} and \textit{b}) and unified items (\textit{id, const}) in different levels, in order to capture both symbolic information and structure information. Thus implies complex expressions with many commutative operators will cost a lot of storage space, the benefits of capturing expression variances will be overshadowed.
 
+Although named as structured-based approach, \cite{not-really-struct} is using \textit{longest common subsequence} algorithm to capture structure information (in a unified \textit{preprocessed string} and a \textit{level string}). The method takes $O(n^2)$ complexity for comparing a pair of formulae, and no index method is proposed. Therefore is not feasible to efficiently apply to a large collection.
 
-=============
-The conversion process loses considerable structural, and captures little semantics. There are approaches structure-based approaches~\cite{WikiMirs13} generate intermediate structure information
+The Mathdex search engine~\cite{queryf_datan07}, from another perspective, uses query likelihood approach~\cite{iir} to estimate how likely the document will generate the query expression by a n-gram from root expression to sub-expression and tokens.
 
-The MIaS system~\cite{mias11} try to reorder commutative operations and normalize variable and constance into unified symbols. 
+Math GO!~\cite{Adeel_mathgo} is anther system advances some transitional method to better search math content. It tries to find all the symbols and map formula pattern to pattern name keyword (like \textit{matrix} or \textit{root}), and proposes to replace term frequency by co-occurrence of a term with other terms.
+
+\subsection{Structure-based methods}
+What text-based methods share in common is they are converting math language symbols to bags of searchable words, the intrinsic defect when using a bag of words to replace structured information will make conversion process lose considerable information or very inefficient.
+In order to cope with the disadvantages from text-based approach, structure-based methods generally generate intermediate tree-variance structure, and use these information to index or search.
+
+\subsubsection*{Unification algorithm}
+Whelp~\cite{whelp04} and MathWebSearch (MWS) directed by Kohlhase~\cite{Kohlhase06,Kohlhase0p4,Kohlhase0p5}, derived from \textit{automatic theorem proving} and unification theory, is in a boolean search category. The system of MWS uses \textit{term indexing}~\cite{graf96} in a \textit{substitution tree} index to to minimize access time and storage. Because the subexpression is not easy to search using substitution tree, WMS indexes all sub-terms, but the increased index size remains manageable~\cite{Kohlhase06}. However, their index relies on RAM memory, even scaling can accommodate nearly entire arXiv site ($72\%$ paper on arXiv), the RAM usage will be 170 GB~\cite{Kohlhase0p5}, which already needs a considerable hardware resources.
+
+\subsubsection*{Leaf-root path}
+\cite{MathMLleafroot} uses leaf to root XML path in a MathML object to represent math formula. When efficiency is considered, it only indexes the first and deepest path (to indicate how a formula is started and presumably the most characteristic part of a formula); 
+when user wants to obtain the perfect-match result, it indexes all the MathML object leaf-root path. The boolean search is performed by giving all the paths match with those of the search query. 
+\cite{sefobyfo} further develops an incorporation of previous method with breath-first search, to add sibling nodes information into index and have achieved better effectiveness.
+
+Very similar idea is proposed by \cite{signifjap} and used in \cite{signfused}. The authors of latter transform MathML to an ``apply free" markup from which the leaf-root path are extracted. Leaf-root path is also used to evaluate similarity between MathML formula.
+
+For the second issue addressed in section~\ref{measure_sim}, specifically, to assess the structural similarity, \cite{improving09} gives some formal definitions, e.g. quantified score function and a \mbox{$n$-similarity} relation to address two similar expressions if they meet a threshold similarity score.
+
+\subsubsection*{Symbol layout tree}
+A \textit{symbol layout tree} is previously defined in 
+
+\cite{symbollayout12} 
+\cite{symbollayout13:thesis} 
+\cite{symbolpairs15} 
+\cite{symbolpair15:2} 
+\cite{WikiMirs13} 
+
+\subsubsection*{Other structure-based methods}
+A novel indexing scheme and lookup algorithm is proposed by \cite{newretrievalsystem}, its index has hash signature for each subtree because they have observed a lot of common subtree structure occur in math formula collection. This idea will result in a slower index growth. Their lookup algorithm supports wildcards, and performs a boolean match test. Although their lookup time is generally below 700ms, but the index size where query lookup time is tested is unclear, but presumably no greater than 70,000 expressions.
+By constructing a DOM tree, \cite{DOMextraction} extracts semantic keywords, structure description to indicate subordinative relationship in a string format. The similarity is calculated using normalized tf-idf vector (trained by clustering algorithms) by dot product. Although the final index is generated from text, promising results have been achieved.  
+Tree edit distance is adopted by \cite{editdisXML11}, it tries to overcome the bad time complexity of original algorithm by summarizing and using a structure-preserving compromised edit distance algorithm using heavy path. Although the result shows query processing time is long but it is reduced to average 0.8 seconds by applying with an early termination algorithm along with a distance cache~\cite{editdisXML13}.
+
+\subsection{Other related work}
+There are a number of articles trying use image to assess similarity. \cite{imageb11} compares their image-based approach using connected component-based feature vector with a proposed text-based method, reported precision@k values are low, but the potential for this method to be combined with shape representations or other features will potentially improve it and make it valuable for measuring similarity for image mathematical expressions. \cite{handwrite} uses \mbox{X-Y} tree to cuts the page in vertical and horizontal directions alternatively, in order to retrieve math symbols from images, then use sub-image matching is performed, this method is intuitive, yet too expensive for regular document with markup language.
+
+A lattice-based approach~\cite{lattice} build formal concept based on selected feature sets of each formula. The ranking is calculated by the distances from query in the lattice map when the query is inserted. 
+
 
 =====================
+\pagebreak
 
-Our system Cowpie \footnote{demo page: \url{infolab.ece.udel.edu:8912/cowpie/}} \cite{WolframAlpha}
+However, another shortcoming is, they usually fail to achieve the desired property for preserving same similarity when changes are made by substitution (see section~\ref{measure_sim}).
+
+we doubt that users are likely to query, for example a+b c want-
+ing to find documents only with occurrences of variable c.
+
+Our system Cowpie \footnote{demo page: \url{infolab.ece.udel.edu:8912/cowpie/}}
 
 MathML vs LaTeX
 
 distributed indexing to quickly search massive
 
 Further more, a query may be specified with wildcards and thus will match any document with an expression substitution to that wildcard. 
+
+The definition of similarity between two mathematical expressions is a key con-
+cept that significantly affects a mathematical information retrieval system, but
+a formal definition of similarity is missing in the literature. Here we formally
+define the similarity between two mathematical expressions
+
+\section{Basic Definitions}
