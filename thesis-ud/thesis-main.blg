@@ -11,45 +11,45 @@ A level-1 auxiliary file: appB.aux
 Database file #1: sample.bib
 Warning--empty note in Kohlhase0p4
 Warning--empty note in Kohlhase0p5
-You've used 38 entries,
+You've used 39 entries,
             1791 wiz_defined-function locations,
-            646 strings with 9609 characters,
-and the built_in function-call counts, 8098 in all, are:
-= -- 728
-> -- 333
+            650 strings with 9745 characters,
+and the built_in function-call counts, 8271 in all, are:
+= -- 740
+> -- 347
 < -- 14
-+ -- 126
-- -- 88
-* -- 399
-:= -- 1255
-add.period$ -- 116
-call.type$ -- 38
-change.case$ -- 34
++ -- 131
+- -- 92
+* -- 409
+:= -- 1288
+add.period$ -- 119
+call.type$ -- 39
+change.case$ -- 35
 chr.to.int$ -- 0
-cite$ -- 40
-duplicate$ -- 429
-empty$ -- 790
-format.name$ -- 88
-if$ -- 1907
+cite$ -- 41
+duplicate$ -- 437
+empty$ -- 804
+format.name$ -- 92
+if$ -- 1943
 int.to.chr$ -- 0
-int.to.str$ -- 38
-missing$ -- 36
-newline$ -- 190
-num.names$ -- 37
-pop$ -- 142
+int.to.str$ -- 39
+missing$ -- 37
+newline$ -- 195
+num.names$ -- 38
+pop$ -- 145
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 249
+skip$ -- 252
 stack$ -- 0
 substring$ -- 361
-swap$ -- 140
+swap$ -- 141
 text.length$ -- 14
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 2
-while$ -- 66
-width$ -- 40
-write$ -- 397
+while$ -- 67
+width$ -- 41
+write$ -- 407
 (There were 2 warnings)

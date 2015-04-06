@@ -7,8 +7,14 @@
 \BOOKMARK [2][-]{subsection.1.3.1}{1.3.1 Text-based methods}{section.1.3}% 7
 \BOOKMARK [2][-]{subsection.1.3.2}{1.3.2 Structure-based methods}{section.1.3}% 8
 \BOOKMARK [2][-]{subsection.1.3.3}{1.3.3 Other related work}{section.1.3}% 9
-\BOOKMARK [1][-]{section.1.4}{1.4 Basic Definitions}{chapter.1}% 10
+\BOOKMARK [2][-]{subsection.1.3.4}{1.3.4 Performance Review}{section.1.3}% 10
 \BOOKMARK [0][-]{chapter.2}{2 Methodology}{}% 11
-\BOOKMARK [0][-]{chapter*.11}{References}{}% 12
-\BOOKMARK [0][-]{appendix.A}{A Title of Appendix A}{}% 13
-\BOOKMARK [0][-]{appendix.B}{B Title of Appendix B}{}% 14
+\BOOKMARK [1][-]{section.2.1}{2.1 Intuitions}{chapter.2}% 12
+\BOOKMARK [1][-]{section.2.2}{2.2 Formal Description}{chapter.2}% 13
+\BOOKMARK [2][-]{subsection.2.2.1}{2.2.1 Definitions}{section.2.2}% 14
+\BOOKMARK [3][-]{subsubsection.2.2.1.1}{2.2.1.1 Formula tree}{subsection.2.2.1}% 15
+\BOOKMARK [3][-]{subsubsection.2.2.1.2}{2.2.1.2 Formula subtree}{subsection.2.2.1}% 16
+\BOOKMARK [2][-]{subsection.2.2.2}{2.2.2 Observations}{section.2.2}% 17
+\BOOKMARK [0][-]{chapter*.15}{References}{}% 18
+\BOOKMARK [0][-]{appendix.A}{A Title of Appendix A}{}% 19
+\BOOKMARK [0][-]{appendix.B}{B Title of Appendix B}{}% 20

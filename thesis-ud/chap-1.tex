@@ -62,13 +62,13 @@ But even without caring about the possible derivations and high level knowledge 
 Firstly, differences of symbols, structure and possible semantic rules in mathematics should be captured, and not one by one, but in an cooperative manner to measure similarity. 
 To illustrate this point, we know that only respecting symbolic information is of course not sufficient in mathematical language. e.g. $ax+(b+c)$ in most cases is not equivalent to $(a+b)x+c$ (although they have the same set of symbols).
 And the order of tokens in math expression can be commutative in some cases but not always. For example, commutative property in math makes $a+b=b+c$ for addition operation, but on the other hand $\dfrac a b$ is most likely not equivalent to $\dfrac b a$.
-These make many general text search methods (e.g. \textit{bag of words} model, \textit{tf-idf} weighting) inadequate. 
+These make many general text search methods (e.g. \textit{bag of words} model, \textit{tf-idf} weighting) inadequate or inevitability less storage-efficient.  
 Moreover, symbols can be used interchangeably to represent the same meaning, e.g. $a^2+b^2=c^2$ and $x^2+y^2=z^2$. 
 However, interchangeability comes with some constrains to maintain the same semantical meaning, that is, changes of symbols in expression preserve more syntactic similarity when changes are made by substitution. e.g. For query $x(1+x)$, expression $a(1+a)$ are considered more relevant than $a(1+b)$. 
 
 Secondly, how we evaluate structural similarity between expressions is a question. A complete query may structurally be a part of a document, or only some parts of a query match somewhere in a document expression.
 In cases when a set of matches occur within some measure of ``distance", we may consider them to contribute similarity as a whole, but when matches occur ``far away" for a query expression, then under the semantic implication of mathematics, they probably will not contribute the similarity degree in any way.
-We need metres to score these similarity under certain criteria and set up standard and rules for relevance assessments. 
+We need metrics to score these similarity under certain criteria and set up standard and rules for relevance assessments. 
 
 Lastly, trying to capture semantic information from expressions will help measure similarity but introduce ambiguity. 
 Apart from the cases covered in \cite{parsing_tex}, semantic incorrect written markups, which is somehow common in many online documents, e.g. writing ``sin" in \LaTeX\ markup instead of macro ``\textbackslash sin", will make it difficult to tell whether it is a product of three symbols or a \textit{sine} function, thus need to disambiguate. 
@@ -78,9 +78,10 @@ Most often, even if no semantic ambiguity occurs, efforts are needed to capture 
 
 
 \section{Related Work}
+\label{relatedwork}
 Boolean or similarity search for mathematical content is not a new topic, conference in this topic is getting increasingly research attention and the proposed systems have progressed considerably~\cite{ov}. 
-And a variety of approaches have already emerged in a early timeline~\cite{egomath13}.
-But there are a limited major ideas, from different angle, to deal with mathematical structured data. \cite{WikiMirs13,symbolpairs15,Youssef14} use the same way to classify them into text-based and tree-based (structure-based). Here we follow the same classification and give a recap and an overview on their core ideas.
+And a variety of approaches have already emerged in an early timeline~\cite{egomath13}.
+But there are a limited number of main ideas, from different angle, to deal with mathematical structured data. \cite{WikiMirs13,symbolpairs15,Youssef14} use the same way to classify them into text-based and tree-based (structure-based). Here we follow the same classification (long with approaches different from this two) and give a recap and an overview on their core ideas.
 
 \subsection{Text-based methods}
 Many researchers are utilizing existing models to deal with mathematical search, and use texted-based approaches to capture structural information on top of matured text search engine and tools (such as \textit{Apache Lucene}). 
@@ -88,7 +89,8 @@ Many researchers are utilizing existing models to deal with mathematical search,
 DLMF project from NIST~\cite{Youssef03} uses ``flattening process" to convert math to textualized terms, and normalize them into \textit{sorted parse tree normal form} which creates a unique form for all possible orders of nodes (e.g. in a associative or commutative operator). 
 Then further introduces serialization and scoping to stack terms~\cite{Youssef05}, trying to capture structure information by using text-IR based systems that supports phrase search. 
 Similar idea is also used by \cite{extending08}, expressions are also augmented for various possible representations, but variables are also replaced and normalized, but they are using postfix notation, allows to search subexpressions without knowing the operator between them.  
-MIaS system~\cite{mias11a,mias11,mias:thesis}, like the methods above, are also trying to reorder commutative operations and normalize variable and constance into unified symbols, doing augmentation in a similar fashion. 
+MIaS system~\cite{mias11a,mias11,mias:thesis}, like the methods above, are also trying to reorder commutative operations, normalize variable and constance into unified symbols, doing augmentation in a similar fashion. 
+It indexes expressions and subexpressions from all depth levels, and system is able to discriminate assign different weight based on their generalization level, and place emphasis in which a match in a complex expression is assigned higher weight~\cite{mias:thesis}.
 
 Augmentation comes with a trade-off between storage demand for combination of both symbols (e.g. \textit{a} and \textit{b}) and unified items (\textit{id, const}) in different levels, in order to capture both symbolic information and structure information. Thus implies complex expressions with many commutative operators will cost a lot of storage space, the benefits of capturing expression variances will be overshadowed.
 
@@ -96,19 +98,20 @@ Although named as structured-based approach, \cite{not-really-struct} is using \
 
 The Mathdex search engine~\cite{queryf_datan07}, from another perspective, uses query likelihood approach~\cite{iir} to estimate how likely the document will generate the query expression by a n-gram from root expression to sub-expression and tokens.
 
-Math GO!~\cite{Adeel_mathgo} is anther system advances some transitional method to better search math content. It tries to find all the symbols and map formula pattern to pattern name keywords (like \textit{matrix} or \textit{root}), and proposes to replace term frequency by co-occurrence of a term with other terms.
+Math GO!~\cite{Adeel_mathgo} is another system advances some transitional method to better search math content. It tries to find all the symbols and map formula pattern to pattern name keywords (like \textit{matrix} or \textit{root}), and proposes to replace term frequency by co-occurrence of a term with other terms.
 
 \subsection{Structure-based methods}
-What text-based methods share in common is they are converting math language symbols to bags of searchable words, the intrinsic defect when using a bag of words to replace structured information will make conversion process lose considerable information or very inefficient.
-In order to cope with the disadvantages from text-based approach, structure-based methods generally generate intermediate tree-variance structure, and use these information to index or search.
+What text-based methods share in common is they are converting math language symbols to bags of searchable words, the intrinsic defect when using a bag of words to replace structured information will make conversion process lose considerable information or cause storage-inefficiency.
+In order to cope with the problems from text-based approach, structure-based methods generally generate intermediate tree-variance structure, and use these information to index or search.
 
 \subsubsection*{Term Indexing}
 Whelp~\cite{whelp04} and MathWebSearch (MWS) directed by Kohlhase~\cite{Kohlhase06,Kohlhase0p4,Kohlhase0p5}, derived from \textit{automatic theorem proving} and \textit{unification theory}~\cite{AIbook}. The system of MWS uses \textit{term indexing}~\cite{graf96} in a \textit{substitution tree index}~\cite{graf96} to to minimize access time and storage. Because the subexpression is not easy to search using substitution tree, MWS indexes all sub-terms, but the increased index size remains manageable~\cite{Kohlhase06}. However, their index relies on RAM memory, even scaling can accommodate nearly entire arXiv site ($72\%$ paper on arXiv), the RAM usage will be 170 GB~\cite{Kohlhase0p5}, which already needs a considerable hardware resources.
 
 \subsubsection*{Leaf-root path}
+\label{leafrootmethod}
 \cite{MathMLleafroot} uses leaf to root XML path in a MathML object to represent math formula. When efficiency is considered, it only indexes the first and deepest path (to indicate how a formula is started and presumably the most characteristic part of a formula); 
 when user wants to obtain the perfect-match result, it indexes all the MathML object leaf-root path. The boolean search is performed by giving all the paths match with those of the search query. 
-\cite{sefobyfo} further develops an incorporation of previous method with breath-first search, to add sibling nodes information into index and have achieved better effectiveness.
+\cite{sefobyfo} further develops with incorporation of previous method using breath-first search, to add sibling nodes information into index and have achieved better effectiveness.
 
 Very similar idea is proposed by \cite{signifjap} and used in \cite{signfused}. The authors of latter transform MathML to an ``apply free" markup from which the leaf-root path are extracted. Leaf-root path is also used to evaluate similarity between MathML formula.
 
@@ -122,18 +125,23 @@ Furthermore, to differentiate similarity on boolean results, they use bag of wor
 Later \cite{symbolpairs15,symbolpair15:2} have developed a \textit{symbol pairs} idea to capture a relative position information between symbol pairs. Due to the many possible combinations of symbol pairs in a complex math expression, the storage cost is intrinsically large. However, the key-value storage style will be suitable for fast lookup (e.g. HASH). 
 
 \subsubsection*{Other structure-based methods}
-A novel indexing scheme and lookup algorithm is proposed by \cite{newretrievalsystem}, its index has hash signature for each subtree because they have observed a lot of common subtree structure occur in math formula collection. This idea will result in a slower index growth. Their lookup algorithm supports wildcards, and performs a boolean match test. Although their lookup time is generally below 700ms, but the index size where query lookup time is tested is unclear, but presumably no greater than 70,000 expressions.
+A novel indexing scheme and lookup algorithm is proposed by \cite{newretrievalsystem}, its index has hash signature for each subtree because they have observed a lot of common subtree structure occur in math formula collection. This idea will result in a slower index growth. Their lookup algorithm supports wildcards, and performs a boolean match test. Although their lookup time is generally below 700ms, the index size where query lookup time is tested is unclear, but presumably no greater than 70,000 expressions.
 By constructing a DOM tree, \cite{DOMextraction} extracts semantic keywords, structure description to indicate subordinative relationship in a string format. The similarity is calculated using normalized tf-idf vector (trained by clustering algorithms) by dot product. Although the final index is generated from text, promising results have been achieved.  
 Tree edit distance is adopted by \cite{editdisXML11}, it tries to overcome the bad time complexity of original algorithm by summarizing and using a structure-preserving compromised edit distance algorithm using heavy path. Although the result shows query processing time is long but it is reduced to average 0.8 seconds by applying with an early termination algorithm along with a distance cache~\cite{editdisXML13}.
 
 \subsection{Other related work}
-There are a number of articles trying use image to assess similarity. \cite{imageb11} compares their image-based approach using connected component-based feature vector with a proposed text-based method, reported precision@k values are low, but the potential for this method to be combined with shape representations or other features will potentially improve it and make it valuable for measuring similarity for image mathematical expressions. \cite{handwrite} uses \mbox{X-Y} tree to cuts the page in vertical and horizontal directions alternatively, in order to retrieve math symbols from images, then use sub-image matching is performed, this method is intuitive, yet too expensive for regular document with markup language.
+There are a number of articles trying use image to assess similarity. \cite{imageb11} compares their image-based approach using connected component-based feature vector with a proposed text-based method, reported precision@k values are low, but the potential for this method to be combined with shape representations or other features will potentially improve it and make it valuable for measuring similarity for image mathematical expressions. \cite{handwrite} uses \mbox{X-Y} tree to cuts the page in vertical and horizontal directions alternatively, in order to retrieve math symbols from images, then sub-image matching is performed, this method is intuitive, yet too expensive for regular document with markup language.
 
 A lattice-based approach~\cite{lattice} build formal concept based on selected feature sets of each formula. The ranking is calculated by the distances from query in the lattice map when the query is inserted. 
 
+\subsection{Performance Review}
+In the review of many related past research in section~\ref{relatedwork}, we find the combination of state-of-art general text search engine (i.e. \textit{Apache Lucene}) with the efforts to augment expressions by permutation and unification to satisfy the needs of mathematical search have achieved a good result in different metrics of evaluation: 
+The text-based system of MIaS over-performs those of structure-based and ranked the first in four out of six measurement in NTCIR-11 conference~\cite{NTCIR11res}. 
+However, structure-based method has its potential and merits too. 
+Among all the structure-based methods, \cite{symbolpairs15,symbolpair15:2} which use symbol pairs idea on layout tree is very promising and get a competitive results~\cite{NTCIR11res}.
 
-=====================
 \pagebreak
+=====================
 
 However, another shortcoming is, they usually fail to achieve the desired property for preserving same similarity when changes are made by substitution (see section~\ref{measure_sim}).
 
@@ -155,6 +163,5 @@ cept that significantly affects a mathematical information retrieval system, but
 a formal definition of similarity is missing in the literature. Here we formally
 define the similarity between two mathematical expressions
 
-\section{Basic Definitions}
-
 For the second issue addressed in section~\ref{measure_sim}, specifically, to assess the structural similarity, \cite{improving09} gives some formal definitions, e.g. quantified score function and a \mbox{$n$-similarity} relation to address two similar expressions if they meet a threshold similarity score.
+
