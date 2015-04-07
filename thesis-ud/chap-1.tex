@@ -92,7 +92,7 @@ Similar idea is also used by \cite{extending08}, expressions are also augmented 
 MIaS system~\cite{mias11a,mias11,mias:thesis}, like the methods above, are also trying to reorder commutative operations, normalize variable and constance into unified symbols, doing augmentation in a similar fashion. 
 It indexes expressions and subexpressions from all depth levels, and system is able to discriminate assign different weight based on their generalization level, and place emphasis in which a match in a complex expression is assigned higher weight~\cite{mias:thesis}.
 
-Augmentation comes with a trade-off between storage demand for combination of both symbols (e.g. \textit{a} and \textit{b}) and unified items (\textit{id, const}) in different levels, in order to capture both symbolic information and structure information. Thus implies complex expressions with many commutative operators will cost a lot of storage space, the benefits of capturing expression variances will be overshadowed.
+Augmentation usually consists a storage demand for combination of both symbols (e.g. \textit{a} and \textit{b}) and unified items (\textit{id, const}) in different levels, in order to capture both symbolic information and structure information. Thus implies complex expressions with many commutative operators will cost a lot of storage space, the benefits of capturing expression variances will be overshadowed.
 
 Although named as structured-based approach, \cite{not-really-struct} is using \textit{longest common subsequence} algorithm to capture structure information (in a unified \textit{preprocessed string} and a \textit{level string}). The method takes $O(n^2)$ complexity for comparing a pair of formulae, and no index method is proposed. Therefore is not feasible to efficiently apply to a large collection.
 
@@ -139,29 +139,3 @@ In the review of many related past research in section~\ref{relatedwork}, we fin
 The text-based system of MIaS over-performs those of structure-based and ranked the first in four out of six measurement in NTCIR-11 conference~\cite{NTCIR11res}. 
 However, structure-based method has its potential and merits too. 
 Among all the structure-based methods, \cite{symbolpairs15,symbolpair15:2} which use symbol pairs idea on layout tree is very promising and get a competitive results~\cite{NTCIR11res}.
-
-\pagebreak
-=====================
-
-However, another shortcoming is, they usually fail to achieve the desired property for preserving same similarity when changes are made by substitution (see section~\ref{measure_sim}).
-
-we doubt that users are likely to query, for example a+b c want-
-ing to find documents only with occurrences of variable c.
-
-Our system Cowpie \footnote{demo page: \url{infolab.ece.udel.edu:8912/cowpie/}}
-
-\let\thefootnote\relax\footnote{Contact author: clock126@126.com or
-\url{http://www.eecis.udel.edu/~zhongwei}}
-MathML vs LaTeX
-
-distributed indexing to quickly search massive
-
-Further more, a query may be specified with wildcards and thus will match any document with an expression substitution to that wildcard. 
-
-The definition of similarity between two mathematical expressions is a key con-
-cept that significantly affects a mathematical information retrieval system, but
-a formal definition of similarity is missing in the literature. Here we formally
-define the similarity between two mathematical expressions
-
-For the second issue addressed in section~\ref{measure_sim}, specifically, to assess the structural similarity, \cite{improving09} gives some formal definitions, e.g. quantified score function and a \mbox{$n$-similarity} relation to address two similar expressions if they meet a threshold similarity score.
-
