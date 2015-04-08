@@ -33,12 +33,6 @@ Also the way to search in a tree structure with a limited branch factor does not
 Second, by searching from all the ``reverted" sub-paths of a query expression in our proposed index, and apply an intersection on the results from different sub-paths, we will find all the expressions have that query as subexpression (number four observed property from section~\ref{observationlabel}). And during this search process, upon going further from the query expression root in the ``reverted" sub-path, we can merge the next search directories by pruning all the entries that are not shared in common among all the ``reverted" search path directories. 
 Further more, multiple index search in different path level are independent with each other, put in another way, if a given indexed formula has been found in one search path level, then its other relevant sub-paths (in terms of the current query) will most likely be found at the same search level too, thus some implementation strategies can be applied to speed search further (i.e. distributed search to quick search massive), which we would address in the next chapter.
 
-\section{Method by An Example}
-\label{secIllu}
-Analogously,
-Breakdown
-
-
 \begin{figure}
 \begin{minipage}[b]{2.65in}
 \begin{center}
@@ -56,7 +50,7 @@ Generated leaf-root paths
 \caption{Leaf-Root Path Example}\label{oprtreeExample}
 \end{figure}
 
-\section{Formal Description on Structure Similarity}
+\section{Structure Similarity}
 The basic ideas used in our approach, to test whether a mathematical expression is an sub-structure of another, to prune and to constrain search process are the foundation work in our research. It is desired to give a description in a formal language so that we can deliver these ideas in the most precise way. Some important observations as well as brief justifications are provided after definitions.
 
 \subsection{Definitions}
@@ -71,10 +65,10 @@ The formula tree is associated with a label (labels are not required to be disti
 Below are our formal definitions.
 
 \subsubsection{Formula tree}
-Formula tree is a labeled rooted tree $T = T(V,E,r)$ with root $r$, where each vertices $v \in V(T)$ is associated with a label $\ell(v) \in \mathbf{R}$ mapped by function $\ell$, and each leaf $l \in V(T)$ is also associated with a symbol $s(v) \in \mathbf{R}$ mapped by function $s$.
+Formula tree is a labeled rooted non-empty tree $T = T(V,E,r)$ with root $r$, where each vertices $v \in V(T)$ is associated with a label $\ell(v) \in \mathbf{R}$ mapped by function $\ell$, and each leaf $l \in V(T)$ is also associated with a symbol $s(v) \in \mathbf{R}$ mapped by function $s$.
 
 \subsubsection{Formula subtree}
-Given formula tree $S$ and $T$, we say $S$ is a forumla subtree of $T$ if there exists an injective mapping $\phi: V(S) \rightarrow V(T)$ satisfying:
+Given formula tree $S$ and $T$, we say $S$ is a formula subtree of $T$ if there exists an injective mapping $\phi: V(S) \rightarrow V(T)$ satisfying:
 
 \begin{enumerate}
 \item 
@@ -82,29 +76,44 @@ $\forall\; (v_1,v_2) \in E(S)$, we have $(\phi(v_1),\phi(v_2)) \in E(T)$;
 \item
 $\forall\; v \in V(S)$, we have $\ell(v) = \ell(\phi(v))$;
 \item
-Every leaf in $S$ is also a leaf in $T$.
+If $v \in V(S)$ is a leaf vertices in $S$, then $\phi(v)$ is also a leaf in $T$.
 \end{enumerate}
-Such a mapping $\phi$ is called a formula subtree isomorphlic embedding (or formula embedding) for $S \rightarrow T$. 
+Such a mapping $\phi$ is called a formula subtree isomorphic embedding (or formula embedding) for $S \rightarrow T$. 
 If satisfied, we denote $S \preceq_l T$ on $\Phi$, where $\Phi$ ($\Phi \neq \emptyset$) is the set of all the possible formula embeddings for $S \rightarrow T$.
 
 \subsection{Observations}
 \label{observationlabel}
 \subsubsection*{Observation \#1} 
-For two formula trees which satisfiy $T_q \preceq_l T_d$ on $\Phi$, then $\forall\; \phi \in \Phi,\, p \in g(T_q)$, also any vertices $v$ along path $p$, the following properties are obtained:
+For two formula trees which satisfy $T_q \preceq_l T_d$ on $\Phi$, then $\forall\; \phi \in \Phi,\, p \in g(T_q)$, also any vertices $v$ along path $p$, the following properties are obtained:
 \begin{eqnarray}
-\deg(v) \le \deg(\phi(v)) \label{equ1} \\
-\left| p \right| = \left| \phi(p) \right| \label{equ2} \\
-\ell(p) = \ell(\phi(p)) \label{equ3} \\
-\left| g(T_q) \right| \le \left| g(T_d) \right| \label{equ4}
+\deg(v) \le \deg(\phi(v)) \label{prop1} \\
+\left| p \right| = \left| \phi(p) \right| \label{prop2} \\
+\ell(p) = \ell(\phi(p)) \label{prop3} \\
+\left| g(T_q) \right| \le \left| g(T_d) \right| \label{prop4}
 \end{eqnarray}
+\textit{Justification.} 
+Because $\forall\; w \in V(T_q) \  s.t. \  (v, w) \in E(T_q)$, there exists $(\phi(v), \phi(w)) \in E(T_d)$. 
+And for any (if exists) two different edges $(v, w_1), (v, w_2) \in E(T_q),\, w_1 \not= w_2 \in V(T_q) $, we know $(\phi(v), \phi(w_1)) \not= (\phi(v), \phi(w_2))$ by the formula subtree definition. 
+Therefore any different edge from $v$ is associated with a distinct edge from $\phi(v)$, thus we can get \ref{prop1}. 
+Given the fact that every non-empty path $p$ can be decomposed into a series of edges $(p_0, p_1), (p_1, p_2) \ldots (p_{n-1}, p_n), \; n > 0$,
+properties \ref{prop2} and \ref{prop3} are trivial.
+Because there is exact one path between every two nodes in a tree, the leaf-root path is uniquely determined by a leaf node in a tree. Hence the rationale of \ref{prop4} can be obtained in a similar manner with that of \ref{prop1}, expect neighbor edges are replaced by leaf-node paths.
+
 
 \subsubsection*{Observation \#2} 
 Given two formula trees $T_q$ and $T_d$, if $\left| g(T_q) \right| = 1$ and $\ell(g(T_{q})) \subseteq \ell(g(T_d))$, then $T_q \preceq_l T_d$.
 
+\noindent \textit{Justification.} 
+Obviously there is only single one leaf-root path in $T_q$ because $\left| g(T_q) \right| = 1$. 
+Denote the path as $p = p_0 \ldots p_n,\; n \ge 0$ where $p_n$ is the leaf, and let $a = \ell(p)$.
+Since $a \subseteq \ell(g(T_d))$, we know that there must exist a path $p'=p'_0 \ldots p'_n \in g(T_d)$ such that $a = \ell(p')$.
+Without loss of generality, suppose $p'_n$ is the leaf of $T_d$. 
+Now the injective function $\phi: p_i \rightarrow p'_i,\  0 \le i \le n$ satisfies all the requirements for $T_q$ as a formula subtree of $T_d$.
+
 \subsubsection*{Observation \#3} 
 For two formula trees $T_q$ and $T_d$, if $T_q = T(V,E,r) \preceq_l T_d$ on $\Phi$,  
 $\forall a,b \in g(T_q)$ and a mapping $\phi \in \Phi$. 
-Let $T_d' = \, ^{t}T_d$ where $t = \phi(r)$ and $a' = \phi(a) \in g(T_d')$, $b' \in g(T_d')$ then:
+Let $T_d' = \, ^{t}T_d$ where $t = \phi(r)$ and $a' = \phi(a)$, $\forall\; b' \in g(T_d')$, it follows that:
 $$
 \begin{array}{lcr}
 b' = \phi(b)  & \Rightarrow & 
@@ -119,16 +128,38 @@ $$
 b' \neq \phi(c)
 \end{array} 
 $$
+\textit{Justification.} 
+Because $a,b \in g(T_q)$, thus $a_0 = b_0 = r$, we make sure $\mathrm{lcp}(a,b) \ge 1$. 
+Denote the path of $a = a_0 \ldots a_n a_{n+1} \ldots a_{l-1}$, similarly the path of $b=b_0 \ldots b_n b_{n+1} \ldots b_{m-1}$,
+where the length of each $l,m \ge 1$ and $a_i = b_i,\, 0 \le i \le n \le \min(l-1, m-1)$ while $a_{n+1} \neq b_{n+1}$ if $l,m > 1$.
+On the other hand $a' = \phi(a)$ and $b' \in g(\,^{t}T_d)$, therefore $a'_0 = \phi(a_0) = \phi(r) = t = b'_0$.
+For the first conclusion, if $b' = \phi(b)$, there are two cases. If any of $|a|$ or $|b|$ is equal to one then $\left| \mathrm{lcp}(a,b) \right| = |(r)| = |(t)| = \left| \mathrm{lcp}(a',b') \right| = 1$;
+Otherwise if $l,m > 1$, path $a_0 \ldots a_n = b_0 \ldots b_n$ and $a_{n+1} \neq b_{n+1}$ follow that $\phi(a_0 \ldots a_n) = \phi(b_0 \ldots b_n)$ and $\phi(a_{n+1}) \neq \phi(b_{n+1})$ by definition.
+Because edge $(\phi(a_n), \phi(a_{n+1}))$ and $(\phi(b_n), \phi(b_{n+1}))$ are also in $E(T'_d)$, 
+we see $\left| \mathrm{lcp}(a,b) \right| = \left| \mathrm{lcp}(a',b') \right| = n$.
+For the second conclusion, we prove by contradiction. 
+Assume $b' = \phi(c)$, by the first conclusion we know $\left| \mathrm{lcp}(a,c) \right| = \left| \mathrm{lcp}(a',b') \right|$.
+On the other hand, because $\left| \mathrm{lcp}(a,c) \right| \neq \left| \mathrm{lcp}(a,b) \right| =  \left| \mathrm{lcp}(a',b') \right|$, 
+thus $\left| \mathrm{lcp}(a,c) \right| \neq \left| \mathrm{lcp}(a',b') \right|$ which is impossible. 
 
 \subsubsection*{Observation \#4} 
 Given an index $\Pi$ and a formula tree $T_q$, $\forall\; T_d \in \Pi$:
-If $T_q \preceq_l T_d$ on $\Phi$, then $\exists\; \hat{p} \in \mathbf{P},\; s.t.$
+If $T_q \preceq_l T_d$ on $\Phi$, then $\exists\; \hat{a} \in \mathbf{L},\; s.t.$
 $$
-T_d \in \bigcap_{p \in L} \mathcal{I}_{\Pi}(p)
+T_d \in \bigcap_{a \in L} \mathcal{I}_{\Pi}(a)
 $$
-where $L = \ell(\hat{p} \cdot g(T_q))$.
+where $L = \ell(g(T_q)) \cdot \hat{a}$.
 
-\section{Symbolic Similarity Constrains}
+\noindent \textit{Justification.} 
+Denote the root of $T_q$ and $T_d$ as $r$ and $s$ respectively. 
+Let a path $\hat{p}$ be the path determined by 
+
+\subsection{Interpretation}
+
+\section{Symbolic Similarity}
+Until now, we have not addressed symbolic similarity yet.
+\subsection{Constrains and one step back}
+\subsection{Mark-and-cross algorithm}
 However, another shortcoming is, they usually fail to achieve the desired property for preserving same similarity when changes are made by substitution (see section~\ref{measure_sim}).
 
 we doubt that users are likely to query, for example a+b c want-
@@ -141,7 +172,13 @@ cept that significantly affects a mathematical information retrieval system, but
 a formal definition of similarity is missing in the literature. Here we formally
 define the similarity between two mathematical expressions
 
+\section{Illustrated by An Example}
+\label{secIllu}
+
 \section{Review on the Method}
+
+Analogously,
+Breakdown
 
 Our system Cowpie \footnote{demo page: \url{infolab.ece.udel.edu:8912/cowpie/}}
 
