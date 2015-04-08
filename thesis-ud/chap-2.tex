@@ -68,6 +68,7 @@ Below are our formal definitions.
 Formula tree is a labeled rooted non-empty tree $T = T(V,E,r)$ with root $r$, where each vertices $v \in V(T)$ is associated with a label $\ell(v) \in \mathbf{R}$ mapped by function $\ell$, and each leaf $l \in V(T)$ is also associated with a symbol $s(v) \in \mathbf{R}$ mapped by function $s$.
 
 \subsubsection{Formula subtree}
+\label{frmlsubtreeDef}
 Given formula tree $S$ and $T$, we say $S$ is a formula subtree of $T$ if there exists an injective mapping $\phi: V(S) \rightarrow V(T)$ satisfying:
 
 \begin{enumerate}
@@ -152,7 +153,15 @@ where $L = \ell(g(T_q)) \cdot \hat{a}$.
 
 \noindent \textit{Justification.} 
 Denote the root of $T_q$ and $T_d$ as $r$ and $s$ respectively. 
-Let a path $\hat{p}$ be the path determined by 
+Let $\hat{p}$ be the path determined by vertices from $t=\phi(r)$ to $s$ in $T_d$,
+and $\,^1p, \,^2p \ldots \,^np,\; n \ge 1$ be all the leaf-node paths in $T_q$.
+Then $\hat{a} = \ell(\hat{p})$, this is because:
+$L = \ell(\{ \,^1p, \,^2p \ldots \,^np \}) \cdot \hat{a} = 
+\ell(\{ \phi(\,^1p), \phi(\,^2p) \ldots \phi(\,^np) \}) \cdot \ell(\hat{p}) =
+\{ \ell(\phi(\,^1p) \cdot \hat{p}), \ell(\phi(\,^2p) \cdot \hat{p}) \ldots \ell(\phi(\,^np) \cdot \hat{p}) \}
+$. 
+According to definition~\ref{frmlsubtreeDef} and $t=\phi(r)$, we have $\phi(\,^ip) \cdot \hat{p} \in g(T_d),\; 1 \le i \le n$.
+Since $ T_d \in \Pi$, $T_d$ is indexed by each of the elements in $L$, that is to say $\forall\; a \in L, \; T_d \in \mathcal{I}_{\Pi}(a)$.
 
 \subsection{Interpretation}
 
