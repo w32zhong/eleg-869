@@ -11,45 +11,46 @@ A level-1 auxiliary file: appB.aux
 Database file #1: sample.bib
 Warning--empty note in Kohlhase0p4
 Warning--empty note in Kohlhase0p5
-You've used 39 entries,
+Warning--empty booktitle in heavypathde
+You've used 40 entries,
             1791 wiz_defined-function locations,
-            650 strings with 9745 characters,
-and the built_in function-call counts, 8271 in all, are:
-= -- 740
-> -- 347
-< -- 14
-+ -- 131
-- -- 92
-* -- 409
-:= -- 1288
-add.period$ -- 119
-call.type$ -- 39
-change.case$ -- 35
+            656 strings with 9843 characters,
+and the built_in function-call counts, 8597 in all, are:
+= -- 773
+> -- 351
+< -- 16
++ -- 133
+- -- 93
+* -- 429
+:= -- 1329
+add.period$ -- 123
+call.type$ -- 40
+change.case$ -- 36
 chr.to.int$ -- 0
-cite$ -- 41
-duplicate$ -- 437
-empty$ -- 804
-format.name$ -- 92
-if$ -- 1943
+cite$ -- 43
+duplicate$ -- 457
+empty$ -- 839
+format.name$ -- 93
+if$ -- 2026
 int.to.chr$ -- 0
-int.to.str$ -- 39
-missing$ -- 37
-newline$ -- 195
-num.names$ -- 38
-pop$ -- 145
+int.to.str$ -- 40
+missing$ -- 38
+newline$ -- 200
+num.names$ -- 39
+pop$ -- 151
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 252
+skip$ -- 263
 stack$ -- 0
-substring$ -- 361
-swap$ -- 141
-text.length$ -- 14
+substring$ -- 384
+swap$ -- 150
+text.length$ -- 16
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 2
-while$ -- 67
-width$ -- 41
-write$ -- 407
-(There were 2 warnings)
+warning$ -- 3
+while$ -- 70
+width$ -- 42
+write$ -- 419
+(There were 3 warnings)

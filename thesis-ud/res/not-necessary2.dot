@@ -1,0 +1,21 @@
+graph {
+	{ node[]
+	a [label="a"]
+	b [label="b"]
+	c [label="c"]
+	d [label="d"]
+	e [label="e"]
+	add [label="+"]
+	times [label="×"]
+	}
+ 
+	{ edge[color="black:white:black"]
+	}
+	{ edge[]
+	times -- add -- a
+	add -- b	
+	add -- c	
+	add -- d
+	times -- e
+	}
+}

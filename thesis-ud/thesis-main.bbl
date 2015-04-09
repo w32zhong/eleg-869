@@ -226,4 +226,10 @@ Kamali Shahab and Tompa~Frank Wm.
 \newblock {\em Towards a Digital Mathematics Library. Grand Bend, Ontario,
   Canada}, pages 37--48, 2009.
 
+\bibitem{heavypathde}
+PhilipN. Klein.
+\newblock Computing the edit-distance between unrooted ordered trees.
+\newblock volume 1461 of {\em Lecture Notes in Computer Science}, pages
+  91--102. Springer Berlin Heidelberg, 1998.
+
 \end{thebibliography}

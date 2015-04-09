@@ -1,0 +1,20 @@
+graph {
+	{ node[shape=plaintext]
+	a [label="a"]
+	b [label="b"]
+	c [label="c"]
+	midc [shape=point,width=.018,height=.018,label=""]
+	r [shape=point,width=.018,height=.018,label="",xlabel="r"]
+	s [style=invis]
+	br [shape=point,width=.018,height=.018,label=""]
+	cr [shape=point,width=.018,height=.018,label=""]
+	}
+
+	{ edge[]
+	s -- r [style=invis]
+	r -- cr
+	cr -- {midc, br}
+	midc -- c	
+	br -- {b, a}
+	}
+}

@@ -20,11 +20,12 @@
 \contentsline {subsubsection}{\numberline {2.2.1.4}leaf-root path set}{15}{subsubsection.2.2.1.4}
 \contentsline {subsection}{\numberline {2.2.2}Observations}{16}{subsection.2.2.2}
 \contentsline {subsection}{\numberline {2.2.3}Interpretation}{18}{subsection.2.2.3}
-\contentsline {section}{\numberline {2.3}Symbolic Similarity}{19}{section.2.3}
-\contentsline {subsection}{\numberline {2.3.1}Constrains and one step back}{19}{subsection.2.3.1}
-\contentsline {subsection}{\numberline {2.3.2}Mark-and-cross algorithm}{19}{subsection.2.3.2}
-\contentsline {section}{\numberline {2.4}Illustrated by An Example}{20}{section.2.4}
-\contentsline {section}{\numberline {2.5}Review on the Method}{20}{section.2.5}
-\contentsline {chapter}{\uppercase {References}}{21}{chapter*.15}
-\contentsline {appendix}{\numberline {A}Title of Appendix A}{25}{appendix.A}
-\contentsline {appendix}{\numberline {B}Title of Appendix B}{26}{appendix.B}
+\contentsline {subsection}{\numberline {2.2.4}An matching algorithm}{20}{subsection.2.2.4}
+\contentsline {section}{\numberline {2.3}Symbolic Similarity}{22}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Constrains and one step back}{22}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}Mark-and-cross algorithm}{22}{subsection.2.3.2}
+\contentsline {section}{\numberline {2.4}Illustrated by An Example}{22}{section.2.4}
+\contentsline {section}{\numberline {2.5}Review on the Method}{22}{section.2.5}
+\contentsline {chapter}{\uppercase {References}}{23}{chapter*.15}
+\contentsline {appendix}{\numberline {A}Title of Appendix A}{27}{appendix.A}
+\contentsline {appendix}{\numberline {B}Title of Appendix B}{28}{appendix.B}

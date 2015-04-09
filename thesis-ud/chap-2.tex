@@ -47,7 +47,7 @@ Further more, multiple index search in different path level are independent with
 Generated leaf-root paths
 \end{center}
 \end{minipage}
-\caption{Leaf-Root Path Example}\label{oprtreeExample}
+\caption{Leaf-root path example}\label{oprtreeExample}
 \end{figure}
 
 \section{Structure Similarity}
@@ -180,6 +180,7 @@ According to definition~\ref{frmlsubtreeDef} and $t=\phi(r)$, we have $\phi(\,^i
 Since $ T_d \in \Pi$, $T_d$ is indexed in $\Pi$ with respect to each of the elements in $L$, that is to say $\forall\; a \in L, \; T_d \in \mathcal{I}_{\Pi}(a)$.
 
 \subsection{Interpretation}
+\label{labelinterp}
 The observations above offer some insights on how to test a substructure of a mathematical expression and how to search for an indexed mathematical expression. 
 
 First we give some explanations on the definition.
@@ -198,7 +199,81 @@ However, comparing all the paths from the index one by one would be very ineffic
 Because every tree indexed ($T_d \in \Pi$) and matched by the query will be found at the intersection of index with respect to paths starting from each query leaf-root, 
 furthermore, the search paths from these start points (indicated by $\ell(g(T_q))$ set), is the same (indicated by $\hat{a}$). Therefore we can ``merge" the paths ahead and prune those paths not in common. Level by level, we will finally find the matched tree.
 
-However, knowing the matched tree in in a set does not necessarily mean all the tree in the set match with query.
+\begin{figure}
+\begin{minipage}[b]{2.65in}
+\begin{center}
+\includegraphics[height=1.8in]{not-necessary}
+\\ $(a+b) \times (c+d) \times e$
+\end{center}
+\end{minipage}
+\hspace*{.38in}
+\begin{minipage}[b]{2.65in}
+\begin{center}
+{\includegraphics[height=1.8in]{not-necessary2}}
+\\ $(a+b+c+d) \times e$
+\end{center}
+\end{minipage}
+\caption{Leaf-root paths with different structure}\label{notnecessary}
+\end{figure}
+
+However, knowing the matched tree in in a set does not necessarily mean all the tree in the set match with query. 
+Figure~\ref{notnecessary} gives one cases where two set of leaf-root paths are identical while the structures from which they are generated are different, and not in any sub-tree relation. If left figure is the query, then we can certainly find the tree in right figure as long as it is indexed, indicated by observation \#4 in section~\ref{observationlabel}.
+Although leaf-root paths offer some desired properties, whether the trees found through searching sub-paths of a query are also structure isomorphic with the query tree is still unknown. 
+
+Observations \#2 and \#3 in section~\ref{observationlabel} offer the way to test structure isomorphic.
+The former is a sufficient condition to test structure isomorphic, but the tree must first have only one leaf-root path. The latter states two necessary conditions to be a formula subtree of another.
+This leads to an idea to decompose the tree and divide the problem into subtree matching problems by ruling out impossible matches between leaf-root paths using observation \#3, until it is obvious to conclude the structure isomorphic in a sub-problem by using observation \#2.
+
+\begin{figure}
+\begin{minipage}[b]{2.65in}
+\begin{center}
+\includegraphics[height=2.8in,width=2.7in]{lpd}
+\\ (a)
+\end{center}
+\end{minipage}
+\hspace*{.38in}
+\begin{minipage}[b]{2.65in}
+\begin{center}
+{\includegraphics[height=2.8in,width=2.5in]{lpd2}}
+\\ (b) 
+\end{center}
+\end{minipage}
+\caption{Formula subtree matching}\label{submatch}
+\end{figure}
+
+\subsection{An matching algorithm}
+Here we propose and describe an algorithm for formula subtree matching based on the interpretation in section~\ref{labelinterp}.
+Figure~\ref{submatch} illustrates a general case in which query tree (a) is trying to match a document tree (b).
+
+Initially every leaf-root path in (a) should be associated with a set of leaf-root paths in (b) that are possible (by the constrains of observation~\#1 in \ref{observationlabel}) to be isomorphic, we call this set candidate set. For example the candidate set of path $a$ in (a) probably is $\{a',\ b'\}$ in (b) if the nodes are assigned universally the same label. 
+Then we arbitrarily choose a path in (a) as a reference path (heuristically a \textit{heavy path}~\cite{heavypathde}), for each of the paths in its candidate set, we choose it as reference path in (b), and suppose we choose $a'$ here. At this time we can apply the two constrains from observation~\#3 and ruling out some impossible isomorphic paths in candidate set of each path in (a) and divide the problems further. 
+For example, because $\left| \mathrm{lcp}(a,b) \right| = \left| \mathrm{lcp}(a',b') \right|$, we know $b'$ is still in candidate set of $b\,$; while $b'$ is not in candidate of $c$ anymore because $\left| \mathrm{lcp}(a,b) \right| \neq \left| \mathrm{lcp}(a,c) \right|$. 
+After going through these eliminations for each leaf-node path (except the reference path $a$) in (a), we now have two similar subproblems: $c$ as a subtree along with its candidate set, and $b$ as a subtree along with its candidate set. 
+We can apply this algorithm recursively until a very simple subproblem is encountered, that can be solved by observation~\#2. During this process, if we find any candidate set to be empty, we stop the subproblem process and change to another reference path or stop the algorithm completely if every possible reference path is evaluated.
+
+The detailed algorithm is described in figure~\ref{submatchalgo}. The main procedure is \textit{decompose-and-match} where the argument $Q$ and $D$ is the set of leaf-root paths in query tree and document tree respectively, and $C$ is the candidate sets associated with each leaf-root paths in query tree.
+
+\begin{figure}
+\begin{algorithmic}[1]
+\Procedure{decompose-and-match}{$Q,D, C$} 
+\For {$q_k \in Q$}
+\If{$|C_k| = 0$}
+\State \textbf{return} FAIL
+\EndIf
+\EndFor
+\EndProcedure
+\Procedure{Euclid}{$a,b$}\Comment{The g.c.d. of a and b}
+\State $r \gets a\bmod b$
+\While{$r\not=0$}
+\State $a\gets b$
+\State $b\gets r$
+\State $r\gets a\bmod b$
+\EndWhile
+\State \textbf{return} $b$
+\EndProcedure
+\end{algorithmic}
+\caption{The decompose-and-match algorithm}\label{submatchalgo}
+\end{figure}
 
 \section{Symbolic Similarity}
 Until now, we have not addressed symbolic similarity yet.
