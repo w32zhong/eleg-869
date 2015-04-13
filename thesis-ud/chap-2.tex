@@ -241,7 +241,7 @@ This leads to an idea to decompose the tree and divide the problem into subtree 
 \caption{Formula subtree matching}\label{submatch}
 \end{figure}
 
-\subsection{An matching algorithm}
+\subsection{Structure matching}
 Here we propose and describe an algorithm for formula subtree matching based on the interpretation in section~\ref{labelinterp}.
 Figure~\ref{submatch} illustrates a general case in which query tree (a) is trying to match a document tree (b).
 
@@ -251,53 +251,111 @@ For example, because $\left| \mathrm{lcp}(a,b) \right| = \left| \mathrm{lcp}(a',
 After going through these eliminations for each leaf-node path (except the reference path $a$) in (a), we now have two similar subproblems: $c$ as a subtree along with its candidate set, and $b$ as a subtree along with its candidate set. 
 We can apply this algorithm recursively until a very simple subproblem is encountered, that can be solved by observation~\#2. During this process, if we find any candidate set to be empty, we stop the subproblem process and change to another reference path or stop the algorithm completely if every possible reference path is evaluated.
 
-The detailed algorithm is described in figure~\ref{submatchalgo}. The main procedure is \textit{decompose-and-match} where the argument $Q$ and $D$ is the set of leaf-root paths in query tree and document tree respectively, and $C$ is the candidate sets associated with each leaf-root paths in query tree.
+The detailed algorithm is described in figure~\ref{submatchalgo}. 
+The main procedure is \textit{decomposeAndMatch} where the argument $Q$ and $C$ is the set of leaf-root paths in query tree and the candidate sets associated with all leaf-root paths respectively.
+The procedure returns SUCC if a match is found, otherwise FAIL is returned indicating no possible match.
 
 \begin{figure}
 \begin{algorithmic}[1]
-\Procedure{decompose-and-match}{$Q,D, C$} 
-\For {$q_k \in Q$}
-\If{$|C_k| = 0$}
+
+\Procedure{removeCandidate}{$d,Q,C$} 
+\For {$a \in Q$}
+\If{$C_a = \emptyset$}
+\State \textbf{return} $\emptyset$ 
+\Else
+\State {$C_a := C_a - \{d\}$} 
+\EndIf
+\EndFor
+\State \textbf{return} $C$
+\EndProcedure
+
+\State {}
+
+\Procedure{match}{$a, a', Q, C$}
+\For {$b \in Q$}
+\State $t := \mathrm{lcp}(a,b)$
+\State $Q_t := Q_t \cup \{b\}$
+\State $P := P \cup \{t\}$
+\EndFor
+\For {$t \in P$}
+\For {$b \in Q_t$}
+\For {$b' \in C_b$}
+\If {$t \not= \mathrm{lcp}(a',b')$} 
+\State $C := $ \Call{removeCandidate}{$b', Q_t, C$}
+\If {$|C| = 0$} 
+\State \textbf{return} FAIL
+\EndIf
+\EndIf
+\EndFor
+\EndFor
+\If {\Call{decomposeAndMatch}{$Q_t, C$} = FAIL} 
 \State \textbf{return} FAIL
 \EndIf
 \EndFor
+\State \textbf{return} SUCC 
 \EndProcedure
-\Procedure{Euclid}{$a,b$}\Comment{The g.c.d. of a and b}
-\State $r \gets a\bmod b$
-\While{$r\not=0$}
-\State $a\gets b$
-\State $b\gets r$
-\State $r\gets a\bmod b$
-\EndWhile
-\State \textbf{return} $b$
+
+\State {}
+
+\Procedure{decomposeAndMatch}{$Q, C$}
+\If {$Q = \emptyset$} \textbf{return} SUCC 
+\EndIf
+\State $a$ := OnePathIn(Q)
+\Comment{Choose a reference path in Q}
+\State $Q_{\mathrm{new}} := Q - \{a\}$
+\For {$a' \in C_a$}
+\State $C_{\mathrm{new}} := $ \Call{removeCandidate}{$a', Q_{\mathrm{new}}, C$}
+\If {$C_{\mathrm{new}} = \emptyset$} \textbf{return} FAIL 
+\EndIf
+\If {\Call{match}{$a, a', Q_{\mathrm{new}}, C_{\mathrm{new}}$}}
+\textbf{return} SUCC 
+\EndIf
+\EndFor
+\State \textbf{return} FAIL
 \EndProcedure
+
 \end{algorithmic}
 \caption{The decompose-and-match algorithm}\label{submatchalgo}
 \end{figure}
 
 \section{Symbolic Similarity}
-Until now, we have not addressed symbolic similarity yet.
-\subsection{Constrains and one step back}
+Until now, we have not addressed symbolic similarity yet. 
+Although mathematical expression often use symbols interchangeably, symbolic matches is a good way to differentiate similarity, and most importantly, measure some semantic similarity in mathematical language.
+
+Firstly, structure similarity of math expression is either boolean match (subtree or not) or measured with the similarity degree only depend on the subtree depth where expressions are matched. Symbolic similarity will introduce more factors to further distinguish similarity among structural identical math expressions.
+Also it is essential to give those with symbolic matches a higher rank because they may imply more semantic similarity. 
+For example $E=mc^2$ is considered more meaningful when exact symbols are used rather than just being structure identical with $y=ax^2$.
+
+Secondly, as illustrated in section~\ref{measure_sim}, same mathematical symbols in an expression (or bind variables) usually can only maintain semantical equality if the changes are made by substitutions. (similar to the notion of $\alpha$-equality~\cite{Hindley1986}). This is an important semantic information that we need to capture and certainly it involves comparison of symbols. 
+
+Yet there is one thing to notice here, in many mathematical search systems, a query may be specified with wildcards and thus will match any document with an expression substitution to that wildcard. 
+And a query symbol not specified by wildcard is expecting an exact symbolic occurrence in document.
+We are not considering wildcards here with the limitation of our substructure matching method. 
+And in terms of symbolic wildcard, we also doubt the its demand in mathematical search as it is not common to expect an exact symbol occurrence when we query in mathematical language (also addressed in \cite{mias11a}).
+
+\subsection{Constrains and strategy}
+As we have discussed, symbolic similarity is essential to be captured and the considerations addressed above can be summarized by the following two constrains:
+
+\begin{itemize}
+
+\item A document expression with both structure and symbol matches (not necessarily all the symbols) is considered more relevant than that with only structure matches. And the more symbol matches, the more relevant it is.
+\item Same symbols in one equation (i.e. bind variables) should be considered more relevant than those with different symbols at the same position.
+\end{itemize}
+
+Instead of giving a score function to measure symbolic similarity, we only aim our search method to meet the two constrains above. 
+
 \subsection{Mark-and-cross algorithm}
-However, another shortcoming is, they usually fail to achieve the desired property for preserving same similarity when changes are made by substitution (see section~\ref{measure_sim}).
-
-we doubt that users are likely to query, for example a+b c want-
-ing to find documents only with occurrences of variable c.
-
-Further more, a query may be specified with wildcards and thus will match any document with an expression substitution to that wildcard. 
-
-The definition of similarity between two mathematical expressions is a key con-
-cept that significantly affects a mathematical information retrieval system, but
-a formal definition of similarity is missing in the literature. Here we formally
-define the similarity between two mathematical expressions
-
-\section{Illustrated by An Example}
-\label{secIllu}
+To achieve this goal, we intuitively take the bind variable with greatest number of occurrence, e.g. $a$ in $a+a+a+b+b+c$, to match as many as symbols of each bind variable in a document expression. 
+Whenever a symbol in document expression is matched, we exclude it from matching candidates of the next iteration.
+Then choose the bind variable in query with the second number of occurrence to match the candidates of document in the next iteration.
 
 \section{Review on the Method}
+\subsection{One step back}
+\subsection{Complexity (with state-of-art)}
+\subsection{An example}
+\label{secIllu}
 
 Analogously,
-Breakdown
 
 Our system Cowpie \footnote{demo page: \url{infolab.ece.udel.edu:8912/cowpie/}}
 

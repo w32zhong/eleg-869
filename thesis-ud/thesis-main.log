@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  9 APR 2015 18:02
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  13 APR 2015 15:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -438,7 +438,7 @@ verted-to.pdf ./res/leafroottree.eps>
 (epstopdf)             \includegraphics on input line 39.
 Package epstopdf Info: Output file is already uptodate.
 
-<./res/leafroottree-eps-converted-to.pdf, id=389, 170.6375pt x 188.705pt>
+<./res/leafroottree-eps-converted-to.pdf, id=399, 170.6375pt x 188.705pt>
 File: ./res/leafroottree-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./res/leafroottree-eps-converted-to.pdf>
@@ -456,7 +456,7 @@ verted-to.pdf ./res/leafrootpath.eps>
 (epstopdf)             \includegraphics on input line 46.
 Package epstopdf Info: Output file is already uptodate.
 
-<./res/leafrootpath-eps-converted-to.pdf, id=390, 206.7725pt x 188.705pt>
+<./res/leafrootpath-eps-converted-to.pdf, id=400, 206.7725pt x 188.705pt>
 File: ./res/leafrootpath-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./res/leafrootpath-eps-converted-to.pdf>
@@ -482,7 +482,7 @@ nverted-to.pdf ./res/not-necessary.eps>
 (epstopdf)             \includegraphics on input line 205.
 Package epstopdf Info: Output file is already uptodate.
 
-<./res/not-necessary-eps-converted-to.pdf, id=448, 279.0425pt x 188.705pt>
+<./res/not-necessary-eps-converted-to.pdf, id=458, 279.0425pt x 188.705pt>
 File: ./res/not-necessary-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./res/not-necessary-eps-converted-to.pdf>
@@ -505,7 +505,7 @@ Package epstopdf Info: Source file: <./res/not-necessary2.eps>
 onverted-to.pdf ./res/not-necessary2.eps>
 (epstopdf)             \includegraphics on input line 212.
 Package epstopdf Info: Output file is already uptodate.
-<./res/not-necessary2-eps-converted-to.pdf, id=449, 279.0425pt x 188.705pt>
+<./res/not-necessary2-eps-converted-to.pdf, id=459, 279.0425pt x 188.705pt>
 File: ./res/not-necessary2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./res/not-necessary2-eps-converted-to.pdf>
@@ -536,7 +536,7 @@ Package epstopdf Info: Source file: <./res/lpd.eps>
 (epstopdf)             \includegraphics on input line 230.
 Package epstopdf Info: Output file is already uptodate.
 
-<./res/lpd-eps-converted-to.pdf, id=468, 206.7725pt x 230.8625pt>
+<./res/lpd-eps-converted-to.pdf, id=478, 206.7725pt x 230.8625pt>
 File: ./res/lpd-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./res/lpd-eps-converted-to.pdf>
@@ -558,7 +558,7 @@ Package epstopdf Info: Source file: <./res/lpd2.eps>
 o.pdf ./res/lpd2.eps>
 (epstopdf)             \includegraphics on input line 237.
 Package epstopdf Info: Output file is already uptodate.
-<./res/lpd2-eps-converted-to.pdf, id=469, 153.57375pt x 211.79124pt>
+<./res/lpd2-eps-converted-to.pdf, id=479, 153.57375pt x 211.79124pt>
 File: ./res/lpd2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./res/lpd2-eps-converted-to.pdf>
@@ -572,22 +572,16 @@ Package pdftex.def Info: ./res/lpd2-eps-converted-to.pdf used on input line 237
                                                   \fi \fi 
 l.253 
        <./res/lpd-eps-converted-to.pdf> <./res/lpd2-eps-converted-to.pdf>]
-Overfull \hbox (12.14572pt too wide) in paragraph at lines 254--255
-[]\OT1/cmr/m/n/12 The de-tailed al-go-rithm is de-scribed in fig-ure [][]2.4[][
-]. The main pro-ce-dure is \OT1/cmr/m/it/12 decompose-
- []
-
-[21pdfTeX warning (ext4): destination with the same identifier (name{figure.2.4
-}) has been already used, duplicate ignored
+[21] [22pdfTeX warning (ext4): destination with the same identifier (name{figur
+e.2.4}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.280 \subsection
-                 {Constrains and one step back}]) [22]
+l.330 
+      ] [23]) [24]
 \openout2 = `bibtex.aux'.
 
- (./bibtex.tex
-(./thesis-main.bbl
+ (./bibtex.tex (./thesis-main.bbl
 References.
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
@@ -619,7 +613,7 @@ Missing character: There is no Ã in font cmr12!
 Missing character: There is no ­ in font cmr12!
 Missing character: There is no Å in font cmr12!
 Missing character: There is no ¡ in font cmr12!
-[23
+[25
 
 
 
@@ -634,7 +628,7 @@ Missing character: There is no Å in font cmr12!
 Missing character: There is no ¡ in font cmr12!
 Missing character: There is no Â in font cmr12!
 Missing character: There is no ¸ in font cmr12!
- [24] [25])) [26]
+ [26] [27])) [28]
 \openout2 = `appA.aux'.
 
  (./appA.tex
@@ -642,7 +636,7 @@ Appendix A.
 
 Package hyperref Warning: bookmark level for unknown appendix defaults to 0.
 
-) [27
+) [29
 
 
 
@@ -651,7 +645,7 @@ Package hyperref Warning: bookmark level for unknown appendix defaults to 0.
 
  (./appB.tex
 Appendix B.
-) [28
+) [30
 
 
 
@@ -663,14 +657,14 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 44.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 44.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 44.
 Package rerunfilecheck Info: File `thesis-main.out' has not changed.
-(rerunfilecheck)             Checksum: 7DD79006E7EDD6675ED22E58BC1DEA72;2288.
+(rerunfilecheck)             Checksum: 9868A692DBF7F95107E900093E414699;2439.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 44.
  ) 
 Here is how much of TeX's memory you used:
- 6828 strings out of 495028
- 98167 string characters out of 6181497
- 187709 words of memory out of 5000000
- 9761 multiletter control sequences out of 15000+600000
+ 6852 strings out of 495028
+ 98520 string characters out of 6181497
+ 191713 words of memory out of 5000000
+ 9780 multiletter control sequences out of 15000+600000
  9093 words of font info for 33 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  35i,11n,30p,802b,470s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -686,10 +680,10 @@ s/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1
 s/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
 msy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.p
 fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on thesis-main.pdf (34 pages, 250349 bytes).
+Output written on thesis-main.pdf (36 pages, 256190 bytes).
 PDF statistics:
- 611 PDF objects out of 1000 (max. 8388607)
- 544 compressed objects within 6 object streams
- 139 named destinations out of 1000 (max. 500000)
- 287 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 632 PDF objects out of 1000 (max. 8388607)
+ 563 compressed objects within 6 object streams
+ 144 named destinations out of 1000 (max. 500000)
+ 303 words of extra memory for PDF output out of 10000 (max. 10000000)
 

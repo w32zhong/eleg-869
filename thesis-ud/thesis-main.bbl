@@ -232,4 +232,9 @@ PhilipN. Klein.
 \newblock volume 1461 of {\em Lecture Notes in Computer Science}, pages
   91--102. Springer Berlin Heidelberg, 1998.
 
+\bibitem{Hindley1986}
+J.~Roger Hindley.
+\newblock {\em Introduction to Combinators and [Lambda]-Calculus}.
+\newblock Cambridge University Press, 1986.
+
 \end{thebibliography}
