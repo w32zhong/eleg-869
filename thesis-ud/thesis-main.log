@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  13 APR 2015 15:59
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  14 APR 2015 00:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -578,7 +578,7 @@ e.2.4}) has been already used, duplicate ignored
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.330 
-      ] [23]) [24]
+      ] [23] [24]) [25]
 \openout2 = `bibtex.aux'.
 
  (./bibtex.tex (./thesis-main.bbl
@@ -613,7 +613,7 @@ Missing character: There is no Ã in font cmr12!
 Missing character: There is no ­ in font cmr12!
 Missing character: There is no Å in font cmr12!
 Missing character: There is no ¡ in font cmr12!
-[25
+[26
 
 
 
@@ -628,7 +628,7 @@ Missing character: There is no Å in font cmr12!
 Missing character: There is no ¡ in font cmr12!
 Missing character: There is no Â in font cmr12!
 Missing character: There is no ¸ in font cmr12!
- [26] [27])) [28]
+ [27] [28])) [29]
 \openout2 = `appA.aux'.
 
  (./appA.tex
@@ -636,7 +636,7 @@ Appendix A.
 
 Package hyperref Warning: bookmark level for unknown appendix defaults to 0.
 
-) [29
+) [30
 
 
 
@@ -645,7 +645,7 @@ Package hyperref Warning: bookmark level for unknown appendix defaults to 0.
 
  (./appB.tex
 Appendix B.
-) [30
+) [31
 
 
 
@@ -657,12 +657,12 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 44.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 44.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 44.
 Package rerunfilecheck Info: File `thesis-main.out' has not changed.
-(rerunfilecheck)             Checksum: 9868A692DBF7F95107E900093E414699;2439.
+(rerunfilecheck)             Checksum: FFC176D0BAF7DE0D878E23F39D2DB0A5;2434.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 44.
  ) 
 Here is how much of TeX's memory you used:
- 6852 strings out of 495028
- 98520 string characters out of 6181497
+ 6853 strings out of 495028
+ 98527 string characters out of 6181497
  191713 words of memory out of 5000000
  9780 multiletter control sequences out of 15000+600000
  9093 words of font info for 33 fonts, out of 8000000 for 9000
@@ -680,10 +680,10 @@ s/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1
 s/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
 msy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.p
 fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on thesis-main.pdf (36 pages, 256190 bytes).
+Output written on thesis-main.pdf (37 pages, 259181 bytes).
 PDF statistics:
- 632 PDF objects out of 1000 (max. 8388607)
- 563 compressed objects within 6 object streams
- 144 named destinations out of 1000 (max. 500000)
+ 641 PDF objects out of 1000 (max. 8388607)
+ 571 compressed objects within 6 object streams
+ 145 named destinations out of 1000 (max. 500000)
  303 words of extra memory for PDF output out of 10000 (max. 10000000)
 

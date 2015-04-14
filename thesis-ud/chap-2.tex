@@ -324,7 +324,7 @@ Although mathematical expression often use symbols interchangeably, symbolic mat
 
 Firstly, structure similarity of math expression is either boolean match (subtree or not) or measured with the similarity degree only depend on the subtree depth where expressions are matched. Symbolic similarity will introduce more factors to further distinguish similarity among structural identical math expressions.
 Also it is essential to give those with symbolic matches a higher rank because they may imply more semantic similarity. 
-For example $E=mc^2$ is considered more meaningful when exact symbols are used rather than just being structure identical with $y=ax^2$.
+For example, $E=mc^2$ is considered more meaningful when exact symbols are used rather than just being structure identical with $y=ax^2$.
 
 Secondly, as illustrated in section~\ref{measure_sim}, same mathematical symbols in an expression (or bind variables) usually can only maintain semantical equality if the changes are made by substitutions. (similar to the notion of $\alpha$-equality~\cite{Hindley1986}). This is an important semantic information that we need to capture and certainly it involves comparison of symbols. 
 
@@ -333,16 +333,43 @@ And a query symbol not specified by wildcard is expecting an exact symbolic occu
 We are not considering wildcards here with the limitation of our substructure matching method. 
 And in terms of symbolic wildcard, we also doubt the its demand in mathematical search as it is not common to expect an exact symbol occurrence when we query in mathematical language (also addressed in \cite{mias11a}).
 
-\subsection{Constrains and strategy}
-As we have discussed, symbolic similarity is essential to be captured and the considerations addressed above can be summarized by the following two constrains:
+\subsection{Ranking constrains}
+As we have discussed, symbolic similarity is essential to be captured, in order to further rank document expressions. 
+Here we propose two constrains to addressed all the considerations, they can be summarized as:
 
 \begin{itemize}
-
-\item A document expression with both structure and symbol matches (not necessarily all the symbols) is considered more relevant than that with only structure matches. And the more symbol matches, the more relevant it is.
-\item Same symbols in one equation (i.e. bind variables) should be considered more relevant than those with different symbols at the same position.
+\item A document expression with both structure and symbol matches (not necessarily all the symbols) is considered more relevant than that with only structure matches. 
+And the more symbol matches, the more relevant it is.
+\item Expressions with identical symbols at the same place (i.e. bind variable) should be considered more similar than those with different symbols at the same position. 
 \end{itemize}
 
-Instead of giving a score function to measure symbolic similarity, we only aim our search method to meet the two constrains above. 
+In this paper, we use these two constrains as the rule to rank retrieval results in terms of symbolic similarity.
+And in cases where both constrains can be applied, we prioritize the second constrain. 
+This is because, intuitively, as long as the semantic meaning of two expressions is the same, using different set of symbols does not make a difference. 
+However, bind variable match is more important because an mathematical expression with more than one identical symbols most often imply that those symbols represents the same variable. 
+Missing one or more symbols being identical will lose semantics in a certain degree.
+
+The constrains and idea above are illustrated by the following example. 
+Let the rank of a document math expression $d$ be $r(d)$, and given query $\sqrt a (a - b)$ for instance. 
+It is easy to see under the first constrain: 
+$$
+r\big(\sqrt a (a - b)\big) > r\big(\sqrt a (a - x)\big) > r\big(\sqrt x (x - y)\big)
+$$
+The one with the highest rank here is an exact match, with three symbols matching in total. 
+The second one has two symbols match while the third one has no symbolic match at all. 
+
+In the same manner, by the second constrain we have:
+$$
+r\big(\sqrt x (x - b)\big) > r\big(\sqrt x (y - b)\big)
+$$
+The first one uses bind variable $x$ but it preserves the same semantics except for the symbol of bind variable is different with that of query.
+The second one does not have bind variable match, in another word, it uses different symbols (i.e. ``$x,\ y$") at positions where query expression uses the same symbols (i.e. ``$a$").
+
+One common pattern the first example follows is they all have the bind variable match. 
+And for the second example, they have the same number of symbol matches (only ``$b$" is matched in a symbolic way). 
+So it is easy to follow only one of the two constrain. 
+However, sometimes both constrains can be applied where conflict may occur and we have to choose only one to follow. 
+Given document expression $\sqrt a (x - b)$ and $\sqrt x (x - b)$ for instance, the former has two symbolic matches (i.e. ``$a,\ b$") while does not have bind variable match. The latter, on the other hand, has bind variable match while only has one symbolic match (i.e. ``$b$"). We nevertheless score the latter higher because it does not lose any semantics. 
 
 \subsection{Mark-and-cross algorithm}
 To achieve this goal, we intuitively take the bind variable with greatest number of occurrence, e.g. $a$ in $a+a+a+b+b+c$, to match as many as symbols of each bind variable in a document expression. 
