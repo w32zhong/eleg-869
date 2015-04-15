@@ -28,6 +28,6 @@
 \contentsline {subsection}{\numberline {2.4.1}One step back}{25}{subsection.2.4.1}
 \contentsline {subsection}{\numberline {2.4.2}Complexity (with state-of-art)}{25}{subsection.2.4.2}
 \contentsline {subsection}{\numberline {2.4.3}An example}{25}{subsection.2.4.3}
-\contentsline {chapter}{\uppercase {References}}{26}{chapter*.15}
-\contentsline {appendix}{\numberline {A}Title of Appendix A}{30}{appendix.A}
-\contentsline {appendix}{\numberline {B}Title of Appendix B}{31}{appendix.B}
+\contentsline {chapter}{\uppercase {References}}{27}{chapter*.15}
+\contentsline {appendix}{\numberline {A}Title of Appendix A}{31}{appendix.A}
+\contentsline {appendix}{\numberline {B}Title of Appendix B}{32}{appendix.B}

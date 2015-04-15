@@ -73,7 +73,7 @@ The formula tree is associated with a label (labels are not required to be disti
 Below are our formal definitions.
 
 \subsubsection{Formula tree}
-A \textit{formula tree} is a labeled rooted non-empty tree $T = T(V,E,r)$ with root $r$, where each vertices $v \in V(T)$ is associated with a label $\ell(v) \in \mathbf{R}$ mapped by label function $\ell$, and each leaf $l \in V(T)$ is also associated with a symbol $s(v) \in \mathbf{R}$ mapped by symbol function $s$.
+A \textit{formula tree} is a labeled rooted non-empty tree $T = T(V,E,r)$ with root $r$, where each vertices $v \in V(T)$ is associated with a label $\ell(v) \in \mathbf{R}$ mapped by label function $\ell$, and each leaf $l \in V(T)$ is also associated with a symbol $s(v) \in \mathbf{R}$ mapped by symbol function $s$. For convenience, we use $\mathcal{S}(p)$ to indicate the symbol of the leaf in a leaf-root path $p$.
 
 \subsubsection{Formula subtree}
 \label{frmlsubtreeDef}
@@ -372,9 +372,82 @@ However, sometimes both constrains can be applied where conflict may occur and w
 Given document expression $\sqrt a (x - b)$ and $\sqrt x (x - b)$ for instance, the former has two symbolic matches (i.e. ``$a,\ b$") while does not have bind variable match. The latter, on the other hand, has bind variable match while only has one symbolic match (i.e. ``$b$"). We nevertheless score the latter higher because it does not lose any semantics. 
 
 \subsection{Mark-and-cross algorithm}
-To achieve this goal, we intuitively take the bind variable with greatest number of occurrence, e.g. $a$ in $a+a+a+b+b+c$, to match as many as symbols of each bind variable in a document expression. 
-Whenever a symbol in document expression is matched, we exclude it from matching candidates of the next iteration.
-Then choose the bind variable in query with the second number of occurrence to match the candidates of document in the next iteration.
+Here we propose an algorithm to score symbolic similarity between query and document expressions.
+To follow all the constrains and issues addressed, intuitively, we first take the bind variable with greatest number of occurrence, e.g. ``$a$" with three occurrences in $a+a+a+b+b+c$, to match as many as symbols of each bind variable in a document expression. 
+Whenever a symbol in document expression is matched, we exclude it from matching candidates in future iterations.
+In the next iteration, we choose the bind variable with the second number of occurrence and repeat this process until all the query bind variable are looped.
+
+\begin{figure}
+\begin{algorithmic}[1]
+
+\Procedure{markAndCross}{$D,Q,C$} 
+\State score := 0
+
+\If {$D = \emptyset$} 
+\State \textbf{return} 0 
+\EndIf
+\For {$a' \in D$}
+\State $T_{a'} := \mathrm{unmark}$ 
+\EndFor
+\For {$v \in V(D)$}
+\State $B_v := 0$ 
+\EndFor
+
+\State QList := \Call{sortBySymbolAndOccur}{Q}
+
+\For {$a$ {\bf in} QList}
+
+\For {$v \in V(D)$}
+\State $m := -\infty$
+\State $m_v := \varnothing$
+\For {$a' \in C_a \cap \{ x \mid \mathcal{S}(x) = v,\ x \in D\} $}
+\If {$T_{a'} = \mathrm{unmark}$ {\bf and} $\mathrm{sim}(a, a') > m$} 
+\State $m := \mathrm{sim}(a, a')$ 
+\State $m_v := a'$ 
+\EndIf
+\EndFor
+\If {$m_v \not= \varnothing$}
+\State $T_{m_v} := \mathrm{mark}$ 
+\State $B_v := B_v + m$
+\EndIf
+\EndFor
+
+\If {$\mathcal{S}(a) \mathrm{\ has\ changed}$ {\bf or} $\mathrm{\ last\ iteration\ of\ } a$}
+
+\State $m := -\infty$
+\State $m_v := \varnothing $
+\For {$v \in V(D)$}
+\If {$B_v > m$} 
+\State $m := B_v$ 
+\State $m_v := v$ 
+\EndIf
+\State $B_v := 0$ 
+\EndFor
+\State $\mathrm{score} := \mathrm{score} + m$ 
+
+\For {$v \in V(D)$}
+\If {$v = m_v$} 
+\State $\mathrm{nextState} := \mathrm{unmark}$ 
+\Else
+\State $\mathrm{nextState} := \mathrm{cross}$ 
+\EndIf
+\For {$a' \in C_a \cap \{ x \mid \mathcal{S}(x) = v,\ x \in D\} $}
+\If {$T_{a'} = \mathrm{mark}$} 
+\State $T_{a'} := \mathrm{nextState}$ 
+\EndIf
+\EndFor
+\EndFor
+
+\EndIf
+
+\EndFor
+
+\State \textbf{return} score
+\EndProcedure
+
+\end{algorithmic}
+\caption{The mark-and-cross algorithm}\label{markcrossalgo}
+\end{figure}
 
 \section{Review on the Method}
 \subsection{One step back}
