@@ -28,7 +28,7 @@
 \contentsline {subsection}{\numberline {2.4.1}Relaxed structure match}{28}{subsection.2.4.1}
 \contentsline {subsection}{\numberline {2.4.2}Matching-depth}{29}{subsection.2.4.2}
 \contentsline {subsection}{\numberline {2.4.3}Matching-ratio}{30}{subsection.2.4.3}
-\contentsline {subsection}{\numberline {2.4.4}Illustrated by an example}{30}{subsection.2.4.4}
+\contentsline {subsection}{\numberline {2.4.4}Illustrated by an example}{31}{subsection.2.4.4}
 \contentsline {chapter}{\uppercase {References}}{32}{chapter*.15}
 \contentsline {appendix}{\numberline {A}Title of Appendix A}{36}{appendix.A}
 \contentsline {appendix}{\numberline {B}Title of Appendix B}{37}{appendix.B}

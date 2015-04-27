@@ -535,17 +535,6 @@ Here we introduce another metres that measures the structural similarity, combin
 
 According to the property \ref{prop4} in section~\ref{observationlabel} (observation~\#1), for two expression in formula subtree relation, we have $\dfrac{|g(T_q)|}{|g(T_d)|} \le 1$, and the ratio of left-hand is named as \textit{matching-ratio}, which characterises the structural coverage for a matching query in an expression.
 Consider the scenario where a query expression is structural isomorphic to two document expressions, and the symbolic similarity between them are the same. 
-However, the different ratio of the document expression ``size" to the size the matching query covers essentially result in a different ranking score for eah of the two document expressions.
+However, the different ratio of the document expression ``area'' to the ``area'' which the matching query covers essentially makes them scored differently.
 For example, for query $ax$, document expression $ax$ should precede $ax+b$ although the query matches both two document expressions with same symbolic score.
-Therefore, in addition to the symbolic similarity degree $s$ given by mark-and-cross algorithm, we combine matching-ratio $r$ to score overall similarity and rank results by the tuple $(s, r)$, that is, first compare $s$ and then $r$ to rank document expressions.
-
-
-\subsection{Illustrated by an example}
-\label{secIllu}
-
-Our system Cowpie \footnote{demo page: \url{infolab.ece.udel.edu:8912/cowpie/}}
-
-\let\thefootnote\relax\footnote{Contact author: clock126@126.com or
-\url{http://www.eecis.udel.edu/~zhongwei}}
-
-MathML vs LaTeX
+Therefore, in addition to the symbolic similarity degree $s$ given by mark-and-cross algorithm, we combine matching-ratio $r$ to score overall similarity and rank document expressions by the tuple $(s, r)$, that is, first compare $s$ and then compare $r$ if $s$ is equal, to rank document expressions.
