@@ -61,7 +61,7 @@ Nevertheless, we are going to use the subtree definition in graph theory here to
 To be explicit, given a rooted tree $T$, the connected graph whose edges are also in $T$ is defined as the subtree of $T$.  
 
 Also we need clarify some conventional notations here. 
-Through this paper, a path $p \in \mathbf{P}$ is a sequence of numbers given by $p = p_0 p_1 \ldots p_n$ where $n\ge0$, $p_i \in \mathbf{R},\; 0 \le i \le n$ and $\mathbf{P}$ is the set of all paths. 
+Through this paper, a path $p \in \mathbf{P}$ is a sequence of numbers given by $p = p_0 p_1 \ldots p_n$ where $n\ge0$, $p_i \in \mathbf{R},\; 0 \le i \le n$ and $\mathbf{P}$ is the set of all paths, including empty path. 
 Any function $f(\cdot) = y \in \mathbf{R}$ applied on $p$ is mapped to a path too: $f(p)=f(p_0)f(p_1) \ldots f(p_n)$. 
 Furthermore, for two paths $\,^1p = p_0p_1 \ldots p_n$ and $\,^2p = p_np_{n+1} \ldots p_m$ where $m \ge n$, a concatenation $\,^1p \cdot \,^2p$ is defined as $p_0p_1 \ldots p_n p_{n+1} \ldots p_m$ (said as concatenation of $\,^2p$ on $\,^1p$), 
 and the concatenation of a path $p$ on a set $S = \{ s_1, s_2 \ldots s_n \}$ is defined as $S \cdot p = \{ s_1\cdot p,\  s_2\cdot p \ \ldots \ s_n\cdot p \}$. 
@@ -111,10 +111,10 @@ For two formula trees which satisfy $T_q \preceq_l T_d$ on $\Phi$, then $\forall
 \textit{Justification.} 
 Because $\forall\; w \in V(T_q) \  s.t. \  (v, w) \in E(T_q)$, there exists $(\phi(v), \phi(w)) \in E(T_d)$. 
 And for any (if exists) two different edges $(v, w_1), (v, w_2) \in E(T_q),\, w_1 \not= w_2 \in V(T_q) $, we know $(\phi(v), \phi(w_1)) \not= (\phi(v), \phi(w_2))$ by definition~\ref{frmlsubtreeDef}. 
-Therefore any different edge from $v$ is associated with a distinct edge from $\phi(v)$, thus we can get \ref{prop1}. 
+Therefore any different edge from $v$ is associated with a distinct edge from $\phi(v)$, thus we can get (\ref{prop1}). 
 Given the fact that every non-empty path $p$ can be decomposed into a series of edges $(p_0, p_1), (p_1, p_2) \ldots (p_{n-1}, p_n), \; n > 0$,
-properties \ref{prop2} and \ref{prop3} are trivial.
-Because there is exact one path between every two nodes in a tree, the leaf-root path is uniquely determined by a leaf node in a tree. Hence the rationale of \ref{prop4} can be obtained in a similar manner with that of \ref{prop1}, expect neighbor edges are replaced by leaf-node paths.
+properties (\ref{prop2}) and (\ref{prop3}) are trivial.
+Because there is exact one path between every two nodes in a tree, the leaf-root path is uniquely determined by a leaf node in a tree. Hence the rationale of (\ref{prop4}) can be obtained in a similar manner with that of (\ref{prop1}), expect neighbor edges are replaced by leaf-node paths.
 
 
 \subsubsection*{Observation \#2} 
@@ -161,7 +161,7 @@ thus $\left| \mathrm{lcp}(a,c) \right| \neq \left| \mathrm{lcp}(a',b') \right|$ 
 
 \subsubsection*{Observation \#4} 
 Given an index $\Pi$ and a formula tree $T_q$, $\forall\; T_d \in \Pi$:
-If $T_q \preceq_l T_d$ on $\Phi$, then $\exists\; \hat{a} \in \mathbf{L},\; s.t.$
+If $T_q \preceq_l T_d$ on $\Phi$, then $\exists\; \hat{a} \in \mathbf{P},\; s.t.$
 $$
 T_d \in \bigcap_{a \in L} \mathcal{I}_{\Pi}(a)
 $$
@@ -493,11 +493,23 @@ Because the mark-and-cross algorithm has an worst case time complexity of $O\big
 trying to find the maximum point while introduce more parameters (we try to find the one with not only the most symbolic similarity but also who satisfies structure isomorphism) would lead to even more time complexity. 
 
 \subsection{Relaxed structure match}
-To address the problem of complexity
-Nevertheless, we can
+The complexity introduced to combine the two methods will make our approach infeasible to efficiently deal with large data set. 
+Here we choose to relax our constrain on strict structure isomorphism. 
+As figure~\ref{notnecessary} has illustrated, we know that the labels of a leaf-node path set being a subset of that of another does not necessarily mean the tree generating the former path set is a formula subtree of that generating the latter.
+To further generalize it, we say for any two formula tree $T_q$ and $T_d$ and $\forall\; \hat{a} \in \mathbf{P}$, if $\ell(g(T_q)) \cdot \hat{a} \subseteq \ell(g(T_d))$, it is not sufficient to imply $T_q \preceq_l T_d$.
+Nevertheless, we think the cases which makes the above statement insufficient are fairly rare in common mathematical content, and the complexity introduced from considering those cases will offset the benefit to strictly identify the structure isomorphism.
+Therefore, we loose our constrain on structure similarity so that any  $T_d \in \bigcap_{a \in L} \mathcal{I}_{\Pi}(a) $ is considered structurally relevant to query formula tree $T_q$ in observation~\#4 of section~\ref{observationlabel}.
+Optionally, we can apply constrain \ref{prop1} in observation \#1 to further eliminate cases such as the one in figure~\ref{notnecessary} thus less expressions that are not formula subtree relation would be considered relevant. We name this constrain as \textit{fan-number constrain}.
 
-To reflect the depth where two math expressions matches,  we modify the similarity function to:
+The revised method will collect all the ``structure similar" document formula trees that satisfy the fan-number constrain in the set $\bigcap_{a \in L} \mathcal{I}_{\Pi}(a)$. 
+Then use mark-and-cross algorithm to finally rank the collected set by symbolic similarity.
 
+\subsection{Matching-depth}
+On the other hand, we may introduce a \textit{matching-depth factor} into symbolic similarity measurement algorithm, to make it also consider some structurally matching depth. 
+As it is addressed in \cite{mias11a}, the deeper level at where two formula matches, the lower similarity weight would it be, since the deeper sub-formulae in in mathematical expression will make it less important to the overall formula.
+For example, given query formula $\sqrt a$, expression $\sqrt {x}$ would score higher than $\sqrt{\sqrt{x}}$ does. 
+
+To reflect the depth where two math expressions matches, we introduce the matching-depth factor $f(d)$ and modify the similarity function in the mark-and-cross algorithm:
 $$
 \mathrm{sim}(a,a') = 
 \left\{
@@ -509,9 +521,24 @@ f(d) \cdot \dfrac 1 2  &\qquad \mathrm{otherwise}
 \end{array}
 \right.
 $$
-where the factor value can be either constant (e.g. $f(d)=1$) or in a negative correlation with matching depth (e.g. $f(d) = \dfrac{1}{1 + d}$), 
+where the factor value $f(d)$ is in a negative correlation with matching depth $d$, many functions may be adopted, e.g. $f(d) = \dfrac{1}{1 + d}$, 
 the matching depth is defined as $d = |\hat{a}|$ (See observation~\#4 of section~\ref{observationlabel}).
-The factor value is introduced so that deeper level matches are assigned less weight, e.g., given query $a+b$, document expression $(a+b)\cdot c$ scores higher than $\sqrt{(a+b)\cdot c}$.
+
+The idea behind this is because we accumulate $\mathrm{sim}(a,a')$ value to contribute the overall symbolic similarity score returned by algorithm~\ref{markcrossalgo}. In order to incorporate mark-and-cross algorithm, by distributivity, we can distribute the factor of matching depth for two mathematical expressions, over all the path pairs generated from the two expressions. 
+
+\subsection{Matching-ratio}
+Before matching-depth is introduced, if a formula subtree relation is inferred between two formula trees, they are considered structurally matching in a boolean manner. 
+There is no similarity degree between a complete match (or a sub-formula) and structurally irrelevant. 
+In another word, structural differences is considered in a way to filter indexed expressions, for further symbolic similarity assessment. 
+The final output ranking is determined by symbolic similarity degree, without considering structural similarity. 
+Here we introduce another metres that measures the structural similarity, combined with symbolic similarity to rank final search results.
+
+According to the property \ref{prop4} in section~\ref{observationlabel} (observation~\#1), for two expression in formula subtree relation, we have $\dfrac{|g(T_q)|}{|g(T_d)|} \le 1$, and the ratio of left-hand is named as \textit{matching-ratio}, which characterises the structural coverage for a matching query in an expression.
+Consider the scenario where a query expression is structural isomorphic to two document expressions, and the symbolic similarity between them are the same. 
+However, the different ratio of the document expression ``size" to the size the matching query covers essentially result in a different ranking score for eah of the two document expressions.
+For example, for query $ax$, document expression $ax$ should precede $ax+b$ although the query matches both two document expressions with same symbolic score.
+Therefore, in addition to the symbolic similarity degree $s$ given by mark-and-cross algorithm, we combine matching-ratio $r$ to score overall similarity and rank results by the tuple $(s, r)$, that is, first compare $s$ and then $r$ to rank document expressions.
+
 
 \subsection{Illustrated by an example}
 \label{secIllu}
