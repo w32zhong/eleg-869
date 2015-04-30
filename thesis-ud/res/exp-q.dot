@@ -1,0 +1,17 @@
+graph {
+	{ node[shape=ellipse]
+	a1 [texlbl="$^1_v a$"]
+	a3 [texlbl="$^3_v a$"]
+	b4 [texlbl="$^4_v b$"]
+	x2 [texlbl="$^2_v x$"]
+	ti6 [texlbl="$^6_t \times$"]
+	ad5 [texlbl="$^5_a +$"]
+	}
+ 
+	{ edge[]
+	ti6 -- ad5 -- a3
+	ad5 -- b4
+	ti6 -- x2
+	ti6 -- a1
+	}
+}

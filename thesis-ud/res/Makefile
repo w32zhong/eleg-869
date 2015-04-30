@@ -8,9 +8,7 @@ not-necessary \
 not-necessary2 \
 lpd \
 lpd2 \
-) \
-$(addsuffix .pdf, \
-)
+) exp-q.tmp exp-d.tmp
 	
 %.eps: %.dot 
 	# neato -Teps $*.dot -o $@
@@ -20,6 +18,13 @@ $(addsuffix .pdf, \
 # 	dot2tex -tmath $^ > $*.tex
 # 	pdflatex $*.tex $@
 
+%.tmp: %.dot
+	dot2tex -tmath --figpreamble="\Huge" $< > $@
+	pdflatex $@
+
 clean:
+	rm -f *.aux
+	rm -f *.log
+	rm -f *.tmp
 	rm -f *.eps
 	rm -f *.pdf
