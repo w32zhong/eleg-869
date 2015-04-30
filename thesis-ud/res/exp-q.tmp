@@ -1,0 +1,104 @@
+\documentclass{article}
+\usepackage[x11names, rgb]{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{snakes,arrows,shapes}
+\usepackage{amsmath}
+%
+%
+
+%
+
+%
+
+\begin{document}
+\pagestyle{empty}
+%
+%
+%
+
+\enlargethispage{100cm}
+% Start of code
+% \begin{tikzpicture}[anchor=mid,>=latex',line join=bevel,]
+\begin{tikzpicture}[>=latex',line join=bevel,]
+  \pgfsetlinewidth{1bp}
+\Huge%
+\begin{scope}
+  \pgfsetstrokecolor{black}
+  \definecolor{strokecol}{rgb}{1.0,1.0,1.0};
+  \pgfsetstrokecolor{strokecol}
+  \definecolor{fillcol}{rgb}{1.0,1.0,1.0};
+  \pgfsetfillcolor{fillcol}
+  \filldraw (0bp,0bp) -- (0bp,180bp) -- (234bp,180bp) -- (234bp,0bp) -- cycle;
+\end{scope}
+\begin{scope}
+  \pgfsetstrokecolor{black}
+  \definecolor{strokecol}{rgb}{1.0,1.0,1.0};
+  \pgfsetstrokecolor{strokecol}
+  \definecolor{fillcol}{rgb}{1.0,1.0,1.0};
+  \pgfsetfillcolor{fillcol}
+  \filldraw (0bp,0bp) -- (0bp,180bp) -- (234bp,180bp) -- (234bp,0bp) -- cycle;
+\end{scope}
+  \pgfsetcolor{black}
+  % Edge: ad5 -- b4
+  \draw [] (179.35bp,72.765bp) .. controls (185.17bp,61.456bp) and (192.89bp,46.437bp)  .. (198.7bp,35.147bp);
+  % Edge: ti6 -- a1
+  \draw [] (84.43bp,146.83bp) .. controls (72.02bp,134.77bp) and (54.269bp,117.51bp)  .. (41.796bp,105.38bp);
+  % Edge: ad5 -- a3
+  \draw [] (162.65bp,72.765bp) .. controls (156.83bp,61.456bp) and (149.11bp,46.437bp)  .. (143.3bp,35.147bp);
+  % Edge: ti6 -- ad5
+  \draw [] (113.57bp,146.83bp) .. controls (125.98bp,134.77bp) and (143.73bp,117.51bp)  .. (156.2bp,105.38bp);
+  % Edge: ti6 -- x2
+  \draw [] (99bp,143.7bp) .. controls (99bp,132.85bp) and (99bp,118.92bp)  .. (99bp,108.1bp);
+  % Node: b4
+\begin{scope}
+  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
+  \pgfsetstrokecolor{strokecol}
+  \draw (207bp,18bp) ellipse (27bp and 18bp);
+  \draw (207bp,18bp) node {$^4_v b$};
+\end{scope}
+  % Node: ad5
+\begin{scope}
+  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
+  \pgfsetstrokecolor{strokecol}
+  \draw (171bp,90bp) ellipse (27bp and 18bp);
+  \draw (171bp,90bp) node {$^5_a +$};
+\end{scope}
+  % Node: ti6
+\begin{scope}
+  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
+  \pgfsetstrokecolor{strokecol}
+  \draw (99bp,162bp) ellipse (27bp and 18bp);
+  \draw (99bp,162bp) node {$^6_t \times$};
+\end{scope}
+  % Node: a1
+\begin{scope}
+  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
+  \pgfsetstrokecolor{strokecol}
+  \draw (27bp,90bp) ellipse (27bp and 18bp);
+  \draw (27bp,90bp) node {$^1_v a$};
+\end{scope}
+  % Node: a3
+\begin{scope}
+  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
+  \pgfsetstrokecolor{strokecol}
+  \draw (135bp,18bp) ellipse (27bp and 18bp);
+  \draw (135bp,18bp) node {$^3_v a$};
+\end{scope}
+  % Node: x2
+\begin{scope}
+  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
+  \pgfsetstrokecolor{strokecol}
+  \draw (99bp,90bp) ellipse (27bp and 18bp);
+  \draw (99bp,90bp) node {$^2_v x$};
+\end{scope}
+%
+\end{tikzpicture}
+% End of code
+
+%
+\end{document}
+%
+
+
+

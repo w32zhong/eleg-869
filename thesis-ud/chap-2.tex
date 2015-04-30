@@ -73,7 +73,8 @@ The formula tree is associated with a label (labels are not required to be disti
 Below are our formal definitions.
 
 \subsubsection{Formula tree}
-A \textit{formula tree} is a labeled rooted non-empty tree $T = T(V,E,r)$ with root $r$, where each vertices $v \in V(T)$ is associated with a label $\ell(v) \in \mathbf{R}$ mapped by label function $\ell$, and each leaf $l \in V(T)$ is also associated with a symbol $s(v) \in \mathbf{R}$ mapped by symbol function $s$. For convenience, we use $\mathcal{S}(p)$ to indicate the symbol of the leaf in a leaf-root path $p$.
+A \textit{formula tree} is a labeled rooted non-empty tree $T = T(V,E,r)$ with root $r$, where each vertices $v \in V(T)$ is associated with a label $\ell_T(v) \in \mathbf{R}$ mapped by label function $\ell_T$, 
+and each leaf $l \in V(T)$ is also associated with a symbol $\mathcal{S}_T(v) \in \mathbf{R}$ mapped by symbol function $\mathcal{S}_T$. For convenience, we will write $\ell$ and $\mathcal{S}$ as function names which refer to the tree implied by the context, also use function $\mathcal{S}(p)$ to indicate the symbol of the leaf in a leaf-root path $p$.
 
 \subsubsection{Formula subtree}
 \label{frmlsubtreeDef}
@@ -374,7 +375,7 @@ Given document expression $\sqrt a (x - b)$ and $\sqrt x (x - b)$ for instance, 
 
 \subsection{An algorithm}
 Here we propose an algorithm to score symbolic similarity between query and document expressions.
-To follow all the constrains and issues addressed, intuitively, we first take the bind variable with greatest number of occurrence, e.g. ``$a$" with three occurrences in $\left(b \cdot \dfrac{a+b}{a+c} + a\right)$, to match as many as symbols of each bind variable in a document expression. 
+To follow all the constrains and issues addressed, intuitively, we first take the bind variable with greatest number of occurrence, e.g. ``$a$" with three occurrences in $\left(b \cdot \dfrac{a+b}{a+c} + a\right)$, to match as many as symbols of each bind variable in a document expression in a greedy way. 
 Whenever a symbol in document expression is matched, we exclude it from matching candidates in future iterations.
 In the next iteration, we choose the bind variable with the second number of occurrence and repeat this process until all the query bind variable are looped.
 
@@ -548,3 +549,4 @@ However, the different ratio of the document expression ``area'' to the ``area''
 For example, for query $ax + b$, document expression $ax + b$ should precede $x^2 + ax + b$ although the query matches both two document expressions with same symbolic score.
 Therefore, in addition to the symbolic similarity degree $s$ given by mark-and-cross algorithm, we combine matching-ratio $r$ to score overall similarity and rank document expressions by the tuple $(s, r)$, that is, first compare $s$ and then compare $r$ if $s$ is equal, to rank document expressions.
 
+\input{chap-2-example}

@@ -1,6 +1,36 @@
 \subsection{Illustrated by an example}
 \label{secIllu}
 
+We illustrate the method introduced in this chapter by a simple example here. 
+Given a query expression $ax(a+b)$ and document expression $ax + (b+a)by$, here we show how we search the relevant document using this query and how the relevance score between them is calculated by mark-and-cross algorithm.
+
+The query expression and document expression are represented by operation trees $T_q$ and $T_d$ in figure~\ref{expGraph}, 
+instead of only denoting the operation symbols at the internal nodes and the variable (also can be a constant) symbols at the leaf nodes, we use the notation $^i_l S$ to denote a node with symbol $S$ labeled by $l$ (i.e. $\ell(S)=l$) with vertex number $i$. 
+The three different possible labels here are $v,\ t$ and $a$, standing for unified name ``variable", ``times" and ``add" respectively.
+To be concise and descriptive, we will interchangeably use either $^i_l S$ notation or $q_i$ ($p_i$) to represent the leaf-root path in a query (document) operation tree where the leaf vertex $i$ resides.
+
+Firstly, the generated path sets for $T_q$ and $T_d$ are:
+$$
+\begin{aligned}
+g(T_q) &= \{ 1\cdot6,\; 2\cdot6,\; 3\cdot5\cdot6,\; 4\cdot5\cdot6\} \\
+g(T_d) &= \{ 5\cdot8\cdot10,\; 6\cdot8\cdot10,\; 3\cdot7\cdot8\cdot10,\; 4\cdot7\cdot8\cdot10,\; 1\cdot9\cdot10,\; 2\cdot9\cdot10\}
+\end{aligned}
+$$
+And the labeled path sets for each of the two are:
+$$
+\begin{aligned}
+\ell\left(g(T_q)\right) &= \{ v\cdot t,\; v\cdot a\cdot t \} \\
+\ell\left(g(T_d)\right) &= \{ v\cdot t\cdot a,\; v\cdot a\cdot t \cdot a \}
+\end{aligned}
+$$
+Because $\ell\left(g(T_q)\right) \cdot a = \ell\left(g(T_d)\right)$, or equivalently 
+$$
+\ell(g(T_q)) \cdot \hat{a} \subseteq \ell(g(T_d))
+$$
+where $\hat{a} = a$, 
+we know $T_d$ is searchable by $T_q$, so we will find a path $\hat{a}$ to append after the labeled path set $\ell\left(g(T_d)\right)$ in index $\Pi$ and obtain $T_d$ to be considered as structurally relevant to $T_q$.
+We can also infer the matching-depth $d$ here is $|\hat{a}| = 1$. 
+
 \begin{figure}
 \begin{minipage}[b]{2.65in}
 \begin{center}
@@ -208,9 +238,26 @@ query expression $ax(a+b)$
 document expression $ax + (b+a)by$
 \end{center}
 \end{minipage}
-\caption{An example}\label{expGraph}
+\caption{Example query/document expression representation}\label{expGraph}
 \end{figure}
 
+Secondly, by the implications from observation~\#1 of section~\ref{observationlabel}, we get the candidate set for each of the path in $T_q$:
+$$
+\begin{aligned}
+C_{q_1} &= \{ p_5,\; p_6 \} \\
+C_{q_2} &= \{ p_5,\; p_6 \} \\
+C_{q_3} &= \{ p_3,\; p_4 \} \\
+C_{q_4} &= \{ p_3,\; p_4 \} 
+\end{aligned}
+$$
+
+In addition, get the list $L$ containing all the query paths in $T_q$ sorted by symbol and its occurrence in all path symbols, 
+$$
+L = ^1_v a,\ ^3_v a,\ ^4_v b,\ ^2_vx.
+$$
+
+Lastly, we can calculate the symbolic similarity degree between the two expressions by going through each query path in $L$ and apply mark-and-cross algorithm. 
+Let factor function $f(d) = \dfrac{1}{1 + d}$ (so that matching-depth factor is $0.5$), and $\alpha = 0.9$.
 
 Our system Cowpie \footnote{demo page: \url{infolab.ece.udel.edu:8912/cowpie/}}
 
