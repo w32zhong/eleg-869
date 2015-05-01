@@ -5,9 +5,9 @@ We illustrate the method introduced in this chapter by a simple example here.
 Given a query expression $ax(a+b)$ and document expression $ax + (b+a)by$, here we show how we search the relevant document using this query and how the relevance score between them is calculated by mark-and-cross algorithm.
 
 The query expression and document expression are represented by operation trees $T_q$ and $T_d$ in figure~\ref{expGraph}, 
-instead of only denoting the operation symbols at the internal nodes and the variable (also can be a constant) symbols at the leaf nodes, we use the notation $^i_l S$ to denote a node with symbol $S$ labeled by $l$ (i.e. $\ell(S)=l$) with vertex number $i$. 
-The three different possible labels here are $v,\ t$ and $a$, standing for unified name ``variable", ``times" and ``add" respectively.
-To be concise and descriptive, we will interchangeably use either $^i_l S$ notation or $q_i$ ($p_i$) to represent the leaf-root path in a query (document) operation tree where the leaf vertex $i$ resides.
+instead of only denoting the operation symbols at the internal nodes and the variable (also can be a constant) symbols at the leaf nodes, we use the notation $^i_l S$ or $^i S$ to denote a node with symbol $S$ labeled by $l$ (i.e. $\ell(S)=l$) with vertex number $i$. 
+The three different possible labels used here are $v,\ t$ and $a$, standing for unified name ``variable", ``times" and ``add" respectively.
+To be concise and descriptive, we will interchangeably use either $^i S$ notation or $q_i$ (or $p_i$) to represent the leaf-root path in a query (or document) operation tree where the leaf vertex $i$ resides.
 
 Firstly, the generated path sets for $T_q$ and $T_d$ are:
 $$
@@ -23,13 +23,13 @@ $$
 \ell\left(g(T_d)\right) &= \{ v\cdot t\cdot a,\; v\cdot a\cdot t \cdot a \}
 \end{aligned}
 $$
-Because $\ell\left(g(T_q)\right) \cdot a = \ell\left(g(T_d)\right)$, or equivalently 
+Because $\ell\left(g(T_q)\right) \cdot a = \ell\left(g(T_d)\right)$, which follows 
 $$
 \ell(g(T_q)) \cdot \hat{a} \subseteq \ell(g(T_d))
 $$
 where $\hat{a} = a$, 
-we know $T_d$ is searchable by $T_q$, so we will find a path $\hat{a}$ to append after the labeled path set $\ell\left(g(T_d)\right)$ in index $\Pi$ and obtain $T_d$ to be considered as structurally relevant to $T_q$.
-We can also infer the matching-depth $d$ here is $|\hat{a}| = 1$. 
+we know $T_d$ is searchable by $T_q$, so there exists a path $\hat{a}$ we can search to append after every labeled path in set $\ell\left(g(T_d)\right)$ so that we will find $T_d$ by intersecting all the formula trees indexed in these paths in index $\Pi$.
+We can also infer the matching-depth $d$ is $|\hat{a}| = 1$ here. 
 
 \begin{figure}
 \begin{minipage}[b]{2.65in}
@@ -253,11 +253,60 @@ $$
 
 In addition, get the list $L$ containing all the query paths in $T_q$ sorted by symbol and its occurrence in all path symbols, 
 $$
-L = ^1_v a,\ ^3_v a,\ ^4_v b,\ ^2_vx.
+L = q_1,\ q_3,\ q_4,\ q_3.
 $$
+
+\begin{table}
+\begin{center}
+\renewcommand{\arraystretch}{2}
+\begin{tabular}{|c"D{.}{}{2.5}|D{.}{}{2.5}|D{.}{}{2.5}|D{.}{}{2.5}|}
+\hline
+\textbf{current score} & \multicolumn{4}{c|}{$0.9$}\\ \thickhline
+\textbf{bind variable} & 
+\multicolumn{1}{c|}{$B_a = \dfrac 1 2$} & 
+\multicolumn{2}{c|}{$B_b = 0.9$ (max)} & 
+\multicolumn{1}{c|}{$B_y = \dfrac 1 2 \times 0.9$} \\ \thickhline
+\backslashbox{\textbf{query path}}{\textbf{document path}} & 
+\multicolumn{1}{c|}{$^3 a$} & 
+\multicolumn{1}{c|}{$^4 b$} & 
+\multicolumn{1}{c|}{$^5 b$} & 
+\multicolumn{1}{c|}{$^6 y$} \\ \thickhline
+$^1 a$ & & & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$} & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$}\\ \hline
+$^3 a$ & \multicolumn{1}{c|}{$\dfrac 1 2$} & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$} & & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$} \\ \hline
+\end{tabular}
+\renewcommand{\arraystretch}{1}
+\end{center}
+\caption{First two iterations}\label{figure_it2}
+\end{table}
 
 Lastly, we can calculate the symbolic similarity degree between the two expressions by going through each query path in $L$ and apply mark-and-cross algorithm. 
 Let factor function $f(d) = \dfrac{1}{1 + d}$ (so that matching-depth factor is $0.5$), and $\alpha = 0.9$.
+Then the first iterations calculating the matching paths for the first query bind variable can be illustrated in the table~\ref{figure_it2}
+
+\begin{table}
+\begin{center}
+\renewcommand{\arraystretch}{2}
+\begin{tabular}{|c"D{.}{}{2.5}|D{.}{}{2.5}|D{.}{}{2.5}|D{.}{}{2.5}|}
+\hline
+\textbf{current score} & \multicolumn{4}{c|}{$0.9$}\\ \thickhline
+\textbf{bind variable} & 
+\multicolumn{1}{c|}{$B_a = \dfrac 1 2$} & 
+\multicolumn{2}{c|}{$B_b = 0.9$ (max)} & 
+\multicolumn{1}{c|}{$B_y = \dfrac 1 2 \times 0.9$} \\ \thickhline
+\backslashbox{\textbf{query path}}{\textbf{document path}} & 
+\multicolumn{1}{c|}{$^3 a$} & 
+\multicolumn{1}{c|}{$^4 b$} & 
+\multicolumn{1}{c|}{$^5 b$} & 
+\multicolumn{1}{c|}{$^6 y$} \\ \thickhline
+$^1 a$ & & & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$} & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$}\\ \hline
+$^3 a$ & \multicolumn{1}{c|}{$\dfrac 1 2$} & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$} & & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$} \\ \hhline{="="="="="}
+$^4 b$ & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$} & \notableentry & \notableentry & \\ \hhline{="="="="="}
+$^2 x$ & \notableentry & \notableentry & \notableentry & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$} \\ \hline
+\end{tabular}
+\renewcommand{\arraystretch}{1}
+\end{center}
+\caption{3rd iteration}\label{figure_it2}
+\end{table}
 
 Our system Cowpie \footnote{demo page: \url{infolab.ece.udel.edu:8912/cowpie/}}
 

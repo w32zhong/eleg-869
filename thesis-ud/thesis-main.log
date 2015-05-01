@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  30 APR 2015 16:34
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  30 APR 2015 21:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -587,9 +587,57 @@ File: babel.def 2013/12/03 3.9h Babel common definitions
 \l@australian = a dialect from \language\l@british 
 \l@newzealand = a dialect from \language\l@british 
 ))
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
+Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
+\col@sep=\dimen161
+\extrarowheight=\dimen162
+\NC@list=\toks27
+\extratabsurround=\skip48
+\backup@length=\skip49
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/dcolumn.sty
+Package: dcolumn 2001/05/28 v1.06 decimal alignment package (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty
+\bigstrutjot=\dimen163
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/hhline.sty
+Package: hhline 1994/05/23 v2.03 Table rule package (DPC)
+) (./slashbox.sty
+slashbox style by K.Yasuoka, May 1993.
+\@slashboxa=\box58
+\@slashboxb=\box59
+\@slashboxc=\box60
+\@slashboxwd=\count129
+\@slashboxht=\count130
+\@slashsepl=\dimen164
+\@slashsepr=\dimen165
+) (/usr/share/texlive/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2012/02/13 v1.0a Color table columns (DPC)
+\everycr=\toks28
+\minrowclearance=\skip50
+)
+(/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarycalc.
+code.tex
+File: tikzlibrarycalc.code.tex 2009/09/04 v2.10 (rcs-revision 1.6)
+) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/zref-savepos.sty
+Package: zref-savepos 2012/04/04 v2.24 Module savepos for zref (HO)
+
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/zref-base.sty
+Package: zref-base 2012/04/04 v2.24 Module base for zref (HO)
+Package zref Info: New property list: main on input line 759.
+Package zref Info: New property: default on input line 760.
+Package zref Info: New property: page on input line 761.
+)
+Package zref Info: New property list: savepos on input line 75.
+Package zref Info: New property: posx on input line 76.
+Package zref Info: New property: posy on input line 77.
+)
+\c@NoTableEntry=\count131
+
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2013/01/14 v2.14 AMS math features
-\@mathmargin=\skip48
+\@mathmargin=\skip51
 
 For additional information on amsmath, use the `?' option.
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
@@ -597,51 +645,51 @@ Package: amstext 2000/06/29 v2.01
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
-\@emptytoks=\toks27
-\ex@=\dimen161
+\@emptytoks=\toks29
+\ex@=\dimen166
 ))
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d
-\pmbraise@=\dimen162
+\pmbraise@=\dimen167
 )
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
-\inf@bad=\count129
+\inf@bad=\count132
 LaTeX Info: Redefining \frac on input line 210.
-\uproot@=\count130
-\leftroot@=\count131
+\uproot@=\count133
+\leftroot@=\count134
 LaTeX Info: Redefining \overline on input line 306.
-\classnum@=\count132
-\DOTSCASE@=\count133
+\classnum@=\count135
+\DOTSCASE@=\count136
 LaTeX Info: Redefining \ldots on input line 378.
 LaTeX Info: Redefining \dots on input line 381.
 LaTeX Info: Redefining \cdots on input line 466.
-\Mathstrutbox@=\box58
-\strutbox@=\box59
-\big@size=\dimen163
+\Mathstrutbox@=\box61
+\strutbox@=\box62
+\big@size=\dimen168
 LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
-\macc@depth=\count134
-\c@MaxMatrixCols=\count135
+\macc@depth=\count137
+\c@MaxMatrixCols=\count138
 \dotsspace@=\muskip11
-\c@parentequation=\count136
-\dspbrk@lvl=\count137
-\tag@help=\toks28
-\row@=\count138
-\column@=\count139
-\maxfields@=\count140
-\andhelp@=\toks29
-\eqnshift@=\dimen164
-\alignsep@=\dimen165
-\tagshift@=\dimen166
-\tagwidth@=\dimen167
-\totwidth@=\dimen168
-\lineht@=\dimen169
-\@envbody=\toks30
-\multlinegap=\skip49
-\multlinetaggap=\skip50
-\mathdisplay@stack=\toks31
+\c@parentequation=\count139
+\dspbrk@lvl=\count140
+\tag@help=\toks30
+\row@=\count141
+\column@=\count142
+\maxfields@=\count143
+\andhelp@=\toks31
+\eqnshift@=\dimen169
+\alignsep@=\dimen170
+\tagshift@=\dimen171
+\tagwidth@=\dimen172
+\totwidth@=\dimen173
+\lineht@=\dimen174
+\@envbody=\toks32
+\multlinegap=\skip52
+\multlinetaggap=\skip53
+\mathdisplay@stack=\toks33
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
 )
@@ -655,26 +703,29 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
-(./thesis-main.aux (./thesis-tap.aux) (./chap-1.aux) (./chap-2.aux)
-(./bibtex.aux) (./appA.aux) (./appB.aux))
+(./thesis-main.aux (./thesis-tap.aux) (./chap-1.aux) (./chap-2.aux
+
+LaTeX Warning: Label `figure_it2' multiply defined.
+
+) (./bibtex.aux) (./appA.aux) (./appB.aux))
 \openout1 = `thesis-main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-\AtBeginShipoutBox=\box60
-Package hyperref Info: Link coloring ON on input line 26.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+\AtBeginShipoutBox=\box63
+Package hyperref Info: Link coloring ON on input line 72.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -682,11 +733,11 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count141
+\c@section@level=\count144
 )
-LaTeX Info: Redefining \ref on input line 26.
-LaTeX Info: Redefining \pageref on input line 26.
-LaTeX Info: Redefining \nameref on input line 26.
+LaTeX Info: Redefining \ref on input line 72.
+LaTeX Info: Redefining \pageref on input line 72.
+LaTeX Info: Redefining \nameref on input line 72.
 
 (./thesis-main.out) (./thesis-main.out)
 \@outlinefile=\write4
@@ -695,17 +746,17 @@ LaTeX Info: Redefining \nameref on input line 26.
  ABD: EveryShipout initializing macros
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count142
-\scratchdimen=\dimen170
-\scratchbox=\box61
-\nofMPsegments=\count143
-\nofMParguments=\count144
-\everyMPshowfont=\toks32
-\MPscratchCnt=\count145
-\MPscratchDim=\dimen171
-\MPnumerator=\count146
-\makeMPintoPDFobject=\count147
-\everyMPtoPDFconversion=\toks33
+\scratchcounter=\count145
+\scratchdimen=\dimen175
+\scratchbox=\box64
+\nofMPsegments=\count146
+\nofMParguments=\count147
+\everyMPshowfont=\toks34
+\MPscratchCnt=\count148
+\MPscratchDim=\dimen176
+\MPnumerator=\count149
+\makeMPintoPDFobject=\count150
+\everyMPtoPDFconversion=\toks35
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
@@ -815,7 +866,7 @@ verted-to.pdf ./res/leafroottree.eps>
 (epstopdf)             \includegraphics on input line 39.
 Package epstopdf Info: Output file is already uptodate.
 
-<./res/leafroottree-eps-converted-to.pdf, id=411, 170.6375pt x 188.705pt>
+<./res/leafroottree-eps-converted-to.pdf, id=415, 170.6375pt x 188.705pt>
 File: ./res/leafroottree-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./res/leafroottree-eps-converted-to.pdf>
@@ -833,7 +884,7 @@ verted-to.pdf ./res/leafrootpath.eps>
 (epstopdf)             \includegraphics on input line 46.
 Package epstopdf Info: Output file is already uptodate.
 
-<./res/leafrootpath-eps-converted-to.pdf, id=412, 206.7725pt x 188.705pt>
+<./res/leafrootpath-eps-converted-to.pdf, id=416, 206.7725pt x 188.705pt>
 File: ./res/leafrootpath-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./res/leafrootpath-eps-converted-to.pdf>
@@ -859,7 +910,7 @@ nverted-to.pdf ./res/not-necessary.eps>
 (epstopdf)             \includegraphics on input line 207.
 Package epstopdf Info: Output file is already uptodate.
 
-<./res/not-necessary-eps-converted-to.pdf, id=469, 279.0425pt x 188.705pt>
+<./res/not-necessary-eps-converted-to.pdf, id=473, 279.0425pt x 188.705pt>
 File: ./res/not-necessary-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./res/not-necessary-eps-converted-to.pdf>
@@ -882,7 +933,7 @@ Package epstopdf Info: Source file: <./res/not-necessary2.eps>
 onverted-to.pdf ./res/not-necessary2.eps>
 (epstopdf)             \includegraphics on input line 214.
 Package epstopdf Info: Output file is already uptodate.
-<./res/not-necessary2-eps-converted-to.pdf, id=470, 279.0425pt x 188.705pt>
+<./res/not-necessary2-eps-converted-to.pdf, id=474, 279.0425pt x 188.705pt>
 File: ./res/not-necessary2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./res/not-necessary2-eps-converted-to.pdf>
@@ -913,7 +964,7 @@ Package epstopdf Info: Source file: <./res/lpd.eps>
 (epstopdf)             \includegraphics on input line 232.
 Package epstopdf Info: Output file is already uptodate.
 
-<./res/lpd-eps-converted-to.pdf, id=489, 206.7725pt x 230.8625pt>
+<./res/lpd-eps-converted-to.pdf, id=493, 206.7725pt x 230.8625pt>
 File: ./res/lpd-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./res/lpd-eps-converted-to.pdf>
@@ -935,7 +986,7 @@ Package epstopdf Info: Source file: <./res/lpd2.eps>
 o.pdf ./res/lpd2.eps>
 (epstopdf)             \includegraphics on input line 239.
 Package epstopdf Info: Output file is already uptodate.
-<./res/lpd2-eps-converted-to.pdf, id=490, 153.57375pt x 211.79124pt>
+<./res/lpd2-eps-converted-to.pdf, id=494, 153.57375pt x 211.79124pt>
 File: ./res/lpd2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./res/lpd2-eps-converted-to.pdf>
@@ -997,7 +1048,60 @@ Overfull \hbox (46.97797pt too wide) in paragraph at lines 123--237
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.252 $$
-        ])) [33]
+        ]
+
+Package hhline Warning: the character " ignored in \hhline argument
+(hhline)                 on input line 302.
+
+
+Package hhline Warning: the character " ignored in \hhline argument
+(hhline)                 on input line 302.
+
+
+Package hhline Warning: the character " ignored in \hhline argument
+(hhline)                 on input line 302.
+
+
+Package hhline Warning: the character " ignored in \hhline argument
+(hhline)                 on input line 302.
+
+
+Package hhline Warning: the character " ignored in \hhline argument
+(hhline)                 on input line 302.
+
+
+Package hhline Warning: the character " ignored in \hhline argument
+(hhline)                 on input line 303.
+
+
+Package hhline Warning: the character " ignored in \hhline argument
+(hhline)                 on input line 303.
+
+
+Package hhline Warning: the character " ignored in \hhline argument
+(hhline)                 on input line 303.
+
+
+Package hhline Warning: the character " ignored in \hhline argument
+(hhline)                 on input line 303.
+
+
+Package hhline Warning: the character " ignored in \hhline argument
+(hhline)                 on input line 303.
+
+[33pdfTeX warning (ext4): destination with the same identifier (name{table.2.1}
+) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.316 M
+       athML vs LaTeX])) [34pdfTeX warning (ext4): destination with the same id
+entifier (name{table.2.2}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.81 \include{chap-2}
+                     ]
 \openout2 = `bibtex.aux'.
 
  (./bibtex.tex (./thesis-main.bbl
@@ -1032,7 +1136,7 @@ Missing character: There is no Ã in font cmr12!
 Missing character: There is no ­ in font cmr12!
 Missing character: There is no Å in font cmr12!
 Missing character: There is no ¡ in font cmr12!
-[34
+[35
 
 
 
@@ -1047,7 +1151,7 @@ Missing character: There is no Å in font cmr12!
 Missing character: There is no ¡ in font cmr12!
 Missing character: There is no Â in font cmr12!
 Missing character: There is no ¸ in font cmr12!
- [35] [36])) [37]
+ [36] [37])) [38]
 \openout2 = `appA.aux'.
 
  (./appA.tex
@@ -1055,7 +1159,7 @@ Appendix A.
 
 Package hyperref Warning: bookmark level for unknown appendix defaults to 0.
 
-) [38
+) [39
 
 
 
@@ -1064,29 +1168,33 @@ Package hyperref Warning: bookmark level for unknown appendix defaults to 0.
 
  (./appB.tex
 Appendix B.
-) [39
+) [40
 
 
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 51.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 51.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 97.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 97.
  (./thesis-main.aux (./thesis-tap.aux) (./chap-1.aux) (./chap-2.aux)
 (./bibtex.aux) (./appA.aux) (./appB.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 51.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 51.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 97.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 97.
 Package rerunfilecheck Info: File `thesis-main.out' has not changed.
 (rerunfilecheck)             Checksum: 39EFD356E43333D95DB553B529BD012A;2495.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 51.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 97.
  ) 
 Here is how much of TeX's memory you used:
- 18358 strings out of 495028
- 349358 string characters out of 6181497
- 457451 words of memory out of 5000000
- 20978 multiletter control sequences out of 15000+600000
+ 18748 strings out of 495028
+ 355353 string characters out of 6181497
+ 466767 words of memory out of 5000000
+ 21336 multiletter control sequences out of 15000+600000
  15887 words of font info for 60 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 56i,12n,65p,802b,940s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 56i,15n,65p,802b,940s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texl
@@ -1103,11 +1211,12 @@ share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/t
 exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texlive/texmf-dist/f
+onts/type1/public/amsfonts/latxfont/line10.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis-main.pdf (45 pages, 321021 bytes).
+Output written on thesis-main.pdf (46 pages, 329354 bytes).
 PDF statistics:
- 721 PDF objects out of 1000 (max. 8388607)
- 637 compressed objects within 7 object streams
- 156 named destinations out of 1000 (max. 500000)
+ 735 PDF objects out of 1000 (max. 8388607)
+ 649 compressed objects within 7 object streams
+ 159 named destinations out of 1000 (max. 500000)
  323 words of extra memory for PDF output out of 10000 (max. 10000000)
 

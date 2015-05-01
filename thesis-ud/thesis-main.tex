@@ -1,7 +1,7 @@
 % This file (thesis-main.tex) is the main file for a master's thesis.
 \documentclass {udthesis}
-% preamble
 
+% algorithm
 \usepackage{algorithmicx}
 \usepackage{algorithm}% http://ctan.org/pkg/algorithms
 \usepackage[noend]{algpseudocode}% http://ctan.org/pkg/algorithmicx
@@ -12,6 +12,52 @@
 \usepackage[english]{babel}
 \usepackage{tikz}
 
+% table
+\usepackage{array}
+\makeatletter
+\newcommand{\thickhline}{%
+    \noalign {\ifnum 0=`}\fi \hrule height 1pt
+    \futurelet \reserved@a \@xhline
+}
+\newcolumntype{"}{@{\hskip\tabcolsep\vrule width 1pt\hskip\tabcolsep}}
+\makeatother
+\usepackage{dcolumn,multirow}
+\usepackage{hhline}
+% diagonal cell
+\usepackage{slashbox}
+% table cell cross
+\usepackage{tikz,colortbl}
+\usetikzlibrary{calc}
+\usepackage{zref-savepos}
+
+\newcounter{NoTableEntry}
+\renewcommand*{\theNoTableEntry}{NTE-\the\value{NoTableEntry}}
+
+\newcommand*{\notableentry}{%
+  \multicolumn{1}{@{}c@{}|}{%
+    \stepcounter{NoTableEntry}%
+    \vadjust pre{\zsavepos{\theNoTableEntry t}}% top
+    \vadjust{\zsavepos{\theNoTableEntry b}}% bottom
+    \zsavepos{\theNoTableEntry l}% left
+    \hspace{0pt plus 1filll}%
+    \zsavepos{\theNoTableEntry r}% right
+    \tikz[overlay]{%
+      \draw[black]
+        let
+          \n{llx}={\zposx{\theNoTableEntry l}sp-\zposx{\theNoTableEntry r}sp},
+          \n{urx}={0},
+          \n{lly}={\zposy{\theNoTableEntry b}sp-\zposy{\theNoTableEntry r}sp},
+          \n{ury}={\zposy{\theNoTableEntry t}sp-\zposy{\theNoTableEntry r}sp}
+        in
+        (\n{llx}, \n{lly}) -- (\n{urx}, \n{ury})
+        (\n{llx}, \n{ury}) -- (\n{urx}, \n{lly})
+      ;
+    }% 
+  }%
+}
+
+
+% math
 \usepackage{amsmath}
 \usepackage{amssymb}
 
