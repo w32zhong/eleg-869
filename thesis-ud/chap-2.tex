@@ -411,6 +411,9 @@ In the next iteration, we choose the bound variable with the second number of oc
 \If {$m_p \not= \varnothing$}
 \State $T_{m_p} := \mathrm{mark}$ 
 \State $B_v := B_v + m$
+\Else
+\Comment{Exhausted all candidates}
+\State \textbf{return} 0 
 \EndIf
 \EndFor
 

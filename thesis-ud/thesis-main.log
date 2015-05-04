@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  2 MAY 2015 10:58
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  3 MAY 2015 21:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1003,12 +1003,16 @@ e.2.4}) has been already used, duplicate ignored
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.326 
-      ] [23] [24] [25] [26pdfTeX warning (ext4): destination with the same iden
-tifier (name{figure.2.5}) has been already used, duplicate ignored
+      ] [23] [24]
+
+LaTeX Warning: Float too large for page by 17.15367pt on input line 456.
+
+[25] [26pdfTeX warning (ext4): destination with the same identifier (name{figur
+e.2.5}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.462 $$
+l.465 $$
         ] [27] [28] [29] [30] (./chap-2-example.tex
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
@@ -1257,7 +1261,7 @@ texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/public/amsfonts/latxfont/line10.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis-main.pdf (50 pages, 345069 bytes).
+Output written on thesis-main.pdf (50 pages, 345148 bytes).
 PDF statistics:
  764 PDF objects out of 1000 (max. 8388607)
  674 compressed objects within 7 object streams
