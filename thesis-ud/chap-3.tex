@@ -2,8 +2,10 @@
 
 Our system Cowpie \footnote{demo page: \url{infolab.ece.udel.edu:8912/cowpie/}}
 
-Because we are parsing \LaTeX\ directly, while most researches evaluate using MathML/XML format collection. We have tried to convert MathML/XML dataset back to \LaTeX\ using \textit{pandoc}, but fail to convert all formula correctly. 
-Nevertheless, we have crawled the entire Math Stack Exchange website posts before March 2015 (61M raw data in text files with one \LaTeX\ formula per line) and choose to use our own dataset to evaluate the data.
+Because we are parsing \LaTeX\ directly, while most researches evaluate using MathML/XML format collection, 
+and original \LaTeX\ information is not always preserved in the dataset converted from \textit{LaTeXML}, 
+we have tried to convert MathML/XML dataset back to \LaTeX\ using \textit{pandoc}, but failed to convert all the document correctly. 
+Nevertheless, we have crawled \textit{Mathjax} content (in \LaTeX) from nearly all the posts from Math Stack Exchange website before March 2015 (61MB raw data in text files with one \LaTeX\ formula per line) and choose to use our own dataset to evaluate the data.
 Our test query set consists queries mostly from NTCIR-10 Math Formula Search~\cite{ntcirtopic} and \cite{symbolpairs15}, some of them we are not able to find similar formula in our own dataset, are excluded from our test query set.
 Table~\ref{TestQ} shows our complete test queries used in our evaluation. 
 
@@ -11,7 +13,7 @@ Table~\ref{TestQ} shows our complete test queries used in our evaluation.
 \begin{center}
 \renewcommand{\arraystretch}{2}
 \begin{tabular}{|c|c||c|c|}\hline
-ID & formula & ID & formula \\\hline
+ID & formula & ID & formula \\ \thickhline
 1 & 
 $\int_0^\infty dx \int_{x}^\infty F(x,y)dy  =\int_0^\infty dy \int_{0}^y F(x,y)dx$ &
 2 & 
@@ -66,4 +68,66 @@ $\bar{u} = (x,y,z)$ \\\hline
 \renewcommand{\arraystretch}{1}
 \end{center}
 \caption{Test query set}\label{TestQ}
+\end{table}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c"c|c|c|c|c|c|}
+\hline
+\multirow{2}{*}{Query ID} & \multicolumn{5}{c|}{Relevance Score} & \multirow{2}{*}{Total judged} \\
+\cline{2-6}
+& 0 & 1 & 2 & 3 & 4 &   \\ \thickhline
+1  &  15 &  2 &  2 &  0 &  1 &  20\\
+2  &  19 &  0 &  0 &  0 &  0 &  19\\
+3  &  15 &  4 &  1 &  0 &  0 &  20\\
+4  &  0 &  0 &  0 &  6 &  14 &  20\\
+5  &  0 &  0 &  0 &  8 &  12 &  20\\
+6  &  0 &  2 &  5 &  2 &  10 &  19\\
+7  &  1 &  4 &  3 &  3 &  9 &  20\\
+8  &  5 &  1 &  1 &  1 &  0 &  8\\
+9  &  0 &  0 &  4 &  11 &  5 &  20\\
+10  &  0 &  0 &  1 &  16 &  3 &  20\\
+11  &  0 &  0 &  0 &  1 &  6 &  7\\
+12  &  0 &  0 &  4 &  13 &  3 &  20\\
+13  &  14 &  3 &  1 &  1 &  1 &  20\\
+14  &  0 &  2 &  5 &  8 &  5 &  20\\
+15  &  0 &  0 &  0 &  15 &  5 &  20\\
+16  &  8 &  6 &  2 &  2 &  2 &  20\\
+17  &  0 &  0 &  5 &  13 &  2 &  20\\
+18  &  19 &  1 &  0 &  0 &  0 &  20\\ \hline
+\end{tabular}
+\end{center}
+
+\caption{Query statistics for matching structurally only}\label{query_stat_for_struct}
+\end{table}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c"c|c|c|c|c|c|}
+\hline
+\multirow{2}{*}{Query ID} & \multicolumn{5}{c|}{Relevance Score} & \multirow{2}{*}{Total judged} \\
+\cline{2-6}
+& 0 & 1 & 2 & 3 & 4 &   \\ \thickhline
+1  &  13 &  2 &  2 &  1 &  1 &  19\\
+2  &  15 &  1 &  0 &  3 &  1 &  20\\
+3  &  0 &  0 &  0 &  0 &  20 &  20\\
+4  &  0 &  0 &  0 &  1 &  19 &  20\\
+5  &  0 &  0 &  0 &  0 &  20 &  20\\
+6  &  1 &  0 &  0 &  0 &  19 &  20\\
+7  &  0 &  0 &  0 &  0 &  20 &  20\\
+8  &  4 &  0 &  1 &  2 &  0 &  7\\
+9  &  0 &  2 &  5 &  8 &  5 &  20\\
+10  &  0 &  0 &  0 &  9 &  11 &  20\\
+11  &  0 &  0 &  0 &  2 &  5 &  7\\
+12  &  0 &  0 &  12 &  3 &  5 &  20\\
+13  &  15 &  1 &  2 &  1 &  1 &  20\\
+14  &  0 &  0 &  0 &  0 &  20 &  20\\
+15  &  0 &  0 &  0 &  13 &  6 &  19\\
+16  &  0 &  0 &  2 &  0 &  18 &  20\\
+17  &  0 &  0 &  0 &  0 &  20 &  20\\
+18  &  0 &  0 &  2 &  7 &  11 &  20\\ \hline
+\end{tabular}
+\end{center}
+
+\caption{Query statistics for matching structurally with symbolic scoring}\label{query_stat_for_both}
 \end{table}
