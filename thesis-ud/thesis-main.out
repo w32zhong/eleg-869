@@ -31,6 +31,9 @@
 \BOOKMARK [2][-]{subsection.2.4.3}{2.4.3 Matching-ratio}{section.2.4}% 31
 \BOOKMARK [2][-]{subsection.2.4.4}{2.4.4 Illustrated by an example}{section.2.4}% 32
 \BOOKMARK [0][-]{chapter.3}{3 Implementation and Evaluation}{}% 33
-\BOOKMARK [0][-]{chapter*.15}{References}{}% 34
-\BOOKMARK [0][-]{appendix.A}{A Title of Appendix A}{}% 35
-\BOOKMARK [0][-]{appendix.B}{B Title of Appendix B}{}% 36
+\BOOKMARK [1][-]{section.3.1}{3.1 Implementation}{chapter.3}% 34
+\BOOKMARK [2][-]{subsection.3.1.1}{3.1.1 Crawler}{section.3.1}% 35
+\BOOKMARK [2][-]{subsection.3.1.2}{3.1.2 Parser}{section.3.1}% 36
+\BOOKMARK [0][-]{chapter*.15}{References}{}% 37
+\BOOKMARK [0][-]{appendix.A}{A Title of Appendix A}{}% 38
+\BOOKMARK [0][-]{appendix.B}{B Title of Appendix B}{}% 39

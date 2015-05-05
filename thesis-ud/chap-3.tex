@@ -1,11 +1,19 @@
 \chapter{Implementation and Evaluation}
+Based on the method we propose, we have implemented a search engine as well as a crawler and a parser for \LaTeX\ content. Also, a demo~\footnote{demo page: \url{http://infolab.ece.udel.edu:8912/cowpie/}} with Web interface is available for demonstration. 
+In this paper, we will use this system to evaluate the effectiveness and efficiency of our system by comparing a complete system which measures symbolic similarity of expressions, with a baseline system which only does a boolean search of all structurally similar expressions for a query. 
 
-Our system Cowpie \footnote{demo page: \url{infolab.ece.udel.edu:8912/cowpie/}}
+\section{Implementation}
+The outline of our system process is, crawl and parse \LaTeX\ content, and transform math expressions into an in-memory tree structure, write the leaf-root path labels along with degree number associated with each nodes (we call \textit{branch word}) to disk as our index. 
+The search engine search and score the similar expressions in index, and output the results. 
+We have a search program which outputs results in standard out device, and a WEB front-end which outputs results in HTML pages.
+
+\subsection{Crawler}
+\subsection{Parser}
 
 Because we are parsing \LaTeX\ directly, while most researches evaluate using MathML/XML format collection, 
 and original \LaTeX\ information is not always preserved in the dataset converted from \textit{LaTeXML}, 
 we have tried to convert MathML/XML dataset back to \LaTeX\ using \textit{pandoc}, but failed to convert all the document correctly. 
-Nevertheless, we have crawled \textit{Mathjax} content (in \LaTeX) from nearly all the posts from Math Stack Exchange website before March 2015 (61MB raw data in text files with one \LaTeX\ formula per line) and choose to use our own dataset to evaluate the data.
+Nevertheless, we have crawled \textit{Mathjax} content (in \LaTeX) from nearly all the posts from Math Stack Exchange website before March 2015 (over 60MB \textit{bzip2} compressed raw data in text files with one \LaTeX\ formula per line) and choose to use our own dataset~\footnote{data set can be downloaded from \url{http://infolab.ece.udel.edu:8912/cowpie/math-stack-exchange-march-2015.tar.bz2}} to evaluate the data.
 Our test query set consists queries mostly from NTCIR-10 Math Formula Search~\cite{ntcirtopic} and \cite{symbolpairs15}, some of them we are not able to find similar formula in our own dataset, are excluded from our test query set.
 Table~\ref{TestQ} shows our complete test queries used in our evaluation. 
 
@@ -70,6 +78,12 @@ $\bar{u} = (x,y,z)$ \\\hline
 \caption{Test query set}\label{TestQ}
 \end{table}
 
+There are four levels of relevance scored from 0 to 4 in our evaluation.
+The criteria considers both structural similarity and symbolic similarity. 
+Structural similarity is measured by 0, 1 (mostly similar) and 2 (complete matching). 
+While symbolic similarity is measured by 0, 1 (mostly similar for the matching parts) and 2 (identical symbols for the matching parts).
+The level of relevance is simply the sum of the two scores.
+
 \begin{table}
 \begin{center}
 \begin{tabular}{|c"c|c|c|c|c|c|}
@@ -98,7 +112,8 @@ $\bar{u} = (x,y,z)$ \\\hline
 \end{tabular}
 \end{center}
 
-\caption{Query statistics for matching structurally only}\label{query_stat_for_struct}
+\caption{Query statistics for matching structurally only}
+\label{query_stat_for_struct}
 \end{table}
 
 \begin{table}
@@ -131,3 +146,12 @@ $\bar{u} = (x,y,z)$ \\\hline
 
 \caption{Query statistics for matching structurally with symbolic scoring}\label{query_stat_for_both}
 \end{table}
+
+We have evaluated two methods in this paper, the first one is a boolean search for only structurally similar document expressions to the query.
+That is to say, every documents formula tree $T_d \in \bigcap_{a \in L} \mathcal{I}_{\Pi}(a) $ is a hit, and only the first $k$ hits are returned as search results where $k$ is the maximum ranking items.
+Table~\ref{query_stat_for_struct} shows the distribution of hits and relevance level for each test query using this method.
+Another method we have evaluated, further applies mark-and-cross algorithm to score every formula tree in document expressions that structurally match the query. 
+It uses a min-heap data structure that keeps replacing the minimal-score item in current ranking list with new one if the latter has a higher symbolic similarity score, 
+which will give us top $k$ highest-score hits with most symbolic similarity in our search result. 
+Table~\ref{query_stat_for_both} gives the distribution and relevance scores for this method.
+Both of the two method does not guarantee a thorough search through index (even if we are pruning and search only a set of the index), in fact, we set a limit (around 3,650,000) to the maximum items to be scanned in our index, to make our search response time practical for a real search engine.
