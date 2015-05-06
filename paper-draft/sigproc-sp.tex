@@ -3,7 +3,7 @@
 
 \begin{document}
 
-\title{A Search System for Tree-Structrued \\ Mathematical Formula in {\ttlit LaTeX} Format}
+\title{A Novel Similarity-Search method for Mathematical \\ Content in {\ttlit LaTeX} Markup}
 
 \numberofauthors{2} 
 \author{
@@ -16,7 +16,9 @@
 
 \maketitle
 \begin{abstract}
-The special characteristic of mathematical language, compared with normal text content, makes mainstream retrieval models (e.g. ``bag of words'' model) deficient to provide good result in cases where query is in mathematical language. In this paper, we address the difficulties of similarity identification of mathematical contents and present a search system specifically for mathematical contents, more precisely, a system to tokenize mathematical content in \LaTeX{} into formulas, to transform a tree-structured formula to what we call ``branch words'', and to score the relevance degree between ``branch words''. Using this system, we show the potential and possibility to tackle the problems in mathematical searching.
+A relaxed structural matching search method, along with a symbolic similarity measurement algorithm for mathematical content search is proposed. 
+Our approach uses an intermediate tree representation to capture structural information of mathematical expression, and based on a previous idea which indexes math expression structure through tree leaf-root paths, we further describe an advanced AND search method in a formal way. This search method can be used to test query/document subexpression isomorphism or evaluate the symbolic similarity between math expressions with consideration of their $\alpha$-equivalence. 
+For the purpose of evaluation, we also implement a search engine based on our idea. 
 \end{abstract}
 
 \category{H.3}{Information Search and Retrieval}{Miscellaneous}
@@ -25,9 +27,19 @@ The special characteristic of mathematical language, compared with normal text c
 \keywords{mathematical searching, language processing, search engine}
 
 \section{Introduction}
-Unlike normal text content, mathematical language, by its nature, has many differences from normal text content. First, one mathematical formula may use different notations and thus has different representations.\footnote{An example, $a^2 + b^2 = c^2$ can be described as $x^2 + y^2 = z^2$ as well.} Second, two semantically different mathematical document can contain the same number of terms.\footnote{Consider $ax+(b+c)$ and $(a+b)x+c$.} Also, the order of terms in math language sometimes matters but can be mutable in other cases, which implies it is impractical to uniformly apply one single language model to mathematical content.
+With \textit{MathJax} becoming popular, more and more \LaTeX{} markups can be crawled directly from many websites. 
+In order to search those mathematical language in \LaTeX{} markups, a search method that can respect the properties of math expression needs to be developed. 
+Although many researches have been conducted to retrieve information in structured content (e.g. \textit{MathML}), information retrieval on \LaTeX{} math content is still not well-studied or exhaustively covered by mainstream IR research, compared to that on general text.
 
-Currently existing and working mathematical searching systems that we can find online, primarily are \textit{WolfraAlpha}\footnote{http://www.wolframalpha.com/}, \textit{(uni)quation}\footnote{http://uniquation.com/} and \textit{MWS}\footnote{http://search.mathweb.org/}. \textit{WolfraAlpha} mainly focus on computation and evaluation of mathematical equation input rather than searching the similar equation. \textit{(uni)quation} is able to solve the problems addressed above in this section but it is not under development and the approach it uses to handle math content is currently unclear.\footnote{http://rystsov.info/2009/05/01/uniquation.html} \textit{WMS} uses \textit{term indexing}\cite{McCune, Stickel} which we are not using here, to discriminate mathematical structures.
+But sometimes we need to rely on conventions and context to distinguish expressions like $f(a+b)$ and $c(a+b)$ because the symbol $f$ in former expression is likely to represent function instead of a variable, 
+in addition, expression such as $f^{-1}$ can either be reciprocal or an inverse function.
+
+Yet the problems addressed above are not considered in this paper, instead, we are focusing on the aspects of the following: 
+First is symbolic similarity, with the consideration of $\alpha$-equivalence. We know that symbols can be used interchangeably in each math formula to express the same meaning, e.g. $a^2+b^2=c^2$ and $x^2+y^2=z^2$. Nevertheless, we still weight symbolic similarity sometimes, for instance, $E=mc^2$ is considered more meaningful when exact symbols are used rather than just being structurally identical with $y=ax^2$.
+On the other hand, we should also weight $\alpha$-equivalent expressions, that is, changes of symbols in expression preserve more syntactic similarity when changes are made by substitution, e.g. for query $x(1+x)$, expression $a(1+a)$ are considered more relevant than $a(1+b)$. Because the ``bond variable" $x$ and $a$ are both supposed to represent the same value.
+Second is structural similarity. For example, $ax+(b+c)$ is not equivalent to $(a+b)x+c$ although they have the same set of symbols, this is because their structural difference.
+
+
 
 Our system tries a different approach to make use of the structure of mathematical formula to solve the problems addressed above. It uses an efficient way to parse and tokenize mathematic formula, to transform a tree-structured formula to a more comparable structure, and is able to score and rank results.
 

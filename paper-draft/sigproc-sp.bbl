@@ -1,17 +1,5 @@
 \begin{thebibliography}{1}
 
-\bibitem{McCune}
-W.~W. McCune.
-\newblock Experiments with discrimination-tree indexing and path indexing for
-  term retrieval.
-\newblock {\em Journal of Automated Reasoning}, 9(2), 1992.
-
-\bibitem{Stickel}
-Stickel.
-\newblock The path-indexing method for indexing terms.
-\newblock In {\em Technical Report}, page 473. Artificial Intelligence Center,
-  SRI International, October 1989.
-
 \bibitem{Knuth}
 D.~E. Knuth.
 \newblock On the translation of languages from left to right.
