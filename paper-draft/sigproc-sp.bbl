@@ -64,4 +64,99 @@ Peter Graf.
 \newblock {\em Term Indexing}.
 \newblock Springer Verlag, 1996.
 
+\bibitem{symbollayout12}
+Thomas Schellenberg, Bo~Yuan, and Richard Zanibbi.
+\newblock Layout-based substitution tree indexing and retrieval for
+  mathematical expressions.
+\newblock {\em Proc. SPIE 8297, Document Recognition and Retrieval XIX,
+  82970I}, 2012.
+
+\bibitem{WikiMirs13}
+Xuan Hu, Liangcai Gao, Xiaoyan Lin, Zhi Tang, Xiaofan Lin, and Josef~B. Baker.
+\newblock Wikimirs: A mathematical information retrieval system for wikipedia.
+\newblock {\em Proceedings of the 13th ACM/IEEE-CS joint conference on Digital
+  libraries. Pages 11-20}, 2013.
+
+\bibitem{symbolpairs15}
+David Stalnaker and Richard Zanibbi.
+\newblock Math expression retrieval using an inverted index over symbol pairs
+  in math expressions: The tangent math search engine at ntcir 2014.
+\newblock {\em Proc. SPIE 9402, Document Recognition and Retrieval XXII,
+  940207}, 2015.
+
+\bibitem{symbolpair15:2}
+David Stalnaker and Richard Zanibbi.
+\newblock Math expression retrieval using an inverted index over symbol pairs.
+\newblock {\em Proc. SPIE 9402, Document Recognition and Retrieval XXII,
+  940207}, 2015.
+
+\bibitem{newretrievalsystem}
+Shahab Kamali and Frank~Wm. Tompa.
+\newblock A new mathematics retrieval system.
+\newblock {\em CIKM}, 2010.
+
+\bibitem{DOMextraction}
+Kai Ma, Siu~Cheung Hui, and Kuiyu Chang.
+\newblock Feature extraction and clustering-based retrieval for mathematical
+  formulas.
+\newblock In {\em Software Engineering and Data Mining (SEDM), 2010 2nd
+  International Conference on}, pages 372--377, June 2010.
+
+\bibitem{editdisXML11}
+Cyril Laitang, Mohand Boughanem, and Karen Pinel-Sauvagnat.
+\newblock Xml information retrieval through tree edit distance and structural
+  summaries.
+\newblock In {\em Information Retrieval Technology}, volume 7097 of {\em
+  Lecture Notes in Computer Science}, pages 73--83. Springer Berlin Heidelberg,
+  2011.
+
+\bibitem{editdisXML13}
+Shahab Kamali and FrankWm. Tompa.
+\newblock Structural similarity search for mathematics retrieval.
+\newblock In {\em Intelligent Computer Mathematics}, volume 7961 of {\em
+  Lecture Notes in Computer Science}, pages 246--262. Springer Berlin
+  Heidelberg, 2013.
+
+\bibitem{imageb11}
+Richard Zanibbi and Bo~Yuan.
+\newblock Keyword and image-based retrieval for mathematical expressions.
+\newblock {\em Multi-disciplinary Trends in Artificial Intelligence. 6th
+  International Workshop, MIWAI 2012.}, pages 23--34, 2011.
+
+\bibitem{handwrite}
+Li~Yu and Richard Zanibbi.
+\newblock Math spotting: Retrieving math in technical documents using
+  handwritten query images.
+\newblock {\em Document Analysis and Recognition (ICDAR)}, pages 446 -- 451,
+  2009.
+
+\bibitem{lattice}
+T.~Nguyen, S.~Hui, and K.~Chang.
+\newblock A lattice-based approach for mathematical search using formal concept
+  analysis.
+\newblock {\em Expert Systems with Applications}, 2012.
+
+\bibitem{signifjap}
+Hiroshi Ichikawa, Taiichi Hashimoto, Takenobu Tokunaga, and Hozumi Tanaka.
+\newblock New methods of retrieve sentences based on syntactic similarity.
+\newblock {\em IPSJ SIG Technical Reports, DBS-136, FI-79}, pages 39--46, 2005.
+
+\bibitem{MathMLleafroot}
+Yoshinori Hijikata, Hideki Hashimoto, and Shogo Nishida.
+\newblock An investigation of index formats for the search of mathml objects.
+\newblock In {\em Web Intelligence/IAT Workshops}, pages 244--248. IEEE, 2007.
+
+\bibitem{signfused}
+Yokoi Keisuke and Aizawa Akiko.
+\newblock An approach to similarity search for mathematical expressions using
+  mathml.
+\newblock {\em Towards a Digital Mathematics Library. Grand Bend, Ontario,
+  Canada}, pages 27--35, 2009.
+
+\bibitem{sefobyfo}
+Yoshinori Hijikata, Hideki Hashimoto, and Shogo Nishida.
+\newblock Search mathematical formulas by mathematical formulas.
+\newblock {\em Human Interface and the Management of Information. Designing
+  Information, Symposium on Human Interface}, pages 404--411, 2009.
+
 \end{thebibliography}

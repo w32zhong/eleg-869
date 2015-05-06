@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  6 MAY 2015 01:36
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  6 MAY 2015 14:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -184,35 +184,72 @@ LaTeX Font Info:    Try loading font information for T1+aer on input line 100.
 
 (/usr/share/texlive/texmf-dist/tex/latex/ae/t1aer.fd
 File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
-))) (./sigproc-sp.aux)
+)))
+(/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count109
+\c@ALG@rem=\count110
+\c@ALG@nested=\count111
+\ALG@tlm=\skip44
+\ALG@thistlm=\skip45
+\c@ALG@Lnr=\count112
+\c@ALG@blocknr=\count113
+\c@ALG@storecount=\count114
+\c@ALG@tmpcounter=\count115
+\ALG@tmplength=\skip46
+) (/usr/share/texlive/texmf-dist/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
+
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count116
+\float@exts=\toks36
+\float@box=\box30
+\@float@everytoks=\toks37
+\@floatcapt=\box31
+)
+\@float@every@algorithm=\toks38
+\c@algorithm=\count117
+)
+(/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
+Package: algpseudocode 
+
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (./sigproc-sp.aux)
 \openout1 = `sigproc-sp.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 4.
-LaTeX Font Info:    ... okay on input line 4.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 4.
-LaTeX Font Info:    ... okay on input line 4.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 4.
-LaTeX Font Info:    ... okay on input line 4.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 4.
-LaTeX Font Info:    ... okay on input line 4.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 4.
-LaTeX Font Info:    ... okay on input line 4.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 4.
-LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count109
+\scratchcounter=\count118
 \scratchdimen=\dimen123
-\scratchbox=\box30
-\nofMPsegments=\count110
-\nofMParguments=\count111
-\everyMPshowfont=\toks36
-\MPscratchCnt=\count112
+\scratchbox=\box32
+\nofMPsegments=\count119
+\nofMParguments=\count120
+\everyMPshowfont=\toks39
+\MPscratchCnt=\count121
 \MPscratchDim=\dimen124
-\MPnumerator=\count113
-\makeMPintoPDFobject=\count114
-\everyMPtoPDFconversion=\toks37
+\MPnumerator=\count122
+\makeMPintoPDFobject=\count123
+\everyMPtoPDFconversion=\toks40
 ) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -261,22 +298,22 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-LaTeX Font Info:    Try loading font information for U+msa on input line 17.
+LaTeX Font Info:    Try loading font information for U+msa on input line 23.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 17.
+LaTeX Font Info:    Try loading font information for U+msb on input line 23.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 17.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 23.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-Overfull \hbox (2.50066pt too wide) in paragraph at lines 30--33
+Overfull \hbox (2.50066pt too wide) in paragraph at lines 36--39
 \T1/aer/m/n/9 der to search those math-e-mat-i-cal lan-guage in L[]T[]X markups
 ,
  []
@@ -288,37 +325,119 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 ]
-<attach.png, id=17, 557.08125pt x 207.77625pt>
-File: attach.png Graphic file (type png)
- <use attach.png>
-Package pdftex.def Info: attach.png used on input line 56.
-(pdftex.def)             Requested size: 216.81029pt x 86.72328pt.
+Package epstopdf Info: Source file: <res/leafroottree.eps>
+(epstopdf)                    date: 2015-05-06 11:19:05
+(epstopdf)                    size: 5370 bytes
+(epstopdf)             Output file: <res/leafroottree-eps-converted-to.pdf>
+(epstopdf)                    date: 2015-05-06 11:19:15
+(epstopdf)                    size: 4578 bytes
+(epstopdf)             Command: <repstopdf --outfile=res/leafroottree-eps-conve
+rted-to.pdf res/leafroottree.eps>
+(epstopdf)             \includegraphics on input line 74.
+Package epstopdf Info: Output file is already uptodate.
 
-(./sigproc-sp.bbl) [2 <./attach.png>] (./sigproc-sp.aux) ) 
+<res/leafroottree-eps-converted-to.pdf, id=17, 170.6375pt x 188.705pt>
+File: res/leafroottree-eps-converted-to.pdf Graphic file (type pdf)
+
+<use res/leafroottree-eps-converted-to.pdf>
+Package pdftex.def Info: res/leafroottree-eps-converted-to.pdf used on input li
+ne 74.
+(pdftex.def)             Requested size: 72.27132pt x 93.94914pt.
+Package epstopdf Info: Source file: <res/leafrootpath.eps>
+(epstopdf)                    date: 2015-04-30 09:01:37
+(epstopdf)                    size: 5948 bytes
+(epstopdf)             Output file: <res/leafrootpath-eps-converted-to.pdf>
+(epstopdf)                    date: 2015-05-06 11:19:16
+(epstopdf)                    size: 4690 bytes
+(epstopdf)             Command: <repstopdf --outfile=res/leafrootpath-eps-conve
+rted-to.pdf res/leafrootpath.eps>
+(epstopdf)             \includegraphics on input line 81.
+Package epstopdf Info: Output file is already uptodate.
+
+<res/leafrootpath-eps-converted-to.pdf, id=18, 206.7725pt x 188.705pt>
+File: res/leafrootpath-eps-converted-to.pdf Graphic file (type pdf)
+
+<use res/leafrootpath-eps-converted-to.pdf>
+Package pdftex.def Info: res/leafrootpath-eps-converted-to.pdf used on input li
+ne 81.
+(pdftex.def)             Requested size: 86.72395pt x 93.94914pt.
+ [2 <./res/leafroottree-eps-converted-to.pdf> <./res/leafrootpath-eps-converted
+-to.pdf>]
+Overfull \hbox (2.50024pt too wide) in paragraph at lines 137--139
+\T1/aer/m/n/9 able to limit the set of for-mula trees be-ing struc-turally matc
+h-
+ []
+
+Package epstopdf Info: Source file: <res/not-necessary.eps>
+(epstopdf)                    date: 2015-04-30 09:01:37
+(epstopdf)                    size: 6227 bytes
+(epstopdf)             Output file: <res/not-necessary-eps-converted-to.pdf>
+(epstopdf)                    date: 2015-05-06 13:08:11
+(epstopdf)                    size: 4976 bytes
+(epstopdf)             Command: <repstopdf --outfile=res/not-necessary-eps-conv
+erted-to.pdf res/not-necessary.eps>
+(epstopdf)             \includegraphics on input line 162.
+Package epstopdf Info: Output file is already uptodate.
+<res/not-necessary-eps-converted-to.pdf, id=34, 279.0425pt x 188.705pt>
+File: res/not-necessary-eps-converted-to.pdf Graphic file (type pdf)
+
+<use res/not-necessary-eps-converted-to.pdf>
+Package pdftex.def Info: res/not-necessary-eps-converted-to.pdf used on input l
+ine 162.
+(pdftex.def)             Requested size: 115.63016pt x 93.94914pt.
+Package epstopdf Info: Source file: <res/not-necessary2.eps>
+(epstopdf)                    date: 2015-04-30 09:01:37
+(epstopdf)                    size: 5967 bytes
+(epstopdf)             Output file: <res/not-necessary2-eps-converted-to.pdf>
+(epstopdf)                    date: 2015-05-06 13:08:12
+(epstopdf)                    size: 4942 bytes
+(epstopdf)             Command: <repstopdf --outfile=res/not-necessary2-eps-con
+verted-to.pdf res/not-necessary2.eps>
+(epstopdf)             \includegraphics on input line 169.
+Package epstopdf Info: Output file is already uptodate.
+
+<res/not-necessary2-eps-converted-to.pdf, id=35, 279.0425pt x 188.705pt>
+File: res/not-necessary2-eps-converted-to.pdf Graphic file (type pdf)
+
+<use res/not-necessary2-eps-converted-to.pdf>
+Package pdftex.def Info: res/not-necessary2-eps-converted-to.pdf used on input 
+line 169.
+(pdftex.def)             Requested size: 108.4046pt x 93.94914pt.
+ [3 <./res/not-necessary-eps-converted-to.pdf> <./res/not-necessary2-eps-conver
+ted-to.pdf>] (./sigproc-sp.bbl
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [4])
+[5
+
+] (./sigproc-sp.aux) ) 
 Here is how much of TeX's memory you used:
- 2794 strings out of 495028
- 35111 string characters out of 6181497
- 95954 words of memory out of 5000000
- 5933 multiletter control sequences out of 15000+600000
- 50628 words of font info for 68 fonts, out of 8000000 for 9000
+ 3488 strings out of 495028
+ 45421 string characters out of 6181497
+ 114881 words of memory out of 5000000
+ 6597 multiletter control sequences out of 15000+600000
+ 55321 words of font info for 76 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 41i,10n,28p,490b,246s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/t
-exmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmbx9.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf
--dist/fonts/type1/urw/helvetic/uhvbo8a.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/t
-imes/utmb8a.pfb>
-Output written on sigproc-sp.pdf (2 pages, 144609 bytes).
+ 41i,10n,28p,490b,323s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.en
+c}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmti9.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8a.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/urw/times/utmri8a.pfb>
+Output written on sigproc-sp.pdf (5 pages, 211649 bytes).
 PDF statistics:
- 57 PDF objects out of 1000 (max. 8388607)
- 40 compressed objects within 1 object stream
+ 105 PDF objects out of 1000 (max. 8388607)
+ 74 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

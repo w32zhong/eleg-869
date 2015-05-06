@@ -1,5 +1,11 @@
 \documentclass{acm_proc_article-sp}
+
 \usepackage{amsmath}
+
+% algorithm
+\usepackage{algorithmicx}
+\usepackage{algorithm}% http://ctan.org/pkg/algorithms
+\usepackage[noend]{algpseudocode}% http://ctan.org/pkg/algorithmicx
 
 \begin{document}
 
@@ -48,14 +54,256 @@ All the points addressed here makes transitional IR methods (e.g. bag of words m
 Similarity/boolean search for mathematical content is not a new topic,
 conference in this topic is getting increasingly research attention and the proposed systems have progressed considerably~\cite{ov}.
 DLMF project from NIST~\cite{Youssef03,Youssef05} and MIaS system~\cite{mias11a,mias11,mias:thesis}, notably, use text-based approaches and utilize existing models to deal with math content on top of existing IR tools (such as \textit{Apache Lucene}). 
-They are commonly using augmentation and normalization (by ordering the subexpressions) to enumerate and represent all possible sequences of commutative operands.
-However, augmentation usually requires to index combination of both symbols (e.g. $a$ and $b$) and unified items (\textit{id}, \textit{const}) in different levels of math expression, thus implies inefficient storage space usage for complex expressions.
-MWS~\cite{Kohlhase06,Kohlhase0p4,Kohlhase0p5} takes a \textit{automatic theorem proving} approach and uses \textit{term indexing}~\cite{graf96} to minimize the cost of unification algorithm which is able to find if two expressions are equivalent. However, their index relies on RAM memory and consumes a considerable space~\cite{Kohlhase0p5}, and it indexes all sub-terms of a formula~\cite{Kohlhase06}.
+They are commonly using augmentation and normalization (by ordering the subexpressions) to enumerate and represent all possible sequences of commutative operands (symbols (e.g. $a$ and $b$) and unified items (\textit{id}, \textit{const}) in different levels of math expression.
+MWS~\cite{Kohlhase06,Kohlhase0p4,Kohlhase0p5} takes a \textit{automatic theorem proving} approach and uses \textit{term indexing}~\cite{graf96} to minimize the cost of unification algorithm which is able to find if two expressions are equivalent, 
+however, their index relies on RAM memory~\cite{Kohlhase0p5} and needs to include all sub-terms of a formula~\cite{Kohlhase06}.
+A \textit{symbol layout tree} or \textit{presentation tree}~\cite{symbollayout12,WikiMirs13} is introduced to describe geometric layouts of symbols in a formula. 
+\cite{WikiMirs13} uses two templates to parse \LaTeX\ markup with two typical operator terms: explicit ones (``\textbackslash frac", ``\textbackslash sqrt", etc.) and implicit ones (``$+$", ``$\div$", etc.) to form a presentation tree,
+then extracts original terms and generalized terms from normalized presentation tree, to provide the flexibility of both fuzzy and exact search.
+\cite{symbollayout12} uses symbol layout tree as a kind of substitution tree, while \cite{symbolpairs15,symbolpair15:2} have developed a \textit{symbol pairs} idea to capture relative position information between symbol pairs,
+which enables key-value storage to speed search.
+\cite{newretrievalsystem} extracts HASH signature for each subtree, their system has a slower index growth resulted from a lot of occurrences of common subtree structure in math expressions.
+\cite{DOMextraction} extracts semantic keywords, structure description to indicate subordinative relationship in a string format. The similarity is calculated using normalized tf-idf vector.
+Tree edit distance is adopted by \cite{editdisXML11,editdisXML13} in which they try to overcome the bad time complexity of original algorithm by summarizing and using a compromised edit distance algorithm, then by applying with an early termination algorithm along with a distance cache.
+There are also efforts using image-based approaches~\cite{imageb11,handwrite} and lattice-based approach~\cite{lattice} to measure math formula similarity in a different perspective.
+
+\section{Methodology}
+\begin{figure}
+\begin{minipage}[b]{1.60in}
+\begin{center}
+\epsfig{height=1.3in,width=1.0in,file=res/leafroottree.eps}
+\\$a(b+c)$ in operation tree
+\end{center}
+\end{minipage}
+\hspace*{0in}
+\begin{minipage}[b]{1.60in}
+\begin{center}
+\epsfig{height=1.3in,width=1.2in,file=res/leafrootpath.eps}
+Generated leaf-root paths
+\end{center}
+\end{minipage}
+\caption{Leaf-root path example}\label{oprtreeExample}
+\end{figure}
+Our method can be seen as an approach built upon the idea of leaf-root path or sub-path~\cite{signifjap,MathMLleafroot,signfused,sefobyfo} from an operation tree, to capture structure and semantic information of math expression. 
+Figure~\ref{oprtreeExample} is an example of generated leaf-root paths for math expression $a(b+c)$.
+The intuition behind this idea is that an operation tree, no matter how operands are ordered, uniquely determines the leaf-node paths decomposed from the tree.
+This makes leaf-root path a good fit for representing mathematical expression because commutative operands are exhaustively used in mathematical language.
+Besides, by going bottom-up from leaves of an operation tree, we are essentially traversing to an expression from its subexpression for every level. 
+So we can index the leaf-root paths and search an expression by going through and beyond the leaf-root paths from its subexpression.
+
+We develop these ideas to simultaneously search along the way of all leaf-root paths, so that we are essentially pruning indexes which does not share the common postfixes beyond the root of the query tree.
+To better describe further ideas build upon this, we will put it in a formal way.
+
+\subsection{Formal Definition}
+Here we clarify some notations used throughout this paper, a path $p$ is a sequence of numbers given by $p = p_0 p_1 \ldots p_n,\; n\ge0$, $p_i \in \mathbf{R}$ and $\mathbf{P}$ is the set of all paths.
+Any function $f(\cdot) = y \in \mathbf{R}$ applied on path $p$ is mapped to a path too: $f(p)=f(p_0)f(p_1) \ldots f(p_n)$.
+And we name  a \textit{concatenation} of two paths $\,^1p = p_0p_1 \ldots p_n$ and $\,^2p = p_np_{n+1} \ldots p_m$ where $m \ge n$, to be a new path $\,^1p \cdot \,^2p$ defined as $p_0p_1 \ldots p_n p_{n+1} \ldots p_m$,
+and the concatenation of a path $p$ on a set $S = \{ s_1, s_2 \ldots s_n \}$ is defined as $S \cdot p = \{ s_1\cdot p,\  s_2\cdot p \ \ldots \ s_n\cdot p \}$.
+A path with only one element can be explicitly wrapped by a bracket, e.g. $p=(p_0)$, to avoid confusion.
+Furthermore, \textit{the longest common postfix} path $p^*$ between two path $p_1$ and $p_2$ is mapped by the function named $\mathrm{lcp}$, which is defined by $p^* = \mathrm{lcp}(p_1, p_2) = \mathrm{lcp}(p_2, p_1)$.
+
+We introduce a \textit{formula tree} to represent a mathematical expression, in which each node is associated with a label to represent the unified token (e.g. same value for token $+$, $\oplus$ and $\pm$) and each leaf node is associated with a symbol to identify math expression operand. 
+Besides, a \textit{formula subtree} relation is also defined to address the sub-structure relation between two mathematical expressions.
+
+\subsubsection{Formula tree}
+A \textit{formula tree} is a labeled rooted tree $T = T(V,E,r)$ with root $r$, where each vertices $v \in V(T)$ is associated with a label (not necessarily unique in the same tree) $\ell_T(v) \in \mathbf{R}$ mapped by label function $\ell_T$,
+and each leaf $l \in V(T)$ is also associated with a symbol $\mathcal{S}_T(v) \in \mathbf{R}$ mapped by symbol function $\mathcal{S}_T$. For convenience, we will write $\ell$ and $\mathcal{S}$ as short names which refer to the tree implied by the context, also we use function $\mathcal{S}(p)$ to indicate the symbol of the leaf in a leaf-root path $p$.
+
+\subsubsection{Formula subtree}
+\label{frmlsubtreeDef}
+Given formula tree $S$ and $T$, we say $S$ is a \textit{formula subtree} of $T$ if there exists an injective mapping $\phi: V(S) \rightarrow V(T)$ satisfying:
+
+\begin{enumerate}
+\item 
+$\forall\; (v_1,v_2) \in E(S)$, we have $(\phi(v_1),\phi(v_2)) \in E(T)$;
+\item
+$\forall\; v \in V(S)$, we have $\ell(v) = \ell(\phi(v))$;
+\item
+If $v \in V(S)$ is a leaf vertices in $S$, then $\phi(v)$ is also a leaf in $T$.
+\end{enumerate}
+Such a mapping $\phi$ is called a formula subtree isomorphic embedding (or formula embedding) for $S \rightarrow T$. 
+If satisfied, we denote $S \preceq_l T$ on $\Phi$, where $\Phi$ ($\Phi \neq \emptyset$) is the set of all the possible formula embeddings for $S \rightarrow T$.
+
+\subsubsection{Leaf-root path set}
+A \textit{leaf-root path set} generated by tree $T$ is a set of all the leaf-root paths from tree $T$, mapped by a function $g(T)$. 
+
+\subsubsection{Index}
+An \textit{index} $\Pi$ is a set of trees such that $\forall\; T \in \Pi$, we have $T \in \mathcal{I}_{\Pi}(a)$ for any $a \in \ell(g(T))$, we say $T$ is indexed in $\Pi$ and $\mathcal{I}_{\Pi}$ is called an index look-up function for index $\Pi$. 
+
+\subsection{Search Method}
+For a collection of document expressions, we will index them by merging all the leaf-root paths from each document formula tree into a large ``inverted" index tree, 
+in which each node from path $a$ stores the information of all the indexed formula trees in $\mathcal{I}_{\Pi}(a)$.
+
+Through searching all sub-paths at the same time, we are able to limit the set of formula trees being structurally matching (in formula subtree relation) with a query formula tree, to only a subset of our index. 
+This is illustrated as follows.
+
+Given an index $\Pi$ and a formula tree $T_q$, $\forall\; T_d \in \Pi$:
+If $T_q \preceq_l T_d$ on $\Phi$, then $\exists\; \hat{a} \in \mathbf{P},\; s.t.$
+$$
+T_d \in \bigcap_{a \in L} \mathcal{I}_{\Pi}(a)
+$$
+where $L = \ell(g(T_q)) \cdot \hat{a}$.
+
+\textit{Justification.}
+Denote the root of $T_q$ and $T_d$ as $r$ and $s$ respectively.
+Let $\hat{p}$ be the path determined by vertices from $t=\phi(r)$ to $s$ in $T_d$,
+and $\,^1p, \,^2p \ldots \,^np,\; n \ge 1$ be all the leaf-node paths in $T_q$.
+Then $\hat{a} = \ell(\hat{p})$, this is because:
+$L = \ell(\{ \,^1p, \,^2p \ldots \,^np \}) \cdot \hat{a} = 
+\ell(\{ \phi(\,^1p), \phi(\,^2p) \ldots \phi(\,^np) \}) \cdot \ell(\hat{p}) =
+\{ \ell(\phi(\,^1p) \cdot \hat{p}), \ell(\phi(\,^2p) \cdot \hat{p}) \ldots \ell(\phi(\,^np) \cdot \hat{p}) \}
+$.
+According to definition~\ref{frmlsubtreeDef} and $t=\phi(r)$, we have $\phi(\,^ip) \cdot \hat{p} \in g(T_d),\; 1 \le i \le n$.
+Since $ T_d \in \Pi$, $T_d$ is indexed in $\Pi$ with respect to each of the elements in $L$, that is to say $\forall\; a \in L, \; T_d \in \mathcal{I}_{\Pi}(a)$.
 
 \begin{figure}
-\epsfig{file=attach.png, height=1.2in, width=3in}
-\caption{Example of Sub-tree generation for the addition grammar.}
+\begin{minipage}[b]{1.65in}
+\begin{center}
+\epsfig{height=1.3in,width=1.6in,file=res/not-necessary.eps}
+\\ $(a+b) \times (c+d) \times e$
+\end{center}
+\end{minipage}
+\hspace*{.0in}
+\begin{minipage}[b]{1.60in}
+\begin{center}
+\epsfig{height=1.3in,width=1.5in,file=res/not-necessary2.eps}
+\\ $(a+b+c+d) \times e$
+\end{center}
+\end{minipage}
+\caption{Leaf-root paths with different structure}\label{notnecessary}
 \end{figure}
+
+In a nutshell, we search the index by intersecting the indexed formula trees from all the generated leaf-node paths at the same time, then further possible search path $\hat{a}$ is only possible when paths along the generated leaf-node paths in the index have a common postfix.
+Therefore we can ``merge" the paths ahead and prune those paths not in common. Level by level, we are always able to find the structurally matched formula tree as long as it is indexed in $\Pi$.
+
+\subsection{Substructure Matching}
+However, query formula tree will not necessarily being formula subtree to all the document (indexed) formula trees in our search set
+$\bigcap_{a \in L} \mathcal{I}_{\Pi}(a)$,
+even if their generated leaf-root paths are identical.
+This is illustrated in figure~\ref{notnecessary}.
+To address this problem, we propose an algorithm described in in figure~\ref{submatchalgo}, to test the document formula trees in our search set to see if they are in formula subtree relation.
+This algorithm is inspired from the following observations. 
+
+\begin{figure}
+\begin{algorithmic}[1]
+
+\Procedure{removeCandidate}{$d,Q,C$}
+\For {$a \in Q$}
+\If{$C_a = \emptyset$}
+\State \textbf{return} $\emptyset$
+\Else
+\State {$C_a := C_a - \{d\}$}
+\EndIf
+\EndFor
+\State \textbf{return} $C$
+\EndProcedure
+
+\State {}
+
+\Procedure{match}{$a, a', Q, C$}
+\For {$b \in Q$}
+\State $t := \mathrm{lcp}(a,b)$
+\State $Q_t := Q_t \cup \{b\}$
+\State $P := P \cup \{t\}$
+\EndFor
+\For {$t \in P$}
+\For {$b \in Q_t$}
+\For {$b' \in C_b$}
+\If {$t \not= \mathrm{lcp}(a',b')$}
+\State $C := $ \Call{removeCandidate}{$b', Q_t, C$}
+\If {$|C| = 0$}
+\State \textbf{return} FAIL
+\EndIf
+\EndIf
+\EndFor
+\EndFor
+\If {\Call{decomposeAndMatch}{$Q_t, C$} = FAIL}
+\State \textbf{return} FAIL
+\EndIf
+\EndFor
+\State \textbf{return} SUCC
+\EndProcedure
+
+\State {}
+
+\Procedure{decomposeAndMatch}{$Q, C$}
+\If {$Q = \emptyset$} \textbf{return} SUCC
+\EndIf
+\State $a$ := OnePathIn(Q)
+\Comment{Choose a reference path in Q}
+\State $Q_{\mathrm{new}} := Q - \{a\}$
+\For {$a' \in C_a$}
+\State $C_{\mathrm{new}} := $ \Call{removeCandidate}{$a', Q_{\mathrm{new}}, C$}
+\If {$C_{\mathrm{new}} = \emptyset$} \textbf{return} FAIL
+\EndIf
+\If {\Call{match}{$a, a', Q_{\mathrm{new}}, C_{\mathrm{new}}$}}
+\textbf{return} SUCC
+\EndIf
+\EndFor
+\State \textbf{return} FAIL
+\EndProcedure
+
+\end{algorithmic}
+\caption{The decompose-and-match algorithm}\label{submatchalgo}
+\end{figure}
+
+\subsubsection{Observation 1} 
+For two formula trees which satisfy $T_q \preceq_l T_d$ on $\Phi$, then $\forall\; \phi \in \Phi,\, p \in g(T_q)$, also any vertices $v$ along path $p$, the following properties are obtained:
+\begin{eqnarray}
+\deg(v) \le \deg(\phi(v)) \label{prop1} \\
+\ell(p) = \ell(\phi(p)) \label{prop3} \\
+\left| g(T_q) \right| \le \left| g(T_d) \right| \label{prop4}
+\end{eqnarray}
+\textit{Justification.} 
+Because $\forall\; w \in V(T_q) \  s.t. \  (v, w) \in E(T_q)$, there exists $(\phi(v), \phi(w)) \in E(T_d)$. 
+And for any (if exists) two different edges $(v, w_1), (v, w_2) \in E(T_q),\, w_1 \not= w_2 \in V(T_q) $, we know $(\phi(v), \phi(w_1)) \not= (\phi(v), \phi(w_2))$ by definition~\ref{frmlsubtreeDef}. 
+Therefore any different edge from $v$ is associated with a distinct edge from $\phi(v)$, thus we can get (\ref{prop1}). 
+Given the fact that every non-empty path $p$ can be decomposed into a series of edges $(p_0, p_1), (p_1, p_2) \ldots (p_{n-1}, p_n), \; n > 0$,
+property (\ref{prop3}) is trivial.
+Because there is exact one path between every two nodes in a tree, the leaf-root path is uniquely determined by a leaf node in a tree. Hence the rationale of (\ref{prop4}) can be obtained in a similar manner with that of (\ref{prop1}), expect neighbor edges are replaced by leaf-node paths.
+
+
+\subsubsection{Observation 2} 
+Given two formula trees $T_q$ and $T_d$, if $\left| g(T_q) \right| = 1$ and $\ell(g(T_{q})) \subseteq \ell(g(T_d))$, then $T_q \preceq_l T_d$.
+
+\noindent \textit{Justification.} 
+Obviously there is only single one leaf-root path in $T_q$ because $\left| g(T_q) \right| = 1$. 
+Denote the path as $p = p_0 \ldots p_n,\; n \ge 0$ where $p_n$ is the leaf, and let $a = \ell(p)$.
+Since $a \subseteq \ell(g(T_d))$, we know that there must exist a path $p'=p'_0 \ldots p'_n \in g(T_d)$ such that $a = \ell(p')$.
+Without loss of generality, suppose $p'_n$ is the leaf of $T_d$. 
+Now the injective function $\phi: p_i \rightarrow p'_i,\  0 \le i \le n$ satisfies all the requirements for $T_q$ as a formula subtree of $T_d$.
+
+\subsubsection{Observation 3} 
+For two formula trees $T_q$ and $T_d$, if $T_q = T(V,E,r) \preceq_l T_d$ on $\Phi$,  
+$\forall a,b \in g(T_q)$ and a mapping $\phi \in \Phi$. 
+Let $T_d' = \, ^{t}T_d$ where $t = \phi(r)$ and $a' = \phi(a)$, $\forall\; b' \in g(T_d')$, it follows that:
+$$
+\begin{array}{lcr}
+b' = \phi(b)  & \Rightarrow & 
+\left| \mathrm{lcp}(a,b) \right| = \left| \mathrm{lcp}(a',b') \right|
+\end{array}
+$$
+Furthermore, $\forall\; c \in g(T_q)\; s.t.\; \left| \mathrm{lcp}(a,b) \right| \neq \left| \mathrm{lcp}(a,c) \right| $, we have
+$$
+\begin{array}{lcr}
+\left| \mathrm{lcp}(a,b) \right| = \left| \mathrm{lcp}(a',b') \right|
+& \Rightarrow &
+b' \neq \phi(c)
+\end{array} 
+$$
+\textit{Justification.} 
+Because $a,b \in g(T_q)$, thus $a_0 = b_0 = r$, and we can also make sure $\mathrm{lcp}(a,b) \ge 1$. 
+Denote the path of $a = a_0 \ldots a_n a_{n+1} \ldots a_{l-1}$, similarly denote the path of $b$ as $b=b_0 \ldots b_n b_{n+1} \ldots b_{m-1}$,
+where the length of each $l,m \ge 1$ and $a_i = b_i,\, 0 \le i \le n \le \min(l-1, m-1)$ while $a_{n+1} \neq b_{n+1}$ if $l,m > 1$.
+On the other hand $a' = \phi(a)$ and $b' \in g(\,^{t}T_d)$, therefore $a'_0 = \phi(a_0) = \phi(r) = t = b'_0$.
+For the first conclusion, if $b' = \phi(b)$, there are two cases. If any of $|a|$ or $|b|$ is equal to one then $\left| \mathrm{lcp}(a,b) \right| = |(r)| = |(t)| = \left| \mathrm{lcp}(a',b') \right| = 1$;
+Otherwise if $l,m > 1$, path $a_0 \ldots a_n = b_0 \ldots b_n$ and $a_{n+1} \neq b_{n+1}$ follow that $\phi(a_0 \ldots a_n) = \phi(b_0 \ldots b_n)$ and $\phi(a_{n+1}) \neq \phi(b_{n+1})$ by definition.
+Because edge $(\phi(a_n), \phi(a_{n+1}))$ and $(\phi(b_n), \phi(b_{n+1}))$ are also in $E(T'_d)$, 
+we have $\left| \mathrm{lcp}(a,b) \right| = \left| \mathrm{lcp}(a',b') \right| = n$.
+For the second conclusion, we prove by contradiction. 
+Assume $b' = \phi(c)$, by the first conclusion we know $\left| \mathrm{lcp}(a,c) \right| = \left| \mathrm{lcp}(a',b') \right|$.
+On the other hand, because $\left| \mathrm{lcp}(a,c) \right| \neq \left| \mathrm{lcp}(a,b) \right| =  \left| \mathrm{lcp}(a',b') \right|$, 
+thus $\left| \mathrm{lcp}(a,c) \right| \neq \left| \mathrm{lcp}(a',b') \right|$ which is impossible. 
 
 \bibliographystyle{unsrt}
 \bibliography{sigproc}  % sigproc.bib is the name of the Bibliography in this case
