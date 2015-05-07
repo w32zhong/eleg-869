@@ -5,45 +5,46 @@ The style file: unsrt.bst
 Database file #1: sigproc.bib
 Warning--empty note in Kohlhase0p4
 Warning--empty note in Kohlhase0p5
-You've used 27 entries,
+Warning--empty booktitle in heavypathde
+You've used 28 entries,
             1791 wiz_defined-function locations,
-            590 strings with 7953 characters,
-and the built_in function-call counts, 5991 in all, are:
-= -- 549
-> -- 228
-< -- 12
-+ -- 87
-- -- 60
-* -- 299
-:= -- 914
-add.period$ -- 83
-call.type$ -- 27
-change.case$ -- 26
+            596 strings with 8051 characters,
+and the built_in function-call counts, 6317 in all, are:
+= -- 582
+> -- 232
+< -- 14
++ -- 89
+- -- 61
+* -- 319
+:= -- 955
+add.period$ -- 87
+call.type$ -- 28
+change.case$ -- 27
 chr.to.int$ -- 0
-cite$ -- 29
-duplicate$ -- 320
-empty$ -- 580
-format.name$ -- 60
-if$ -- 1420
+cite$ -- 31
+duplicate$ -- 340
+empty$ -- 615
+format.name$ -- 61
+if$ -- 1503
 int.to.chr$ -- 0
-int.to.str$ -- 27
-missing$ -- 24
-newline$ -- 136
-num.names$ -- 26
-pop$ -- 94
+int.to.str$ -- 28
+missing$ -- 25
+newline$ -- 141
+num.names$ -- 27
+pop$ -- 100
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 196
+skip$ -- 207
 stack$ -- 0
-substring$ -- 302
-swap$ -- 115
-text.length$ -- 12
+substring$ -- 325
+swap$ -- 124
+text.length$ -- 14
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 2
-while$ -- 49
-width$ -- 29
-write$ -- 284
-(There were 2 warnings)
+warning$ -- 3
+while$ -- 52
+width$ -- 30
+write$ -- 296
+(There were 3 warnings)

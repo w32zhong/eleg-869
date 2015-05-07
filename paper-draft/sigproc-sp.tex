@@ -33,6 +33,7 @@ For the purpose of evaluation, we also implement a search engine based on our id
 \keywords{mathematical searching, language processing, search engine}
 
 \section{Introduction}
+\label{intro}
 With \textit{MathJax} becoming popular, more and more \LaTeX{} markups can be crawled directly from many websites. 
 In order to search those mathematical language in \LaTeX{} markups, a search method that can respect the properties of math expression needs to be developed. 
 Although many researches have been conducted to retrieve information in structured content (e.g. \textit{MathML}), information retrieval on \LaTeX{} math content is still not well-studied or exhaustively covered by mainstream IR research, compared to that on general text.
@@ -180,7 +181,7 @@ Therefore we can ``merge" the paths ahead and prune those paths not in common. L
 However, query formula tree will not necessarily being formula subtree to all the document (indexed) formula trees in our search set
 $\bigcap_{a \in L} \mathcal{I}_{\Pi}(a)$,
 even if their generated leaf-root paths are identical.
-This is illustrated in figure~\ref{notnecessary}.
+One supporting example for this point is shown in figure~\ref{notnecessary}.
 To address this problem, we propose an algorithm described in in figure~\ref{submatchalgo}, to test the document formula trees in our search set to see if they are in formula subtree relation.
 This algorithm is inspired from the following observations. 
 
@@ -248,6 +249,7 @@ This algorithm is inspired from the following observations.
 \end{figure}
 
 \subsubsection{Observation 1} 
+\label{observation1}
 For two formula trees which satisfy $T_q \preceq_l T_d$ on $\Phi$, then $\forall\; \phi \in \Phi,\, p \in g(T_q)$, also any vertices $v$ along path $p$, the following properties are obtained:
 \begin{eqnarray}
 \deg(v) \le \deg(\phi(v)) \label{prop1} \\
@@ -264,6 +266,7 @@ Because there is exact one path between every two nodes in a tree, the leaf-root
 
 
 \subsubsection{Observation 2} 
+\label{observation2}
 Given two formula trees $T_q$ and $T_d$, if $\left| g(T_q) \right| = 1$ and $\ell(g(T_{q})) \subseteq \ell(g(T_d))$, then $T_q \preceq_l T_d$.
 
 \noindent \textit{Justification.} 
@@ -274,6 +277,7 @@ Without loss of generality, suppose $p'_n$ is the leaf of $T_d$.
 Now the injective function $\phi: p_i \rightarrow p'_i,\  0 \le i \le n$ satisfies all the requirements for $T_q$ as a formula subtree of $T_d$.
 
 \subsubsection{Observation 3} 
+\label{observation3}
 For two formula trees $T_q$ and $T_d$, if $T_q = T(V,E,r) \preceq_l T_d$ on $\Phi$,  
 $\forall a,b \in g(T_q)$ and a mapping $\phi \in \Phi$. 
 Let $T_d' = \, ^{t}T_d$ where $t = \phi(r)$ and $a' = \phi(a)$, $\forall\; b' \in g(T_d')$, it follows that:
@@ -305,6 +309,214 @@ Assume $b' = \phi(c)$, by the first conclusion we know $\left| \mathrm{lcp}(a,c)
 On the other hand, because $\left| \mathrm{lcp}(a,c) \right| \neq \left| \mathrm{lcp}(a,b) \right| =  \left| \mathrm{lcp}(a',b') \right|$, 
 thus $\left| \mathrm{lcp}(a,c) \right| \neq \left| \mathrm{lcp}(a',b') \right|$ which is impossible. 
 
+For a query formula tree $T_q$ and a document formula tree $T_d$, observation 1 offers us some constrains for finding initial possible isomorphic paths in $T_d$ (what we call \textit{candidates}) for a given query path in $T_q$.
+And observation 2 is a sufficient condition to test substructure relation, but the query tree has to consist only one leaf-root path to be tested. 
+While observation 3 states two necessary conditions for one formula tree to be a formula subtree of another and implies that a group of query leaf-root paths can only be isomorphic to someones in another group of leaf-root paths in document formula tree. 
+This leads to the idea to decompose the formula tree and divide the problem into subproblems by ruling out impossible candidates using observation 3, until at some point we can apply observation 2 or observe trivial cases to solve all the sub-matching problems.
+
+\begin{figure}
+\begin{minipage}[b]{1.65in}
+\begin{center}
+\epsfig{height=1.9in,width=1.6in,file=res/lpd.eps}
+\\(a)
+\end{center}
+\end{minipage}
+\hspace*{0in}
+\begin{minipage}[b]{1.65in}
+\begin{center}
+\epsfig{height=1.9in,width=1.6in,file=res/lpd2.eps}
+\\(b)
+\end{center}
+\end{minipage}
+\caption{Formula subtree matching}\label{submatch}
+\end{figure}
+
+To illustrate our \textproc{decomposeAndMatch} algorithm, figure~\ref{submatch} gives a general case in which query tree in (a) is trying to match a document tree in (b).
+Initially every leaf-root path in (a) should be associated with a set of candidate paths in (b) which satisfy the constrains in \ref{observation1}.
+Then we arbitrarily choose a path in (a) as a \textit{reference path} (heuristically a \textit{heavy path}~\cite{heavypathde}), for each of the paths in its candidate set, we choose it as reference path in (b), and suppose we choose $a'$ here. At this time we can apply the two constrains from \ref{observation3} and ruling out some impossible isomorphic paths in candidate set of each path in (a) and divide the problems further. 
+For example, because $\left| \mathrm{lcp}(a,b) \right| = \left| \mathrm{lcp}(a',b') \right|$, we know $b'$ is still in candidate set of $b\,$; while $b'$ is not in candidate of $c$ because $\left| \mathrm{lcp}(a,b) \right| \neq \left| \mathrm{lcp}(a,c) \right|$. 
+After going through these eliminations for each leaf-node path (except the reference path $a$) in (a), we now have two similar subproblems: $c$ as a subtree along with its candidate set, and $b$ as a subtree along with its candidate set. 
+We can apply this algorithm recursively until a trivial subproblem is reached (e.g. the case in \ref{observation2}). During this process, if we find any candidate set to be empty, we stop the subproblem process and change to another reference path or stop the algorithm completely if every possible reference path is tried.
+The argument $Q$ and $C$ is the set of leaf-root paths in query tree and the candidate sets associated with all leaf-root paths respectively.
+The procedure returns \textproc{SUCC} if a matching possibility is found, otherwise \textproc{FAIL} is returned indicating the formula tree in (a) cannot not be a formula subtree of that in (b).
+
+\textproc{decomposeAndMatch} algorithm offers a way to ``double-check" structure isomorphism, because 
+for any two formula tree $T_q$ and $T_d$ and $\forall\; \hat{a} \in \mathbf{P}$, if $\ell(g(T_q)) \cdot \hat{a} \subseteq \ell(g(T_d))$, it is not sufficient to imply $T_q \preceq_l T_d$.
+Nevertheless, we think the cases which makes the above statement insufficient are fairly rare in common mathematical content, and the complexity introduced from this algorithm will offset the benefit to identify the structure isomorphism.
+Thus a compromised search, for efficiency reason, would assume all the document formula trees in search set
+$\bigcap_{a \in L} \mathcal{I}_{\Pi}(a)$ is structurally matching the given query formula tree $T_q$.
+
+\subsection{Structural Similarity}
+After searching structurally matching document expressions in a boolean manner, we use two factors to measure their structural similarity degree. 
+
+The first is \textit{matching depth}.
+As it is addressed in \cite{mias11a}, the deeper sub-formulae in in mathematical expression will make it less important to the overall formula.
+For example, given query formula $\sqrt a$, expression $\sqrt {x}$ would score higher than $\sqrt{\sqrt{x}}$ does. 
+To reflect the depth where two expressions match, we define \textit{matching depth factor} $f(d)$ to be a function value in negative correlation with matching depth $d = |\hat{a}|$, e.g. $f(d) = 1/(1 + d)$ in our method. And use this factor in our final ranking process.
+The second is \textit{matching ratio}. According to the property $(2)$ in \ref{observation1}, 
+$r = |g(T_q)| / |g(T_d)| \le 1$, and the ratio $r$ on left-hand is defined as \textit{matching-ratio}, which characterises the structural coverage for the matching part in an expression.
+Intuition behind this is, for example, given query $\alpha y + \beta$, document expression $ax + b$ should precede $x^2 + ax + b$ simply because the query matches more ``area" of the former document than that of the latter.
+
+\subsection{Symbolic Similarity}
+As we have discussed in section~\ref{intro}, besides structural similarity, symbolic similarity is also essential to be considered.
+Here our scoring goal for symbolic similarity can be summarized as:
+\begin{itemize}
+\item Given two formula trees
+$T_q \preceq_l T_d$ on $\Phi$,  
+if path $a \in g(T_q)$ is isomorphic to path $a' \in g(T_d)$, that is to say, $\phi(a)=a'$, where $\phi \in \Phi$, then if their symbol matches, i.e. $\mathcal{S}(a) = \mathcal{S}(a')$, we score them higher than those do not match symbolically. And the more symbolic matches there are, the higher symbolic relevance degree it has.
+\item $\alpha$-equivalent expressions have more symbolic relevance degree than those are not, and the more bond variables (at the structurally matching positions) two expressions match, the more symbolically relevant they are considered to be.
+\end{itemize}
+
+The two are illustrated as follows. 
+Let the rank of a structural relevant math expression $d$ be $r(d)$, and given query $\sqrt a (a - b)$ for instance. 
+Then the first goal is essentially saying: 
+$$
+r\big(\sqrt a (a - b)\big) > r\big(\sqrt a (a - x)\big) > r\big(\sqrt x (x - y)\big)
+$$
+The second one has two symbols matching while the third one has no symbolic match at all. 
+
+By the second goal, we know:
+$$
+r\big(\sqrt x (x - b)\big) > r\big(\sqrt x (y - b)\big)
+$$
+Because the second one does not have the same number of bond-variable matches as the first one does.
+
+However, sometimes the two goals can be conflicting.
+Given document expression $\sqrt a (x - b)$ and $\sqrt x (x - b)$ for instance, the former has two symbolic matches (i.e. ``$a$" and ``$b$") while does not have bond-variable match. The latter, on the other hand, has bond-variable match while only has one symbolic match (i.e. ``$b$"). 
+We nevertheless score the latter higher because it does not lose any mathematic semantics. 
+
+\begin{figure}
+\begin{algorithmic}[1]
+
+\Procedure{markAndCross}{$D,Q,C$} 
+\State score := 0
+
+\If {$D = \emptyset$} 
+\State \textbf{return} 0 
+\EndIf
+\For {$a' \in D$}
+\State $T_{a'} := \mathrm{unmark}$ 
+\EndFor
+\For {$v \in \mathcal{V}(D)$}
+\State $B_v := 0$ 
+\EndFor
+
+\State QList := \Call{sortBySymbolAndOccur}{Q}
+
+\For {$a$ {\bf in} QList}
+
+\For {$v \in \mathcal{V}(D)$}
+\State $m := -\infty$
+\State $m_p := \varnothing$
+\For {$a' \in C_a \cap \{ y \mid y = v,\ y \in \mathcal{V}(D)\} $}
+\If {$T_{a'} = \mathrm{unmark}$ {\bf and} $\mathrm{sim}(a, a') > m$} 
+\State $m := \mathrm{sim}(a, a')$ 
+\State $m_p := a'$ 
+\EndIf
+\EndFor
+\If {$m_p \not= \varnothing$}
+\State $T_{m_p} := \mathrm{mark}$ 
+\State $B_v := B_v + m$
+\Else
+\Comment{Exhausted all candidates}
+\State \textbf{return} 0 
+\EndIf
+\EndFor
+
+\If {$\mathcal{S}(a) \mathrm{\ changed}$ {\bf or} $\mathrm{\ last\ iteration\ of\ } a$}
+\label{line_bond_finish}
+
+\State $m := -\infty$
+\State $m_v := \varnothing $
+\For {$v \in \mathcal{V}(D)$}
+\If {$B_v > m$} 
+\State $m := B_v$ 
+\State $m_v := v$ 
+\EndIf
+\State $B_v := 0$ 
+\EndFor
+\State $\mathrm{score} := \mathrm{score} + m$ 
+
+\For {$v \in \mathcal{V}(D)$}
+\If {$v = m_v$} 
+\State $\mathrm{nextState} := \mathrm{unmark}$ 
+\Else
+\State $\mathrm{nextState} := \mathrm{cross}$ 
+\EndIf
+\For {$a' \in C_a \cap \{ y \mid y = v,\ y \in \mathcal{V}(D)\} $}
+\If {$T_{a'} = \mathrm{mark}$} 
+\State $T_{a'} := \mathrm{nextState}$ 
+\EndIf
+\EndFor
+\EndFor
+
+\EndIf
+
+\EndFor
+
+\State \textbf{return} score
+\EndProcedure
+
+\end{algorithmic}
+\caption{The mark-and-cross algorithm}\label{markcrossalgo}
+\end{figure}
+
+To meet the goals above, intuitively, we first take the bond variable with greatest number of occurrence in its expression in the query, try to match as many symbols as possible with bond variables from document expression. 
+The bond variable with most matches would be chosen (named \textit{best-matching}) to contribute to final symbolic relevance score (proportionally to the number of matches in that bond variable), 
+and we exclude its path from matching query paths in future iterations.
+In the next iteration, we choose the bond variable with the second number of occurrence and repeat this process until all the query bond variable are iterated.
+
+We describe our algorithm in figure~\ref{markcrossalgo} which measures symbolic similarity given two expressions. 
+The \textproc{markAndCross} algorithm takes 
+three arguments, the set of leaf-root paths $D$ and $Q$ in document expression and query expression respectively, and the candidate sets $C$ associated with all leaf-root paths in query. 
+The bond variables in $D$ is addressed by the set $\mathcal{V}(D) = \{x \mid \mathcal{S}(x),\ x \in D\}$, which contains all the leaf node symbols from document expression.
+Function \textproc{sortBySymbolAndOccur} takes the elements from a set of leaf-root paths and returns a list containing all the paths. 
+The list is sorted by the tuple $(\mathcal{S}(p), O_p)$, where $O_p$ is the number of occurrence of path $p$ in the list. 
+Each document path $a'$ is associated with a tag $T_{a'}$ which has three possible states: marked, unmarked and crossed. And bond variable $v \in \mathcal{V}(D)$ can be given a score $B_v$ which represents the similarity degree between current evaluating query/document bond variables. 
+The symbolic similarity function $\mathrm{sim}(a,a')$ measures the similarity degree between two leaf-root paths $a$ and $a'$. 
+Intuitively, we set the similarity function:
+$$
+\mathrm{sim}(a,a') = 
+\left\{
+\begin{array}{ll}
+1    &\qquad \mathrm{if}\  \mathcal{S}(a) = \mathcal{S}(a')
+\\
+\\
+\alpha < 1  &\qquad \mathrm{otherwise}
+\end{array}
+\right.
+$$
+to give more weights to leaf-root paths with exact symbol match.
+
+Let us determine the proper value for $\alpha$. 
+Consider the conflicting cases stated in this section by using another example here, 
+given query expression $a+\frac 1 a + \sqrt{a}$ and document expression $a+\frac 1 a + b + \frac 1 b + \sqrt{b}$, we consider bound variable matching 
+$$\fbox{a}+\dfrac 1 {\fbox{a}} + \sqrt{\fbox{a}}$$
+with 
+$$a+\dfrac 1 a + \fbox{b} + \dfrac 1 {\fbox{b}} + \sqrt{\fbox{b}}$$
+weighted more than exact symbol matching 
+$$\fbox{a}+\dfrac 1 {\fbox{a}} + \sqrt{a}$$ 
+with 
+$$\fbox{a}+\dfrac 1 {\fbox{a}} + b + \dfrac 1 b + \sqrt{b}$$
+(expressions surrounded by a box here indicates the matching part)
+
+Because the former matching has more variables involved even if they are not identical symbolic matches compared with its counterpart of the letter. 
+That is to say, given a bound variable matching $k$ variables with that bound variable in query, we need $\alpha$ to satisfy $ k \alpha > (k-1) \times 1 = k - 1 $
+and $\alpha < 1$. 
+Therefore, we set $\alpha$ to a value close to $1$ (e.g. $0.9$ in our practice).
+
+By sorting the query paths $Q$, the algorithm is able to take out paths from same bound variable in maximum-occurrence-first order from QList. 
+Each query path $a$ tries to match a path $a'$ in each document bond variable $v$ by selecting the unmarked path $m_p$ with maximum $\mathrm{sim}(a,a')$ value, and accumulate the value on $B_v$ indicating the similarity between currently evaluating query bond variable and the bond variable $v$.
+In addition, mark the tag $T_{m_p}$ associated with the document path $m_p$.
+Once a query bond variable has been iterated completely (line~\ref{line_bond_finish}),
+we find the document variable $m_v$ with greatest $B_v$ value $m$, and regard it as the best-matching bond variable in $\mathcal{V}(D)$ for the bond variable just iterated, and add $m$ to the result score.
+Before iterating a new query bond variable, we will cross all the document paths of variable $m_v$ to indicate they are confirmed been matched, 
+and unmark the tags of those marked paths that are not variable $m_v$.
+We continue doing so until all the query path is iterated, and finally return the result score indicating the symbolic similarity between the two expression.
+
+\subsection{Ranking}
+
+%\pagebreak
 \bibliographystyle{unsrt}
 \bibliography{sigproc}  % sigproc.bib is the name of the Bibliography in this case
 
