@@ -34,8 +34,8 @@ For the purpose of evaluation, we also implement a search engine based on our id
 
 \section{Introduction}
 \label{intro}
-With \textit{MathJax} becoming popular, more and more \LaTeX{} markups can be crawled directly from many websites. 
-In order to search those mathematical language in \LaTeX{} markups, a search method that can respect the properties of math expression needs to be developed. 
+With \textit{MathJax} becoming popular, more and more \LaTeX{} markup can be crawled directly from many websites. 
+In order to search those mathematical language in \LaTeX{} markup, a search method that can respect the properties of math expression needs to be developed. 
 Although many researches have been conducted to retrieve information in structured content (e.g. \textit{MathML}), information retrieval on \LaTeX{} math content is still not well-studied or exhaustively covered by mainstream IR research, compared to that on general text.
 
 Unlike general text content, mathematical language, by its nature, has many differences from other textual documents, there are a number of new problems in measuring mathematical expression similarity.
@@ -514,7 +514,38 @@ Before iterating a new query bond variable, we will cross all the document paths
 and unmark the tags of those marked paths that are not variable $m_v$.
 We continue doing so until all the query path is iterated, and finally return the result score indicating the symbolic similarity between the two expression.
 
-\subsection{Ranking}
+\subsection{Implementation}
+In order to evaluate the performance of our method, we have implemented a proof-of-concept search engine~\footnote{demo page: http://infolab.ece.udel.edu:8912/cowpie/} as well as a parser for parsing \LaTeX\ markup content directly into operation trees.  
+
+\subsubsection{Parser}
+We are tokenizing math content using lexer \textit{flex} and have implemented a LALR parser generated from a set of \textit{GNU\-bison} grammar rules we defined specifically for MathJax content in a subset of \LaTeX\ (those related to mathematics).
+Our parser transforms a math formula into an in-memory operation tree, as an intermediate step to extract the path label, path ID, formula ID which generates the path, and degree numbers associated with the path (we refer the last three together as what we call \textit{branch word}) for every leaf-root path from the tree. 
+Our lexer omits all \LaTeX\ control sequences not matching any pattern of our defined tokens, most of them are considered unrelated to math formula semantics (environment statement, color, mbox etc.).
+
+\subsubsection{Index}
+Our index consists two parts, the first part uses native file system to store branch word labels in directories for the sake of implementation simplicity, 
+and the other information of that branch word (i.e. path ID and degree numbers) as well as the indexed formula ID is stored in the directory corresponding to that branch word labels, 
+e.g. the example in figure~\ref{oprtreeExample} will make two directories: ./VAR/TIMES, ./VAR/ADD/TIMES, and a ``posting" file ./VAR/TIMES/posting.bin contains all the branch word .
+
+The posting file are ordered by formula ID to speed merge search.
+Then we index the math formula to disk by as our index.
+, the indexed formula ID and indexed formula ID, )
+The search engine search and score the similar expressions in index, and output the results. 
+We have a search program which outputs results in standard out device, and a WEB front-end which outputs results in HTML pages.
+
+The path where a
+branch word resides also stores a “posting” file recording all
+the documents in the collection which contain that branch
+word.
+
+\subsubsection{Searching and Ranking}
+we will apply the method in section asdf by traversing the directory
+The overall similarity of two math expression is given by a combination of all the aspects considered in the paper. Denote $s$ as symbolic similarity score given by \textproc{markAndCross} algorithm, $f(d)$ being the matching depth factor and $r$ being the matching ratio for a query expression and document expression. 
+Then the final score
+boolean
+heap
+
+\subsubsection{Web Interface}
 
 %\pagebreak
 \bibliographystyle{unsrt}
