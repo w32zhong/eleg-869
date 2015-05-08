@@ -35,8 +35,11 @@
 
 \maketitle
 \begin{abstract}
-A relaxed structural matching search method, along with a symbolic similarity measurement algorithm for mathematical content search is proposed. 
-Our approach uses an intermediate tree representation to capture structural information of mathematical expression, and based on a previous idea which indexes math expression structure through tree leaf-root paths, we further describe an advanced AND search method in a formal way. This search method can be used to test query/document subexpression isomorphism or evaluate the symbolic similarity between math expressions with consideration of their $\alpha$-equivalence. 
+Mathematical content are widely contained by digital document, search engine should provide us the ability to better search these rich structural content.
+We propose a similarity-search method to advance information retrieval in \LaTeX\ math content.
+Our approach uses an intermediate tree representation to capture structural information of mathematical expression, and based on a previous idea, we index math expressions by tree leaf-root paths. 
+A search method to limit search set for possible subexpression isomorphism is provided.
+We rank search results by intuitive query/document similarity in both structural and symbolic point of view, with consideration of their $\alpha$-equivalence. 
 For the purpose of evaluation, we also implement a search engine based on our idea. 
 \end{abstract}
 
@@ -48,37 +51,36 @@ For the purpose of evaluation, we also implement a search engine based on our id
 \section{Introduction}
 \label{intro}
 With \textit{MathJax} becoming popular, more and more \LaTeX{} markup can be crawled directly from many websites. 
-In order to search those mathematical language in \LaTeX{} markup, a search method that can respect the properties of math expression needs to be developed. 
-Although many researches have been conducted to retrieve information in structured content (e.g. \textit{MathML}), information retrieval on \LaTeX{} math content is still not well-studied or exhaustively covered by mainstream IR research, compared to that on general text.
+In order to search those mathematical language in \LaTeX{} markup, a search method that can respect the semantic properties of math expression needs to be developed. 
+Although many researches have been conducted to retrieve information in structured mathematical content (e.g. \textit{MathML}), information retrieval on \LaTeX{} math content is still not well-studied or exhaustively covered by mainstream math IR research.
 
 Unlike general text content, mathematical language, by its nature, has many differences from other textual document, there are a number of new problems in measuring mathematical expression similarity.
-Among those problems, we know one math expression can be transformed to alternative forms, e.g. $\frac{a + b}{c}$ and $\frac{a}{c} + \frac{b}{c}$ should be considered as semantically identical. To identify those variations requires search engine to apply mathematical transformation rules to a query in order to obtain all forms of relevant expressions. 
-Further, math expressions with the same evaluated value may also be considered relevant, in this case, $\sin(\frac {\pi} 2)$ and $1$ are equivalent. Some computational search engines (e.g. \textit{Symbolab} and \textit{WolframAlpha}) are aware of these problems.
+Among these problems, we know one math expression can be transformed to alternative forms, e.g. $\frac{a + b}{c}$ and $\frac{a}{c} + \frac{b}{c}$ should be considered as semantically the same. To identify those variations requires search engine to apply mathematical transformation rules to a query in order to obtain all forms of relevant expressions. 
+Further, math expressions with the same evaluated value may also be considered relevant, in this case, $1/\sqrt 2$ is equivalent to $\sin(\pi / 4)$. Some computational search engines (e.g. \textit{Symbolab} and \textit{WolframAlpha}) are aware of these problems.
 But sometimes we need to rely on conventions and context to distinguish expressions such as $f(a+b)$ and $c(a+b)$, because the symbol $f$ in the former expression is likely to represent function instead of a variable, 
-in addition, expression such as $f^{-1}$ can either be reciprocal or an inverse function.
+in addition, expression such as $g^{-1}$ can either be reciprocal or an inverse function.
 Moreover, a higher level of understanding of mathematic knowledge may be required for math-aware search engine to find the results for queries such as ``find an article related to the four color theorem"~\cite{ntcirtopic}.
 
 Yet the problems addressed above are not considered in this paper, instead, we are focusing on the aspects which does not require a ``good understanding" of mathematics, we target our research domain to be the following:
-The first is structural similarity. For example, $ax+(b+c)$ is not equivalent to $(a+b)x+c$ although they have the same set of symbols, this is because their structural difference. However, as the position of operands in math expression can be commutative in some cases, structural similarity is often measured by substructure isomorphism if we use operation tree~\cite{goodsurvey} to represent math expressions.
-The second is symbolic similarity, with the consideration of $\alpha$-equivalence. We know that symbols can be used interchangeably in each math formula to express the same meaning, e.g. $a^2+b^2=c^2$ and $x^2+y^2=z^2$. Nevertheless, we still weight symbolic similarity sometimes, for instance, $E=mc^2$ is considered more meaningful when exact symbols are used rather than just being structurally identical with $y=ax^2$.
-On the other hand, we should also weight $\alpha$-equivalent expressions more, that is, changes of symbols in expression preserve more syntactic similarity when changes are made by substitution, e.g. for query $x(1+x)$, expression $a(1+a)$ are considered more relevant than $a(1+b)$. Because the ``bond variable" $x$ and $a$ here are at the same positions and both supposed to represent the same value.
-All the points addressed here makes transitional IR methods (e.g. bag of words model and tf-idf weighting) deficient to handle math content. 
+The first aspect is structural similarity, for example, $ax+(b+c)$ is not equivalent to $(a+b)x+c$ although they have the same set of symbols, this is because their structural difference. However, as the position of operands in math expression can be commutative in some cases, structural similarity is often measured by substructure isomorphism if we use \textit{operation tree}~\cite{goodsurvey} to represent math expressions.
+The second aspect is symbolic similarity, with concern of $\alpha$-equivalence. We know that symbols can be used interchangeably in each math formula to express the same meaning, e.g. $a^2+b^2=c^2$ and $x^2+y^2=z^2$. Nevertheless, we still weight symbolic similarity sometimes, for instance, $E=mc^2$ is considered more meaningful when exact symbols are used rather than just being structurally identical with $y=ax^2$.
+On the other hand, we should value $\alpha$-equivalent expressions because changes of symbols in expression preserve more syntactic similarity when changes are made by substitution, e.g. for query $x(1+x)$, expression $a(1+a)$ are considered more relevant than $a(1+b)$. Because the ``bond variable" $x$ and $a$ here are at the same positions and both are supposed to represent the same value.
+All the points addressed here makes transitional IR methods (e.g. bag of words model and tf-idf weighting) deficient to handle mathematical language. 
 
 \section{Related Work}
 Similarity/boolean search for mathematical content is not a new topic,
 conference in this topic is getting increasingly research attention and the proposed systems have progressed considerably~\cite{ov}.
 DLMF project from NIST~\cite{Youssef03,Youssef05} and MIaS system~\cite{mias11a,mias11,mias:thesis}, notably, use text-based approaches and utilize existing models to deal with math content on top of existing IR tools (such as \textit{Apache Lucene}). 
-They are commonly using augmentation and normalization (by ordering the subexpressions) to enumerate and represent all possible sequences of commutative operands (symbols (e.g. $a$ and $b$) and unified items (\textit{id}, \textit{const}) in different levels of math expression.
+They are commonly using augmentation and normalization (by ordering the subexpressions) to enumerate and represent all possible sequences of commutative subexpressions or operands.
 MWS~\cite{Kohlhase06,Kohlhase0p4,Kohlhase0p5} takes an \textit{automatic theorem proving} approach and uses \textit{term indexing} to minimize the cost of unification algorithm which is able to find if two expressions are equivalent, 
 however, their index relies on RAM memory~\cite{Kohlhase0p5} and needs to include all sub-terms of a formula~\cite{Kohlhase06}.
 A \textit{symbol layout tree} or \textit{presentation tree}~\cite{symbollayout12,WikiMirs13} is introduced to describe geometric layouts of symbols in a formula. 
 \cite{WikiMirs13} uses two templates to parse \LaTeX\ markup with two typical operator terms: explicit ones (``\textbackslash frac", ``\textbackslash sqrt", etc.) and implicit ones (``$+$", ``$\div$", etc.) to form a presentation tree,
 then extracts original terms and generalized terms from normalized presentation tree, to provide the flexibility of both fuzzy and exact search.
-\cite{symbollayout12} uses symbol layout tree as a kind of substitution tree, while \cite{symbolpairs15,symbolpair15:2} have developed a \textit{symbol pairs} idea to capture relative position information between symbol pairs,
-which enables key-value storage to speed search.
-\cite{newretrievalsystem} extracts HASH signature for each subtree, their system has a slower index growth resulted from a lot of occurrences of common subtree structure in math expressions.
-\cite{DOMextraction} extracts semantic keywords, structure description to indicate subordinative relationship in a string format. The similarity is calculated using normalized tf-idf vector.
-Tree edit distance is adopted by \cite{editdisXML11,editdisXML13} in which they try to overcome the bad time complexity of original algorithm by summarizing and using a compromised edit distance algorithm, then by applying with an early termination algorithm along with a distance cache.
+\cite{symbollayout12} uses symbol layout tree as a kind of substitution tree, while \cite{symbolpairs15,symbolpair15:2} have developed a \textit{symbol pairs} idea to capture relative position information between symbols in an expression,
+this idea enables key-value lookup to speed search.
+Tree edit distance is adopted by \cite{editdisXML11} in which they try to overcome the bad time complexity of original algorithm by summarizing and using a compromised edit distance algorithm, 
+then in \cite{editdisXML13}, they improves the speed further by applying with an early termination algorithm along with a distance cache.
 There are also efforts using image-based approaches~\cite{imageb11,handwrite} and lattice-based approach~\cite{lattice} to measure math formula similarity in a different perspective.
 
 \section{Methodology}
@@ -105,15 +107,15 @@ This makes leaf-root path a good fit for representing mathematical expression be
 Besides, by going bottom-up from leaves of an operation tree, we are essentially traversing to an expression from its subexpression for every level. 
 So we can index the leaf-root paths and search an expression by going through and beyond the leaf-root paths from its subexpression.
 
-We develop these ideas to simultaneously search along the way of all leaf-root paths, so that we are essentially pruning indexes which does not share the common postfixes beyond the root of the query tree.
-To better describe further ideas build upon this, we will put it in a formal way.
+We develop these ideas to simultaneously search along the way of all leaf-root paths from a given query operation tree, so that we are essentially pruning indexes which does not share the common postfixes beyond the root of the query tree.
+To better describe this idea and further ideas based upon this, we will put it in a formal way.
 
 \subsection{Formal Definition}
-Here we clarify some notations used throughout this paper, a path $p$ is a sequence of numbers given by $p = p_0 p_1 \ldots p_n,\; n\ge0$, $p_i \in \mathbf{R}$ and $\mathbf{P}$ is the set of all paths.
-Any function $f(\cdot) = y \in \mathbf{R}$ applied on path $p$ is mapped to a path too: $f(p)=f(p_0)f(p_1) \ldots f(p_n)$.
-And we name  a \textit{concatenation} of two paths $\,^1p = p_0p_1 \ldots p_n$ and $\,^2p = p_np_{n+1} \ldots p_m$ where $m \ge n$, to be a new path $\,^1p \cdot \,^2p$ defined as $p_0p_1 \ldots p_n p_{n+1} \ldots p_m$,
-and the concatenation of a path $p$ on a set $S = \{ s_1, s_2 \ldots s_n \}$ is defined as $S \cdot p = \{ s_1\cdot p,\  s_2\cdot p \ \ldots \ s_n\cdot p \}$.
+Here we clarify some notations used throughout this paper, a path $p$ is a sequence of numbers given by $p = p_0 p_1 \ldots p_n$ where $n\ge0$, $p_i \in \mathbf{R}$ and $\mathbf{P}$ is the set of all paths.
 A path with only one element can be explicitly wrapped by a bracket, e.g. $p=(p_0)$, to avoid confusion.
+Any function $f(\cdot) = y \in \mathbf{R}$ applied on path $p$ is mapped to a path too: $f(p)=f(p_0)f(p_1) \ldots f(p_n)$.
+And we name  a \textit{concatenation} of two paths $\,^1p = p_0p_1 \ldots p_n$ and $\,^2p = p_np_{n+1} \ldots p_m$ where $m \ge n$, to be a new path denoted as $\,^1p \cdot \,^2p = p_0p_1 \ldots p_n p_{n+1} \ldots p_m$,
+and the concatenation of a path $p$ on a set $S = \{ s_1, s_2 \ldots s_n \}$ is defined as $S \cdot p = \{ s_1\cdot p,\  s_2\cdot p \ \ldots \ s_n\cdot p \}$.
 Furthermore, \textit{the longest common postfix} path $p^*$ between two path $p_1$ and $p_2$ is mapped by the function named $\mathrm{lcp}$, which is defined by $p^* = \mathrm{lcp}(p_1, p_2) = \mathrm{lcp}(p_2, p_1)$.
 
 We introduce a \textit{formula tree} to represent a mathematical expression, in which each node is associated with a label to represent the unified token (e.g. same value for token $+$, $\oplus$ and $\pm$) and each leaf node is associated with a symbol to identify math expression operand. 
@@ -147,9 +149,9 @@ An \textit{index} $\Pi$ is a set of trees such that $\forall\; T \in \Pi$, we ha
 \subsection{Search Method}
 \label{se-method}
 For a collection of document expressions, we will index them by merging all the leaf-root paths from each document formula tree into a large ``inverted" index tree, 
-in which each node from path $a$ stores the information of all the indexed formula trees in $\mathcal{I}_{\Pi}(a)$.
+in which each node at path $a$ stores the information of all the indexed formula trees in $\mathcal{I}_{\Pi}(a)$.
 
-Through searching all sub-paths at the same time, we are able to limit the set of formula trees being structurally matching (in formula subtree relation) with a query formula tree, to only a subset of our index. 
+Through searching all sub-paths at the same time, we are able to limit the set of possible formula trees being structurally matching (in formula subtree relation) with a query formula tree, to only a subset of our index. 
 This is illustrated as follows.
 
 Given an index $\Pi$ and a formula tree $T_q$, $\forall\; T_d \in \Pi$:
@@ -192,11 +194,11 @@ In a nutshell, we search the index by intersecting the indexed formula trees fro
 Therefore we can ``merge" the paths ahead and prune those paths not in common. Level by level, we are always able to find the structurally matched formula tree as long as it is indexed in $\Pi$.
 
 \subsection{Substructure Matching}
-However, query formula tree will not necessarily being formula subtree to all the document (indexed) formula trees in our search set
+However, query formula tree will not necessarily be formula subtree of all the document (indexed) formula trees in our search set
 $\bigcap_{a \in L} \mathcal{I}_{\Pi}(a)$,
 even if their generated leaf-root paths are identical.
 One supporting example for this point is shown in figure~\ref{notnecessary}.
-To address this problem, we propose an algorithm described in in figure~\ref{submatchalgo}, to test the document formula trees in our search set to see if they are in formula subtree relation.
+To address this problem, we propose an algorithm described in in figure~\ref{submatchalgo}, to test the document formula trees in our search set to see if they are in formula subtree relation with query formula tree.
 This algorithm is inspired from the following observations. 
 
 \begin{figure}
@@ -351,7 +353,7 @@ Then we arbitrarily choose a path in (a) as a \textit{reference path} (heuristic
 For example, because $\left| \mathrm{lcp}(a,b) \right| = \left| \mathrm{lcp}(a',b') \right|$, we know $b'$ is still in candidate set of $b\,$; while $b'$ is not in candidate of $c$ because $\left| \mathrm{lcp}(a,b) \right| \neq \left| \mathrm{lcp}(a,c) \right|$. 
 After going through these eliminations for each leaf-node path (except the reference path $a$) in (a), we now have two similar subproblems: $c$ as a subtree along with its candidate set, and $b$ as a subtree along with its candidate set. 
 We can apply this algorithm recursively until a trivial subproblem is reached (e.g. the case in \ref{observation2}). During this process, if we find any candidate set to be empty, we stop the subproblem process and change to another reference path or stop the algorithm completely if every possible reference path is tried.
-The argument $Q$ and $C$ is the set of leaf-root paths in query tree and the candidate sets associated with all leaf-root paths respectively.
+The argument $Q$ and $C$ is the set of leaf-root paths in query tree and the candidate sets associated with all query tree leaf-root paths respectively.
 The procedure returns \textproc{SUCC} if a matching possibility is found, otherwise \textproc{FAIL} is returned indicating the formula tree in (a) cannot not be a formula subtree of that in (b).
 
 \textproc{decomposeAndMatch} algorithm offers a way to ``double-check" structure isomorphism, because 
@@ -361,42 +363,42 @@ Thus a compromised search, for efficiency reason, would assume all the document 
 $\bigcap_{a \in L} \mathcal{I}_{\Pi}(a)$ is structurally matching the given query formula tree $T_q$.
 
 \subsection{Structural Similarity}
-After searching structurally matching document expressions in a boolean manner, we use two factors to measure their structural similarity degree. 
+After searching structurally matched document expressions in a boolean manner, we use two factors to measure their structural similarity degree. 
 
-The first is \textit{matching depth}.
+The first factor is \textit{matching depth}.
 As it is addressed in \cite{mias11a}, the deeper sub-formulae in in mathematical expression will make it less important to the overall formula.
 For example, given query formula $\sqrt a$, expression $\sqrt {x}$ would score higher than $\sqrt{\sqrt{x}}$ does. 
-To reflect the depth where two expressions match, we define \textit{matching depth factor} $f(d)$ to be a function value in negative correlation with matching depth $d = |\hat{a}|$, e.g. $f(d) = 1/(1 + d)$ in our method. And use this factor in our final ranking process.
-The second is \textit{matching ratio}. According to the property $(2)$ in \ref{observation1}, 
-$r = |g(T_q)| / |g(T_d)| \le 1$, and the ratio $r$ on left-hand is defined as \textit{matching-ratio}, which characterises the structural coverage for the matching part in an expression.
-Intuition behind this is, for example, given query $\alpha y + \beta$, document expression $ax + b$ should precede $x^2 + ax + b$ simply because the query matches more ``area" of the former document than that of the latter.
+To reflect the depth where two expressions match, we define \textit{matching depth factor} $f(d)$ to be a function value in negative correlation with matching depth $d = |\hat{a}|$, e.g. $f(d) = 1/(1 + d)$ in our method.
+The second factor is \textit{matching ratio}. According to the property $(2)$ in \ref{observation1}, 
+we have $|g(T_q)| / |g(T_d)| \le 1$, and the ratio $r$ on left-hand is defined as \textit{matching-ratio}, which characterises the structural coverage for the matching part in an expression.
+Intuition behind this is, for example, given query $\alpha y + \beta$, document expression $ax + b$ should precede $x^2 + ax + b$ simply because the query matches more ``area" of the former expression than that of the latter.
 
 \subsection{Symbolic Similarity}
 As we have discussed in section~\ref{intro}, besides structural similarity, symbolic similarity is also essential to be considered.
-Here our scoring goal for symbolic similarity can be summarized as:
+Here our scoring goal for symbolic similarity can be summarized in two points:
 \begin{itemize}
 \item Given two formula trees
 $T_q \preceq_l T_d$ on $\Phi$,  
-if path $a \in g(T_q)$ is isomorphic to path $a' \in g(T_d)$, that is to say, $\phi(a)=a'$, where $\phi \in \Phi$, then if their symbol matches, i.e. $\mathcal{S}(a) = \mathcal{S}(a')$, we score them higher than those do not match symbolically. And the more symbolic matches there are, the higher symbolic relevance degree it has.
+if path $a \in g(T_q)$ is isomorphic to path $a' \in g(T_d)$, that is to say, $\phi(a)=a'$, where $\phi \in \Phi$, then if their symbol matches, i.e. $\mathcal{S}(a) = \mathcal{S}(a')$, we score them higher than those do not match symbolically. And the more symbolic matches there are, the higher symbolic relevance degree two expressions have.
 \item $\alpha$-equivalent expressions have more symbolic relevance degree than those are not, and the more bond variables (at the structurally matching positions) two expressions match, the more symbolically relevant they are considered to be.
 \end{itemize}
 
 The two are illustrated as follows. 
-Let the rank of a structural relevant math expression $d$ be $r(d)$, and given query $\sqrt a (a - b)$ for instance. 
-Then the first goal is essentially saying: 
+Let the rank of a structural relevant document expression $d$ be $r(d)$, and given query $\sqrt a (a - b)$ for instance. 
+Then the first goal is essentially saying 
 $$
 r\big(\sqrt a (a - b)\big) > r\big(\sqrt a (a - x)\big) > r\big(\sqrt x (x - y)\big)
 $$
-The second one has two symbols matching while the third one has no symbolic match at all. 
+here the second one has two symbols matching while the third one has no symbolic match at all. 
 
-By the second goal, we know:
+By the second goal, we know
 $$
 r\big(\sqrt x (x - b)\big) > r\big(\sqrt x (y - b)\big)
 $$
-Because the second one does not have the same number of bond-variable matches as the first one does.
+because here the second one does not have the same number of bond-variable matches as the first one does.
 
 However, sometimes the two goals can be conflicting.
-Given document expression $\sqrt a (x - b)$ and $\sqrt x (x - b)$ for instance, the former has two symbolic matches (i.e. ``$a$" and ``$b$") while does not have bond-variable match. The latter, on the other hand, has bond-variable match while only has one symbolic match (i.e. ``$b$"). 
+Given document expression $\sqrt a (x - b)$ and $\sqrt x (x - b)$ for instance, the former has two symbolic matches (i.e. ``$a$" and ``$b$") while it does not have bond-variable match. On the other hand, the latter has bond-variable match while it only has one symbolic match (i.e. ``$b$"). 
 We nevertheless score the latter higher because it does not lose any mathematic semantics. 
 
 \begin{figure}
@@ -477,7 +479,7 @@ We nevertheless score the latter higher because it does not lose any mathematic 
 
 To meet the goals above, intuitively, we first take the bond variable with greatest number of occurrence in its expression in the query, try to match as many symbols as possible with bond variables from document expression. 
 The bond variable with most matches would be chosen (named \textit{best-matching}) to contribute to final symbolic relevance score (proportionally to the number of matches in that bond variable), 
-and we exclude its path from matching query paths in future iterations.
+and we exclude its paths from matching query paths in future iterations.
 In the next iteration, we choose the bond variable with the second number of occurrence and repeat this process until all the query bond variable are iterated.
 
 We describe our algorithm in figure~\ref{markcrossalgo} which measures symbolic similarity given two expressions. 
@@ -487,8 +489,8 @@ The bond variables in $D$ is addressed by the set $\mathcal{V}(D) = \{x \mid \ma
 Function \textproc{sortBySymbolAndOccur} takes the elements from a set of leaf-root paths and returns a list containing all the paths. 
 The list is sorted by the tuple $(\mathcal{S}(p), O_p)$, where $O_p$ is the number of occurrence of path $p$ in the list. 
 Each document path $a'$ is associated with a tag $T_{a'}$ which has three possible states: marked, unmarked and crossed. And bond variable $v \in \mathcal{V}(D)$ can be given a score $B_v$ which represents the similarity degree between current evaluating query/document bond variables. 
-The symbolic similarity function $\mathrm{sim}(a,a')$ measures the similarity degree between two leaf-root paths $a$ and $a'$. 
-Intuitively, we set the similarity function:
+The function $\mathrm{sim}(a,a')$ measures the symbolic similarity degree between two leaf-root paths $a$ and $a'$. 
+Intuitively, we set the similarity function
 $$
 \mathrm{sim}(a,a') = 
 \left\{
@@ -514,19 +516,19 @@ with
 $$\fbox{a}+\dfrac 1 {\fbox{a}} + b + \dfrac 1 b + \sqrt{b}$$
 (expressions surrounded by a box here indicates the matching part)
 
-Because the former matching has more variables involved even if they are not identical symbolic matches compared with its counterpart of the letter. 
-That is to say, given a bound variable matching $k$ variables with that bound variable in query, we need $\alpha$ to satisfy $ k \alpha > (k-1) \times 1 = k - 1 $
+Because the former matching has more variables involved even if they are not identical symbolic matches compared with its counterpart of the latter. 
+That is to say, given a document bound variable matching $k$ variables with that in query, we need $\alpha$ to satisfy $ k \alpha > (k-1) \times 1 = k - 1 $
 and $\alpha < 1$. 
 Therefore, we set $\alpha$ to a value close to $1$ (e.g. $0.9$ in our practice).
 
-By sorting the query paths $Q$, the algorithm is able to take out paths from same bound variable in maximum-occurrence-first order from QList. 
+By sorting the query paths in $Q$, the algorithm is able to take out paths from same bound variable in maximum-occurrence-first order from QList. 
 Each query path $a$ tries to match a path $a'$ in each document bond variable $v$ by selecting the unmarked path $m_p$ with maximum $\mathrm{sim}(a,a')$ value, and accumulate the value on $B_v$ indicating the similarity between currently evaluating query bond variable and the bond variable $v$.
 In addition, mark the tag $T_{m_p}$ associated with the document path $m_p$.
 Once a query bond variable has been iterated completely (line~\ref{line_bond_finish}),
-we find the document variable $m_v$ with greatest $B_v$ value $m$, and regard it as the best-matching bond variable in $\mathcal{V}(D)$ for the bond variable just iterated, and add $m$ to the result score.
+find the d cument variable $m_v$ with greatest $B_v$ value $m$, and regard it as the best-matching bond variable in $\mathcal{V}(D)$ with the query bond variable just iterated, then add $m$ to the result score.
 Before iterating a new query bond variable, we will cross all the document paths of variable $m_v$ to indicate they are confirmed been matched, 
 and unmark the tags of those marked paths that are not variable $m_v$.
-We continue doing so until all the query path is iterated, and finally return the result score indicating the symbolic similarity between the two expression.
+We continue doing so until all the query path is iterated, and finally return the result score indicating the symbolic similarity between the two expressions.
 
 \section{Implementation}
 In order to evaluate the performance of our method, we have implemented a proof-of-concept search engine~\footnote{demo page: http://infolab.ece.udel.edu:8912/cowpie/} as well as a parser for parsing \LaTeX\ markup content directly into operation trees.  
@@ -543,20 +545,20 @@ Path ID, degree numbers, and also the formula ID generating that leaf-root path 
 e.g. the example in figure~\ref{oprtreeExample} will index into two directories: ./VAR/TIMES and ./VAR/ADD/TIMES. 
 All the indexed branch word with path labels corresponding to directory ./VAR/TIMES/ are stored in the posting file of that directory, locating at: ./VAR/TIMES/posting.bin.
 Branch words in a posting file are ordered by their formula IDs to speed merge search.
-The second part of our index is a key-value database to map a formula ID to additional information for that formula (e.g. original markup, number of leaf-root paths $|T_d|$ and the URL on which the formula is crawled).
+The second part of our index is a key-value database (using \textit{Kyoto Cabinet}) to map a formula ID to additional information for that formula (e.g. original markup, number of leaf-root paths $|T_d|$ and the URL on which the formula is crawled).
 
 \begin{figure*}
 \begin{minipage}[b]{3.40in}
 \begin{center}
 \epsfig{height=2.5in,width=3.4in,file=res/partial-rel.eps}
-\\(a)
+\\Partial relevance (relevance score $\ge 1$) 
 \end{center}
 \end{minipage}
 \hspace*{0in}
 \begin{minipage}[b]{3.40in}
 \begin{center}
 \epsfig{height=2.5in,width=3.4in,file=res/total-rel.eps}
-\\(b)
+\\Relevance (relevance score $\ge 3$)
 \end{center}
 \end{minipage}
 \caption{Effectiveness Comparison}\label{perfcomp}
@@ -579,7 +581,7 @@ We also place a valve on the number of branch words can be searched for one quer
 \begin{center}
 \epsfig{height=2.5in,width=3.4in,file=res/response-time.eps}
 \end{center}
-\caption{Efficiency Performance}\label{notnecessary}
+\caption{Efficiency Performance}\label{effiperf}
 \end{figure}
 
 \section{Evaluation}
@@ -587,7 +589,8 @@ The popular evaluation dataset in this research domain, the NTCIR Math Task data
 Because we are parsing \LaTeX\ directly, although converting MathML/XML formula back into \LaTeX\ is possible, we fail to convert all the document correctly (using \textit{pandoc}).
 Furthermore, supporting wildcard query is a default requirement in NTCIR Math Task, while our approach does not find a way to enable wildcard feature so far.
 Nevertheless, we choose to create our own dataset to evaluate our method.
-We have crawled pure \LaTeX\ content from the posts of nearly entire Math Stack Exchange website before March 2015 (over 60MB \textit{bzip2} compressed raw data~\footnote{http://infolab.ece.udel.edu:8912/cowpie/math-stack-exchange-march-2015.tar.bz2} in plain text format with one \LaTeX\ math mode content per line, and one file for each post). 
+We have crawled pure \LaTeX\ content from the posts of nearly entire (27180 pages of questions) Math Stack Exchange website before March 2015 (roughly 60MB \textit{bzip2} compressed raw data~\footnote{http://infolab.ece.udel.edu:8912/cowpie/math-stack-exchange-march-2015.tar.bz2} in plain text format with one \LaTeX\ math mode content per line, and one file for each post). 
+The resulting index has over 8 million formula IDs, with 892 MB key-value database file and roughly 9.4GB directories and posting files.
 Our test query set~\footnote{http://infolab.ece.udel.edu:8912/cowpie/test-queries.tex} consists queries mostly from \cite{ntcirtopic} and \cite{symbolpairs15}, some of them are excluded here because we are not able to find similar formula in our own dataset.
 Table~\ref{TestQ} shows our complete test queries used in our evaluation. 
 
@@ -598,13 +601,17 @@ and symbolic similarity is measured by 0, 1 (mostly identical symbols for the ma
 The level of relevance is simply the sum of the two scores.
 We have evaluated our method (method 2) and a baseline method (method 1) without considering symbolic similarity.
 Table~\ref{distrtab} shows the distribution of hits and relevance level for each run.
+The performance and comparison of these two method are shown in figure~\ref{effiperf} and figure~\ref{perfcomp}. 
+Query look-up time is one part of total response time, it is the time consumed to search directories and posting files.
+The evaluation results show that our symbolic similarity, if used, can boost search effectiveness in all the five metres evaluated, 
+and consumes a reasonable of time on top of the baseline method. 
 
-
-\section{Conclusion}
-There are four levels of relevance scored from 0 to 4 in our evaluation.
-The criteria considers both structural similarity and symbolic similarity. 
-Structural similarity is measured by 0, 1 (mostly similar) and 2 (complete matching), 
-and symbolic similarity is measured by 0, 1 (mostly identical symbols for the matching parts) and 2 (identical symbols for the matching parts).
+\section{Conclusion and Future Work}
+Our method tries to measure mathematical expressions similarity through their structures and operand symbols. 
+We search relevant expressions only in a subset of index and have achieved rather satisfactory effectiveness, meanwhile, our index does not need augmentation thus has less redundancy.
+In the next stage, it is desired to integrate text search ability into our math-only search method. 
+Additionally, the manner to break math formula into branch words and index them through posting list makes it easy to parallelize and distribute the searching process,
+there is a large potential for future efforts to improve efficiency.
 
 \bibliographystyle{unsrt}
 \bibliography{sigproc}  % sigproc.bib is the name of the Bibliography in this case
@@ -700,7 +707,7 @@ $\bar{u} = (x,y,z)$ \\\hline
 20  &  19 &  1 &  0 &  0 &  0 &  20\\ 
 \hline
 \end{tabular}
-\\asdfasdf
+\\[0.3cm] Method 1
 \end{center}
 \end{minipage}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -733,10 +740,10 @@ $\bar{u} = (x,y,z)$ \\\hline
 20  &  0 &  0 &  2 &  7 &  11 &  20\\ 
 \hline
 \end{tabular}
-\\asdfasdf
+\\[0.3cm] Method 2
 \end{center}
 \end{minipage}
-\caption{Distribution table}\label{distrtab}
+\caption{Relevance score distribution}\label{distrtab}
 \end{table*}
 
 \end{document}

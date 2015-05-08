@@ -84,18 +84,6 @@ David Stalnaker and Richard Zanibbi.
 \newblock {\em Proc. SPIE 9402, Document Recognition and Retrieval XXII,
   940207}, 2015.
 
-\bibitem{newretrievalsystem}
-Shahab Kamali and Frank~Wm. Tompa.
-\newblock A new mathematics retrieval system.
-\newblock {\em CIKM}, 2010.
-
-\bibitem{DOMextraction}
-Kai Ma, Siu~Cheung Hui, and Kuiyu Chang.
-\newblock Feature extraction and clustering-based retrieval for mathematical
-  formulas.
-\newblock In {\em Software Engineering and Data Mining (SEDM), 2010 2nd
-  International Conference on}, pages 372--377, June 2010.
-
 \bibitem{editdisXML11}
 Cyril Laitang, Mohand Boughanem, and Karen Pinel-Sauvagnat.
 \newblock Xml information retrieval through tree edit distance and structural
