@@ -6,45 +6,45 @@ Database file #1: sigproc.bib
 Warning--empty note in Kohlhase0p4
 Warning--empty note in Kohlhase0p5
 Warning--empty booktitle in heavypathde
-You've used 28 entries,
+You've used 27 entries,
             1791 wiz_defined-function locations,
-            596 strings with 8051 characters,
-and the built_in function-call counts, 6317 in all, are:
-= -- 582
-> -- 232
+            590 strings with 7951 characters,
+and the built_in function-call counts, 6162 in all, are:
+= -- 568
+> -- 228
 < -- 14
-+ -- 89
-- -- 61
-* -- 319
-:= -- 955
-add.period$ -- 87
-call.type$ -- 28
++ -- 87
+- -- 60
+* -- 316
+:= -- 930
+add.period$ -- 83
+call.type$ -- 27
 change.case$ -- 27
 chr.to.int$ -- 0
-cite$ -- 31
-duplicate$ -- 340
-empty$ -- 615
-format.name$ -- 61
-if$ -- 1503
+cite$ -- 30
+duplicate$ -- 330
+empty$ -- 596
+format.name$ -- 60
+if$ -- 1466
 int.to.chr$ -- 0
-int.to.str$ -- 28
-missing$ -- 25
-newline$ -- 141
-num.names$ -- 27
-pop$ -- 100
+int.to.str$ -- 27
+missing$ -- 23
+newline$ -- 135
+num.names$ -- 26
+pop$ -- 91
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 207
+skip$ -- 208
 stack$ -- 0
 substring$ -- 325
-swap$ -- 124
+swap$ -- 123
 text.length$ -- 14
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 3
-while$ -- 52
-width$ -- 30
-write$ -- 296
+while$ -- 51
+width$ -- 29
+write$ -- 284
 (There were 3 warnings)

@@ -1,5 +1,6 @@
 \documentclass{acm_proc_article-sp}
 
+% math
 \usepackage{amsmath}
 
 % algorithm
@@ -7,18 +8,30 @@
 \usepackage{algorithm}% http://ctan.org/pkg/algorithms
 \usepackage[noend]{algpseudocode}% http://ctan.org/pkg/algorithmicx
 
+% table
+\usepackage{array}
+\makeatletter
+\newcommand{\thickhline}{%
+    \noalign {\ifnum 0=`}\fi \hrule height 1pt
+    \futurelet \reserved@a \@xhline
+}
+\newcolumntype{"}{@{\hskip\tabcolsep\vrule width 1pt\hskip\tabcolsep}}
+\makeatother
+\usepackage{dcolumn,multirow}
+\usepackage{hhline}
+
 \begin{document}
 
 \title{A Novel Similarity-Search method for Mathematical \\ Content in {\ttlit LaTeX} Markup}
 
 \numberofauthors{2} 
-\author{
-\alignauthor Wei Zhong,\; Hui Fang\\
-       \affaddr{Dept. of Electrical and Computer Engineering}\\
-       \affaddr{University of Delaware}\\
-       \affaddr{Newark, DE USA}\\
-       \email{\{zhongwei, hfang\}@udel.edu}
-}
+%\author{
+%\alignauthor Wei Zhong,\; Hui Fang\\
+%       \affaddr{Dept. of Electrical and Computer Engineering}\\
+%       \affaddr{University of Delaware}\\
+%       \affaddr{Newark, DE USA}\\
+%       \email{\{zhongwei, hfang\}@udel.edu}
+%}
 
 \maketitle
 \begin{abstract}
@@ -38,12 +51,12 @@ With \textit{MathJax} becoming popular, more and more \LaTeX{} markup can be cra
 In order to search those mathematical language in \LaTeX{} markup, a search method that can respect the properties of math expression needs to be developed. 
 Although many researches have been conducted to retrieve information in structured content (e.g. \textit{MathML}), information retrieval on \LaTeX{} math content is still not well-studied or exhaustively covered by mainstream IR research, compared to that on general text.
 
-Unlike general text content, mathematical language, by its nature, has many differences from other textual documents, there are a number of new problems in measuring mathematical expression similarity.
+Unlike general text content, mathematical language, by its nature, has many differences from other textual document, there are a number of new problems in measuring mathematical expression similarity.
 Among those problems, we know one math expression can be transformed to alternative forms, e.g. $\frac{a + b}{c}$ and $\frac{a}{c} + \frac{b}{c}$ should be considered as semantically identical. To identify those variations requires search engine to apply mathematical transformation rules to a query in order to obtain all forms of relevant expressions. 
 Further, math expressions with the same evaluated value may also be considered relevant, in this case, $\sin(\frac {\pi} 2)$ and $1$ are equivalent. Some computational search engines (e.g. \textit{Symbolab} and \textit{WolframAlpha}) are aware of these problems.
 But sometimes we need to rely on conventions and context to distinguish expressions such as $f(a+b)$ and $c(a+b)$, because the symbol $f$ in the former expression is likely to represent function instead of a variable, 
 in addition, expression such as $f^{-1}$ can either be reciprocal or an inverse function.
-Moreover, a higher level of understanding of mathematic knowledge may be required for math-aware search engine to find the results for queries such as ``find an article related to the four color theorem" (from NTCIR-10 Math topics~\cite{ntcirtopic}).
+Moreover, a higher level of understanding of mathematic knowledge may be required for math-aware search engine to find the results for queries such as ``find an article related to the four color theorem"~\cite{ntcirtopic}.
 
 Yet the problems addressed above are not considered in this paper, instead, we are focusing on the aspects which does not require a ``good understanding" of mathematics, we target our research domain to be the following:
 The first is structural similarity. For example, $ax+(b+c)$ is not equivalent to $(a+b)x+c$ although they have the same set of symbols, this is because their structural difference. However, as the position of operands in math expression can be commutative in some cases, structural similarity is often measured by substructure isomorphism if we use operation tree~\cite{goodsurvey} to represent math expressions.
@@ -56,7 +69,7 @@ Similarity/boolean search for mathematical content is not a new topic,
 conference in this topic is getting increasingly research attention and the proposed systems have progressed considerably~\cite{ov}.
 DLMF project from NIST~\cite{Youssef03,Youssef05} and MIaS system~\cite{mias11a,mias11,mias:thesis}, notably, use text-based approaches and utilize existing models to deal with math content on top of existing IR tools (such as \textit{Apache Lucene}). 
 They are commonly using augmentation and normalization (by ordering the subexpressions) to enumerate and represent all possible sequences of commutative operands (symbols (e.g. $a$ and $b$) and unified items (\textit{id}, \textit{const}) in different levels of math expression.
-MWS~\cite{Kohlhase06,Kohlhase0p4,Kohlhase0p5} takes a \textit{automatic theorem proving} approach and uses \textit{term indexing}~\cite{graf96} to minimize the cost of unification algorithm which is able to find if two expressions are equivalent, 
+MWS~\cite{Kohlhase06,Kohlhase0p4,Kohlhase0p5} takes an \textit{automatic theorem proving} approach and uses \textit{term indexing} to minimize the cost of unification algorithm which is able to find if two expressions are equivalent, 
 however, their index relies on RAM memory~\cite{Kohlhase0p5} and needs to include all sub-terms of a formula~\cite{Kohlhase06}.
 A \textit{symbol layout tree} or \textit{presentation tree}~\cite{symbollayout12,WikiMirs13} is introduced to describe geometric layouts of symbols in a formula. 
 \cite{WikiMirs13} uses two templates to parse \LaTeX\ markup with two typical operator terms: explicit ones (``\textbackslash frac", ``\textbackslash sqrt", etc.) and implicit ones (``$+$", ``$\div$", etc.) to form a presentation tree,
@@ -132,6 +145,7 @@ A \textit{leaf-root path set} generated by tree $T$ is a set of all the leaf-roo
 An \textit{index} $\Pi$ is a set of trees such that $\forall\; T \in \Pi$, we have $T \in \mathcal{I}_{\Pi}(a)$ for any $a \in \ell(g(T))$, we say $T$ is indexed in $\Pi$ and $\mathcal{I}_{\Pi}$ is called an index look-up function for index $\Pi$. 
 
 \subsection{Search Method}
+\label{se-method}
 For a collection of document expressions, we will index them by merging all the leaf-root paths from each document formula tree into a large ``inverted" index tree, 
 in which each node from path $a$ stores the information of all the indexed formula trees in $\mathcal{I}_{\Pi}(a)$.
 
@@ -514,41 +528,215 @@ Before iterating a new query bond variable, we will cross all the document paths
 and unmark the tags of those marked paths that are not variable $m_v$.
 We continue doing so until all the query path is iterated, and finally return the result score indicating the symbolic similarity between the two expression.
 
-\subsection{Implementation}
+\section{Implementation}
 In order to evaluate the performance of our method, we have implemented a proof-of-concept search engine~\footnote{demo page: http://infolab.ece.udel.edu:8912/cowpie/} as well as a parser for parsing \LaTeX\ markup content directly into operation trees.  
 
-\subsubsection{Parser}
-We are tokenizing math content using lexer \textit{flex} and have implemented a LALR parser generated from a set of \textit{GNU\-bison} grammar rules we defined specifically for MathJax content in a subset of \LaTeX\ (those related to mathematics).
-Our parser transforms a math formula into an in-memory operation tree, as an intermediate step to extract the path label, path ID, formula ID which generates the path, and degree numbers associated with the path (we refer the last three together as what we call \textit{branch word}) for every leaf-root path from the tree. 
+\subsection{Parser}
+We are tokenizing math content using lexer generator \textit{flex} and have implemented a LALR parser generated from a set of \textit{GNU bison} grammar rules we defined specifically for MathJax content in a subset of \LaTeX\ (those related to mathematics).
+Our parser transforms a math formula into an in-memory operation tree (representing formula tree), as an intermediate step to extract the path labels, path ID, and degree numbers associated with the path for every leaf-root path from the tree. 
 Our lexer omits all \LaTeX\ control sequences not matching any pattern of our defined tokens, most of them are considered unrelated to math formula semantics (environment statement, color, mbox etc.).
 
-\subsubsection{Index}
-Our index consists two parts, the first part uses native file system to store branch word labels in directories for the sake of implementation simplicity, 
-and the other information of that branch word (i.e. path ID and degree numbers) as well as the indexed formula ID is stored in the directory corresponding to that branch word labels, 
-e.g. the example in figure~\ref{oprtreeExample} will make two directories: ./VAR/TIMES, ./VAR/ADD/TIMES, and a ``posting" file ./VAR/TIMES/posting.bin contains all the branch word .
+\subsection{Index}
+The indexer writes the information extracted from parser into disk. 
+There are two parts in our index, the first part uses native file system (for the sake of implementation simplicity) to store leaf-root path labels in directories from which our search engine can go level by level. 
+Path ID, degree numbers, and also the formula ID generating that leaf-root path (we refer to these three as \textit{branch word}) are stored in a ``posting" file at the directory corresponding to that branch word labels, 
+e.g. the example in figure~\ref{oprtreeExample} will index into two directories: ./VAR/TIMES and ./VAR/ADD/TIMES. 
+All the indexed branch word with path labels corresponding to directory ./VAR/TIMES/ are stored in the posting file of that directory, locating at: ./VAR/TIMES/posting.bin.
+Branch words in a posting file are ordered by their formula IDs to speed merge search.
+The second part of our index is a key-value database to map a formula ID to additional information for that formula (e.g. original markup, number of leaf-root paths $|T_d|$ and the URL on which the formula is crawled).
 
-The posting file are ordered by formula ID to speed merge search.
-Then we index the math formula to disk by as our index.
-, the indexed formula ID and indexed formula ID, )
-The search engine search and score the similar expressions in index, and output the results. 
-We have a search program which outputs results in standard out device, and a WEB front-end which outputs results in HTML pages.
+\begin{figure*}
+\begin{minipage}[b]{3.40in}
+\begin{center}
+\epsfig{height=2.5in,width=3.4in,file=res/partial-rel.eps}
+\\(a)
+\end{center}
+\end{minipage}
+\hspace*{0in}
+\begin{minipage}[b]{3.40in}
+\begin{center}
+\epsfig{height=2.5in,width=3.4in,file=res/total-rel.eps}
+\\(b)
+\end{center}
+\end{minipage}
+\caption{Effectiveness Comparison}\label{perfcomp}
+\end{figure*}
 
-The path where a
-branch word resides also stores a “posting” file recording all
-the documents in the collection which contain that branch
-word.
+\subsection{Searching and Ranking}
+The compromised substructure searching in indexed expressions (described in section~\ref{se-method}) is used to filter out likely isomorphic expressions in our index.
+Searching is performed by simultaneously going from all the directories corresponding to the generated leaf-root paths from query formula tree,
+to all their merged subdirectories. 
+We go on traversing and intersect the branch words in the posting files of each searching directory by their formula IDs. 
+All the intersected formula IDs actually represent the indexed formula trees in our search set $\bigcap_{a \in L} \mathcal{I}_{\Pi}(a)$.
+Every document formula identified in the search set is considered as a hit, we then apply \textproc{markAndCross} algorithm to get its symbolic similarity score with query formula. 
+Denote this score to be $s$, and $f(d)$ being the matching depth factor, $r$ being the matching ratio for one pair of query/document. 
+We will use them together to indicate the overall similarity and rank items in search results, measured by tuple $(s, f(d), r)$.
+To know if one should ranked higher than another, first compare $s$, if equal, compare $f(d)$ and then $r$.
+In addition, we use a min-heap to keep the top-$k$ scored items in our search results (by replacing the lowest scored items if we find a newer hit with higher score), where $k$ is the maximum number of items a search results may contain.
+We also place a valve on the number of branch words can be searched for one query at a time, exceeding this limit will result in a stop of searching and immediately returning the search results we have so far. Because some query can potentially have a very long posting list, doing so would make our search response no more than a certain time.
 
-\subsubsection{Searching and Ranking}
-we will apply the method in section asdf by traversing the directory
-The overall similarity of two math expression is given by a combination of all the aspects considered in the paper. Denote $s$ as symbolic similarity score given by \textproc{markAndCross} algorithm, $f(d)$ being the matching depth factor and $r$ being the matching ratio for a query expression and document expression. 
-Then the final score
-boolean
-heap
+\begin{figure}
+\begin{center}
+\epsfig{height=2.5in,width=3.4in,file=res/response-time.eps}
+\end{center}
+\caption{Efficiency Performance}\label{notnecessary}
+\end{figure}
 
-\subsubsection{Web Interface}
+\section{Evaluation}
+The popular evaluation dataset in this research domain, the NTCIR Math Task dataset, is in MathML/XML format, and original \LaTeX\ information is not always preserved in their dataset. 
+Because we are parsing \LaTeX\ directly, although converting MathML/XML formula back into \LaTeX\ is possible, we fail to convert all the document correctly (using \textit{pandoc}).
+Furthermore, supporting wildcard query is a default requirement in NTCIR Math Task, while our approach does not find a way to enable wildcard feature so far.
+Nevertheless, we choose to create our own dataset to evaluate our method.
+We have crawled pure \LaTeX\ content from the posts of nearly entire Math Stack Exchange website before March 2015 (over 60MB \textit{bzip2} compressed raw data~\footnote{http://infolab.ece.udel.edu:8912/cowpie/math-stack-exchange-march-2015.tar.bz2} in plain text format with one \LaTeX\ math mode content per line, and one file for each post). 
+Our test query set~\footnote{http://infolab.ece.udel.edu:8912/cowpie/test-queries.tex} consists queries mostly from \cite{ntcirtopic} and \cite{symbolpairs15}, some of them are excluded here because we are not able to find similar formula in our own dataset.
+Table~\ref{TestQ} shows our complete test queries used in our evaluation. 
 
-%\pagebreak
+There are four levels of relevance scored from 0 to 4 in our evaluation.
+The criteria considers both structural similarity and symbolic similarity. 
+Structural similarity is measured by 0, 1 (mostly similar) and 2 (complete matching), 
+and symbolic similarity is measured by 0, 1 (mostly identical symbols for the matching parts) and 2 (identical symbols for the matching parts).
+The level of relevance is simply the sum of the two scores.
+We have evaluated our method (method 2) and a baseline method (method 1) without considering symbolic similarity.
+Table~\ref{distrtab} shows the distribution of hits and relevance level for each run.
+
+
+\section{Conclusion}
+There are four levels of relevance scored from 0 to 4 in our evaluation.
+The criteria considers both structural similarity and symbolic similarity. 
+Structural similarity is measured by 0, 1 (mostly similar) and 2 (complete matching), 
+and symbolic similarity is measured by 0, 1 (mostly identical symbols for the matching parts) and 2 (identical symbols for the matching parts).
+
 \bibliographystyle{unsrt}
 \bibliography{sigproc}  % sigproc.bib is the name of the Bibliography in this case
+
+\begin{table*}
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|c|c||c|c|}\hline
+ID & formula & ID & formula \\ \thickhline
+1 & 
+$\int_0^\infty dx \int_{x}^\infty F(x,y)dy  =\int_0^\infty dy \int_{0}^y F(x,y)dx$ &
+2 & 
+$X(i\omega)$ \\\hline
+
+3 & 
+$x^n + y^n=z^n$ &
+4 & 
+$\int^{\infty}_{-\infty} e^{-x^2} dx$ \\\hline
+
+5 & 
+$\frac{f(x+h)-f(x)}{h}$ &
+6 & 
+$\frac {\sin x} x$ \\\hline
+
+7 & 
+$ax^2 + bx +c$ &
+8 & 
+$\frac {e^x + y}{z}$ \\\hline
+
+9 & 
+$O(n \log n)$ &
+10 & 
+$H^n(X) = Z^n (X) / B^n(X)$ \\\hline
+
+11 & 
+$A_n = \frac 1 \pi \int_{-\pi}^\pi F(x) \cos(nx) dx$ &
+12 & 
+$\lim_{x \to \infty} (1 + \dfrac 1x)^x$ \\\hline
+
+13 & 
+$f(x) = f(0) + f'(0)x + \frac{f''(0)}{2!} x^2 + \ldots$ &
+14 & 
+$f(a) = \frac 1 {2 \pi i} \oint_r \frac{f(z)}{z-a} \;\mathrm{d}z$ \\\hline
+
+15 & 
+$x^2 + 2xy + y^2 = |x|^2 + 2|x||y| + |y| ^2$ &
+16 & 
+$\int_a^b f(x) \;\mathrm{d}x = F(b) - F(a)$ \\\hline
+
+17 & 
+$\frac {n!}{r_1! \cdot r_2! \cdots r_k!}$ &
+18 & 
+$-b \pm \sqrt{b^2 - 4ac}$ \\\hline
+
+19 & 
+$1+\tan^2 \theta = \sec^2 \theta$ &
+20 & 
+$\bar{u} = (x,y,z)$ \\\hline
+
+\end{tabular}
+\renewcommand{\arraystretch}{1}
+\end{center}
+\caption{Test query set}\label{TestQ}
+\end{table*}
+
+\begin{table*}
+\begin{minipage}[b]{3.40in}
+\begin{center}
+\begin{tabular}{|c"c|c|c|c|c|c|}
+\hline
+\multirow{2}{*}{Query ID} & \multicolumn{5}{c|}{Relevance Score} & \multirow{2}{*}{Total judged} \\
+\cline{2-6}
+& 0 & 1 & 2 & 3 & 4 &   \\ \thickhline
+1  &  15 &  2 &  2 &  0 &  1 &  20\\
+2  &  19 &  0 &  0 &  0 &  0 &  19\\
+3  &  15 &  4 &  1 &  0 &  0 &  20\\
+4  &  0 &  0 &  0 &  6 &  14 &  20\\
+5  &  0 &  0 &  0 &  8 &  12 &  20\\
+6  &  0 &  2 &  5 &  2 &  10 &  19\\
+7  &  1 &  4 &  3 &  3 &  9 &  20\\
+8  &  5 &  1 &  1 &  1 &  0 &  8\\
+9  &  0 &  0 &  4 &  11 &  5 &  20\\
+10  &  0 &  0 &  1 &  16 &  3 &  20\\
+11  &  0 &  0 &  0 &  1 &  6 &  7\\
+12  &  0 &  0 &  4 &  13 &  3 &  20\\
+13  &  14 &  3 &  1 &  1 &  1 &  20\\
+14  &  0 &  2 &  5 &  8 &  5 &  20\\
+15  &  0 &  0 &  0 &  15 &  5 &  20\\
+16  &  8 &  6 &  2 &  2 &  2 &  20\\
+17  &  0 &  0 &  5 &  13 &  2 &  20\\
+18  &  19 &  1 &  0 &  0 &  0 &  20\\ 
+19  &  19 &  1 &  0 &  0 &  0 &  20\\ 
+20  &  19 &  1 &  0 &  0 &  0 &  20\\ 
+\hline
+\end{tabular}
+\\asdfasdf
+\end{center}
+\end{minipage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{minipage}[b]{3.40in}
+\begin{center}
+\begin{tabular}{|c"c|c|c|c|c|c|}
+\hline
+\multirow{2}{*}{Query ID} & \multicolumn{5}{c|}{Relevance Score} & \multirow{2}{*}{Total judged} \\
+\cline{2-6}
+& 0 & 1 & 2 & 3 & 4 &   \\ \thickhline
+1  &  13 &  2 &  2 &  1 &  1 &  19\\
+2  &  15 &  1 &  0 &  3 &  1 &  20\\
+3  &  0 &  0 &  0 &  0 &  20 &  20\\
+4  &  0 &  0 &  0 &  1 &  19 &  20\\
+5  &  0 &  0 &  0 &  0 &  20 &  20\\
+6  &  1 &  0 &  0 &  0 &  19 &  20\\
+7  &  0 &  0 &  0 &  0 &  20 &  20\\
+8  &  4 &  0 &  1 &  2 &  0 &  7\\
+9  &  0 &  2 &  5 &  8 &  5 &  20\\
+10  &  0 &  0 &  0 &  9 &  11 &  20\\
+11  &  0 &  0 &  0 &  2 &  5 &  7\\
+12  &  0 &  0 &  12 &  3 &  5 &  20\\
+13  &  15 &  1 &  2 &  1 &  1 &  20\\
+14  &  0 &  0 &  0 &  0 &  20 &  20\\
+15  &  0 &  0 &  0 &  13 &  6 &  19\\
+16  &  0 &  0 &  2 &  0 &  18 &  20\\
+17  &  0 &  0 &  0 &  0 &  20 &  20\\
+18  &  0 &  0 &  2 &  7 &  11 &  20\\
+19  &  0 &  0 &  2 &  7 &  11 &  20\\
+20  &  0 &  0 &  2 &  7 &  11 &  20\\ 
+\hline
+\end{tabular}
+\\asdfasdf
+\end{center}
+\end{minipage}
+\caption{Distribution table}\label{distrtab}
+\end{table*}
 
 \end{document}

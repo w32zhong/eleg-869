@@ -4,7 +4,6 @@
 Topics for the ntcir-10 math task full-text search queries.
 \newblock
   http://ntcir-math.nii.ac.jp/wp-content/blogs.dir/13/files/2014/02/NTCIR10-math-topics.pdf.
-\newblock Accessed: 2015-03-31.
 
 \bibitem{goodsurvey}
 Richard Zanibbi and Dorothea Blostein.
@@ -21,7 +20,7 @@ Akiko Aizawa, Michael Kohlhase, and Iadh Ounis.
 Miller B. and Youssef A.
 \newblock Technical aspects of the digital library of mathematical functions.
 \newblock {\em Annals of Mathematics and Artificial Intelligence 38(1-3),
-  121–136}, 2003.
+  121-136}, 2003.
 
 \bibitem{Youssef05}
 Youssef A.
@@ -58,11 +57,6 @@ Michael Kohlhase.
 \bibitem{Kohlhase0p5}
 Michael Kohlhase.
 \newblock Mathwebsearch 0.5: Scaling an open formula search engine.
-
-\bibitem{graf96}
-Peter Graf.
-\newblock {\em Term Indexing}.
-\newblock Springer Verlag, 1996.
 
 \bibitem{symbollayout12}
 Thomas Schellenberg, Bo~Yuan, and Richard Zanibbi.
@@ -121,7 +115,7 @@ Shahab Kamali and FrankWm. Tompa.
 Richard Zanibbi and Bo~Yuan.
 \newblock Keyword and image-based retrieval for mathematical expressions.
 \newblock {\em Multi-disciplinary Trends in Artificial Intelligence. 6th
-  International Workshop, MIWAI 2012.}, pages 23--34, 2011.
+  International Workshop}, pages 23--34, 2011.
 
 \bibitem{handwrite}
 Li~Yu and Richard Zanibbi.
@@ -139,7 +133,7 @@ T.~Nguyen, S.~Hui, and K.~Chang.
 \bibitem{signifjap}
 Hiroshi Ichikawa, Taiichi Hashimoto, Takenobu Tokunaga, and Hozumi Tanaka.
 \newblock New methods of retrieve sentences based on syntactic similarity.
-\newblock {\em IPSJ SIG Technical Reports, DBS-136, FI-79}, pages 39--46, 2005.
+\newblock {\em IPSJ SIG Technical Reports}, pages 39--46, 2005.
 
 \bibitem{MathMLleafroot}
 Yoshinori Hijikata, Hideki Hashimoto, and Shogo Nishida.
