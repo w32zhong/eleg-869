@@ -531,19 +531,19 @@ and unmark the tags of those marked paths that are not variable $m_v$.
 We continue doing so until all the query path is iterated, and finally return the result score indicating the symbolic similarity between the two expressions.
 
 \section{Implementation}
-In order to evaluate the performance of our method, we have implemented a proof-of-concept search engine~\footnote{demo page: http://infolab.ece.udel.edu:8912/cowpie/} as well as a parser for parsing \LaTeX\ markup content directly into operation trees.  
+In order to evaluate the performance of our method, we have implemented a proof-of-concept search engine~\footnote{demo page: http://infolab.ece.udel.edu:8912/cowpie/} as well as a parser for parsing \LaTeX\ markup content directly into our defined operation trees.
 
 \subsection{Parser}
-We are tokenizing math content using lexer generator \textit{flex} and have implemented a LALR parser generated from a set of \textit{GNU bison} grammar rules we defined specifically for MathJax content in a subset of \LaTeX\ (those related to mathematics).
-Our parser transforms a math formula into an in-memory operation tree (representing formula tree), as an intermediate step to extract the path labels, path ID, and degree numbers associated with the path for every leaf-root path from the tree. 
+We are tokenizing math content using lexer generator \textit{flex} and have implemented a LALR parser generated from a set of grammar rules in \textit{GNU bison}, specifically for MathJax content in a subset of \LaTeX\ (those related to mathematics).
+Our parser transforms a math formula into an in-memory operation tree (representing formula tree), as an intermediate step to extract the path labels, path ID, and degree numbers associated, for every leaf-root path from the tree. 
 Our lexer omits all \LaTeX\ control sequences not matching any pattern of our defined tokens, most of them are considered unrelated to math formula semantics (environment statement, color, mbox etc.).
 
 \subsection{Index}
 The indexer writes the information extracted from parser into disk. 
 There are two parts in our index, the first part uses native file system (for the sake of implementation simplicity) to store leaf-root path labels in directories from which our search engine can go level by level. 
 Path ID, degree numbers, and also the formula ID generating that leaf-root path (we refer to these three as \textit{branch word}) are stored in a ``posting" file at the directory corresponding to that branch word labels, 
-e.g. the example in figure~\ref{oprtreeExample} will index into two directories: ./VAR/TIMES and ./VAR/ADD/TIMES. 
-All the indexed branch word with path labels corresponding to directory ./VAR/TIMES/ are stored in the posting file of that directory, locating at: ./VAR/TIMES/posting.bin.
+e.g. the tree in figure~\ref{oprtreeExample} will result in indexing two directories: ./VAR/TIMES and ./VAR/ADD/TIMES. 
+All the indexed branch words with path labels corresponding to directory ./VAR/TIMES/ are stored in the posting file of that directory, locating at ./VAR/TIMES/posting.bin in this case.
 Branch words in a posting file are ordered by their formula IDs to speed merge search.
 The second part of our index is a key-value database (using \textit{Kyoto Cabinet}) to map a formula ID to additional information for that formula (e.g. original markup, number of leaf-root paths $|T_d|$ and the URL on which the formula is crawled).
 
@@ -561,57 +561,58 @@ The second part of our index is a key-value database (using \textit{Kyoto Cabine
 \\Relevance (relevance score $\ge 3$)
 \end{center}
 \end{minipage}
-\caption{Effectiveness Comparison}\label{perfcomp}
+\caption{Effectiveness performance}\label{perfcomp}
 \end{figure*}
 
 \subsection{Searching and Ranking}
-The compromised substructure searching in indexed expressions (described in section~\ref{se-method}) is used to filter out likely isomorphic expressions in our index.
-Searching is performed by simultaneously going from all the directories corresponding to the generated leaf-root paths from query formula tree,
+The compromised substructure searching (described in section~\ref{se-method}) in indexed expressions is used to filter out likely isomorphic expressions in our index.
+Searching is performed by simultaneously going from all the directories corresponding to the generated leaf-root paths of query formula tree,
 to all their merged subdirectories. 
-We go on traversing and intersect the branch words in the posting files of each searching directory by their formula IDs. 
-All the intersected formula IDs actually represent the indexed formula trees in our search set $\bigcap_{a \in L} \mathcal{I}_{\Pi}(a)$.
-Every document formula identified in the search set is considered as a hit, we then apply \textproc{markAndCross} algorithm to get its symbolic similarity score with query formula. 
-Denote this score to be $s$, and $f(d)$ being the matching depth factor, $r$ being the matching ratio for one pair of query/document. 
-We will use them together to indicate the overall similarity and rank items in search results, measured by tuple $(s, f(d), r)$.
-To know if one should ranked higher than another, first compare $s$, if equal, compare $f(d)$ and then $r$.
-In addition, we use a min-heap to keep the top-$k$ scored items in our search results (by replacing the lowest scored items if we find a newer hit with higher score), where $k$ is the maximum number of items a search results may contain.
-We also place a valve on the number of branch words can be searched for one query at a time, exceeding this limit will result in a stop of searching and immediately returning the search results we have so far. Because some query can potentially have a very long posting list, doing so would make our search response no more than a certain time.
+We keep traversing, at each step intersect  the branch words (by their formula IDs) in the posting files from all the searching directories. 
+The intersected formula IDs actually represent the trees in our search set $\bigcap_{a \in L} \mathcal{I}_{\Pi}(a)$.
+Every document formula spotted in the search set is considered as a hit, we then apply \textproc{markAndCross} algorithm to get its symbolic similarity score with query formula. 
+Denote this score to be $s$, and $f(d)$ being the matching depth factor, $r$ being the matching ratio for a pair of query/document. 
+We will use them together in a tuple $(s, f(d), r)$, to indicate the overall similarity and rank items in search results,
+that is to say, if one should ranked higher than another, first compare $s$, if equal, compare $f(d)$ and then $r$.
+In addition, we use a min-heap to keep the top-$k$ scored items in our search results (by replacing the lowest scored items if we find a newer hit with higher score), where $k$ is the maximum number of items we keep in search results.
+We also place a valve on the number of branch words can be searched for one query at a time,
+so that when exceeding this limit, search engine will stop and return the search results it has up to that time. Because some query can potentially have a very long posting list, doing so would make our search response no more than a certain time.
 
 \begin{figure}
 \begin{center}
 \epsfig{height=2.5in,width=3.4in,file=res/response-time.eps}
 \end{center}
-\caption{Efficiency Performance}\label{effiperf}
+\caption{Efficiency performance}\label{effiperf}
 \end{figure}
 
 \section{Evaluation}
 The popular evaluation dataset in this research domain, the NTCIR Math Task dataset, is in MathML/XML format, and original \LaTeX\ information is not always preserved in their dataset. 
-Because we are parsing \LaTeX\ directly, although converting MathML/XML formula back into \LaTeX\ is possible, we fail to convert all the document correctly (using \textit{pandoc}).
-Furthermore, supporting wildcard query is a default requirement in NTCIR Math Task, while our approach does not find a way to enable wildcard feature so far.
+We choose not to use their dataset because we are parsing \LaTeX\ directly, although converting MathML/XML formula to \LaTeX\ is possible, we fail to convert all the document in NTCIR-10 dataset correctly (using \textit{pandoc}).
+Furthermore, supporting wildcard query is a default requirement in NTCIR Math Task, while our approach does not find a way to enable wildcard so far.
 Nevertheless, we choose to create our own dataset to evaluate our method.
 We have crawled pure \LaTeX\ content from the posts of nearly entire (27180 pages of questions) Math Stack Exchange website before March 2015 (roughly 60MB \textit{bzip2} compressed raw data~\footnote{http://infolab.ece.udel.edu:8912/cowpie/math-stack-exchange-march-2015.tar.bz2} in plain text format with one \LaTeX\ math mode content per line, and one file for each post). 
 The resulting index has over 8 million formula IDs, with 892 MB key-value database file and roughly 9.4GB directories and posting files.
 Our test query set~\footnote{http://infolab.ece.udel.edu:8912/cowpie/test-queries.tex} consists queries mostly from \cite{ntcirtopic} and \cite{symbolpairs15}, some of them are excluded here because we are not able to find similar formula in our own dataset.
 Table~\ref{TestQ} shows our complete test queries used in our evaluation. 
 
-There are four levels of relevance scored from 0 to 4 in our evaluation.
+There are four relevance levels, scored from 0 to 4 in our evaluation.
 The criteria considers both structural similarity and symbolic similarity. 
-Structural similarity is measured by 0, 1 (mostly similar) and 2 (complete matching), 
+Structural similarity is scored by either 0, 1 (mostly similar) or 2 (complete matching), 
 and symbolic similarity is measured by 0, 1 (mostly identical symbols for the matching parts) and 2 (identical symbols for the matching parts).
 The level of relevance is simply the sum of the two scores.
 We have evaluated our method (method 2) and a baseline method (method 1) without considering symbolic similarity.
 Table~\ref{distrtab} shows the distribution of hits and relevance level for each run.
-The performance and comparison of these two method are shown in figure~\ref{effiperf} and figure~\ref{perfcomp}. 
-Query look-up time is one part of total response time, it is the time consumed to search directories and posting files.
+The performance and comparison of these two methods are shown in figure~\ref{effiperf} and figure~\ref{perfcomp}. 
+Here the query look-up time is the time consumed by our search engine to search directories and posting files.
 The evaluation results show that our symbolic similarity, if used, can boost search effectiveness in all the five metres evaluated, 
-and consumes a reasonable of time on top of the baseline method. 
+and consumes a reasonable of extra time on top of the baseline method. 
 
 \section{Conclusion and Future Work}
 Our method tries to measure mathematical expressions similarity through their structures and operand symbols. 
-We search relevant expressions only in a subset of index and have achieved rather satisfactory effectiveness, meanwhile, our index does not need augmentation thus has less redundancy.
+We search relevant expressions only in a subset of index and have achieved rather satisfactory effectiveness by our standard, meanwhile, our index does not need augmentation thus has less redundancy.
 In the next stage, it is desired to integrate text search ability into our math-only search method. 
-Additionally, the manner to break math formula into branch words and index them through posting list makes it easy to parallelize and distribute the searching process,
-there is a large potential for future efforts to improve efficiency.
+Additionally, the manner we use to break math formula into branch words and to index them through posting list makes it easy to parallelize and distribute the searching process,
+which means there is a large potential for future efforts to improve the efficiency of this method.
 
 \bibliographystyle{unsrt}
 \bibliography{sigproc}  % sigproc.bib is the name of the Bibliography in this case
