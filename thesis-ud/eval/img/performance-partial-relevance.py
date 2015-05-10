@@ -16,7 +16,7 @@ bars1 = ax.bar(x,y1, width, color='white')
 bars2 = ax.bar(x + width,y2, width, color='white') 
 for bar in bars2:
     bar.set_hatch('//')
-ax.legend( (bars1[0], bars2[0]), ('method 1', 'method 2') )
+ax.legend( (bars1[0], bars2[0]), ('baseline', 'similarity search') )
 pyplot.grid()
 pyplot.xlim(-0.5, 5)
 pyplot.ylim(0, 1.1)

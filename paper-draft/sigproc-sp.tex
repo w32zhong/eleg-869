@@ -55,26 +55,27 @@ the ability to search in mathematical content can be significantly important as 
 
 However, mathematical language is intrinsically different from general text.
 For example, math expressions with identical sets of symbols are not necessarily the same, e.g. $ax+(b+c)$ is not similar to $(a+b)x+c$ in terms of semantic meaning,
-and given the fact that symbols in different formula can be used interchangeably, e.g. both $a^2+b^2=c^2$ and $x^2+y^2=z^2$ can describe Pythagorean theorem,
- it makes IR models such as \textit{bag of words} model deficient. 
+further, symbols in different formula can be used interchangeably, e.g. both $a^2+b^2=c^2$ and $x^2+y^2=z^2$ can describe Pythagorean theorem,
+these properties make IR models such as \textit{bag of words} model deficient. 
 Secondly, symbol frequency in a math equation does not indicate its significance in its context, which also makes popular tf-idf weighting ineffective. 
 Although many text-based IR researches are still based on these classical IR methods, they have to unify symbols and normalize math expressions by augmentation to accommodate these problems.
 In addition, famous math-aware search engines (e.g. \textit{WolframAlpha}) are mainly focusing on computational evaluation of math expressions, without offering the ability to search similar expressions in related context, 
-which can be useful in cases particularly when identifying a math entity or searching a existing proof for an equation.
+which can be useful particularly in identifying a math entity or searching an existing proof for an equation.
 
-Given the usefulness of similarity search, and the overhead for traditional IR methods to effectively search mathematical content, it is desired to have a search engine which can help us find formula similar with a query.
-But there are also difficulties in terms of measuring similarity between two math expressions.
-For example, math expression can be transformed to alternative forms, 
+Given the usefulness of similarity search, and the overhead for traditional IR methods to effectively search mathematical content, 
+a new approach to search mathematical expressions by similarity is desired.
+But there are certain emerging difficulties in measuring the similarity between mathematical expressions.
+For example, math language can be transformed to alternative forms, 
 and math expressions with the same evaluated value may also be considered relevant. 
-We are not going to include these problems into our research domain, however, our method measures mathematical expression similarity from two perspective: structural similarity and symbolic similarity.
-For structural similarity, we introduce some definitions to better describe math expressions structural similarity from substructure isomorphism point of view. 
-\textit{Operation tree}~\cite{goodsurvey} is used to represent math expressions to achieve immunity to commutative operands. 
-On top of that, we propose a search method to boolean search structurally relevant expressions and also score structural similarity.
-As for symbolic similarity, we label our operation tree to unify the symbols so that we will able to identify the similarity of expressions even if their symbols are different, but at the same time we do not ignore symbolic value, for instance, $E=mc^2$ is considered more meaningful when exact symbols are used rather than just being structurally identical with $y=ax^2$.
+However, we are not going to include these problems into our research domain, we are focusing on measuring mathematical expression similarity just as they are, from two perspective: structural similarity and symbolic similarity.
+For structural similarity, we introduce some definitions to describe math expressions structural similarity from substructure isomorphism point of view. 
+\textit{Operation tree}~\cite{goodsurvey} is used to represent math expressions with immunity to commutative operands and to better capture structural information of math expressions. 
+On top of these, we propose a search method to boolean search structurally relevant expressions and approaches to score structural similarity.
+As for symbolic similarity, we label our operation tree to unify the symbols so that we are able to identify the similarity if their symbols are different,
+at the same time consider symbolic value, e.g. $E=mc^2$ is considered more meaningful when exact symbols are used rather than just being structurally identical with $y=ax^2$.
 On the other hand, we provide an way to rank documents higher if they are \textit{$\alpha$-equivalent} to query.
-Because changes of symbols in an expression preserve more syntactic similarity when changes are made by substitution, e.g. for query $x(1+x)$, expression $a(1+a)$ are considered more relevant than $a(1+b)$, 
-because the ``bond variable" $x$ and $a$ here are at the same positions and both are supposed to represent the same value.
-Evaluation for our methods has been done to show the efficiency and effectiveness of our proposed methods.
+Because changes of symbols in an expression preserve more syntactic similarity when these changes are made by substitution, e.g. for query $x(1+x)$, expression $a(1+a)$ are considered more relevant than $a(1+b)$. 
+We have evaluated our method by comparing to a baseline method with only boolean search, and have also reported our results showing both the efficiency and effectiveness of our method.
 
 \pagebreak
 \section{Related Work}

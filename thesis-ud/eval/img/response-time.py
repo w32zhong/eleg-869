@@ -18,7 +18,7 @@ bars2 = ax.bar(x + width,y2, width, color='white')
 bars2[1].set_edgecolor('red')
 for bar in bars2:
     bar.set_hatch('//')
-ax.legend( (bars1[0], bars2[0]), ('method 1', 'method 2') )
+ax.legend( (bars1[0], bars2[0]), ('baseline', 'similarity search') )
 ax.text(2.5, 0.255, 'to 1.21', color='red', weight='bold')
 
 ax.add_patch(
