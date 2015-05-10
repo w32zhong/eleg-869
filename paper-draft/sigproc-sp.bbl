@@ -1,10 +1,5 @@
 \begin{thebibliography}{10}
 
-\bibitem{ntcirtopic}
-Topics for the ntcir-10 math task full-text search queries.
-\newblock
-  http://ntcir-math.nii.ac.jp/wp-content/blogs.dir/13/files/2014/02/NTCIR10-math-topics.pdf.
-
 \bibitem{goodsurvey}
 Richard Zanibbi and Dorothea Blostein.
 \newblock Recognition and retrieval of mathematical expressions.
@@ -49,10 +44,6 @@ Michael Kohlhase and Ioan~A. S¸ucan.
 \newblock A search engine for mathematical formulae.
 \newblock In {\em Proc. of Artificial Intelligence and Symbolic Computation,
   number 4120 in LNAI}, pages 241--253. Springer, 2006.
-
-\bibitem{Kohlhase0p4}
-Michael Kohlhase.
-\newblock Mathwebsearch 0.4 a semantic search engine for mathematics.
 
 \bibitem{Kohlhase0p5}
 Michael Kohlhase.
@@ -146,5 +137,10 @@ PhilipN. Klein.
 \newblock Computing the edit-distance between unrooted ordered trees.
 \newblock volume 1461 of {\em Lecture Notes in Computer Science}, pages
   91--102. Springer Berlin Heidelberg, 1998.
+
+\bibitem{ntcirtopic}
+Topics for the ntcir-10 math task full-text search queries.
+\newblock
+  http://ntcir-math.nii.ac.jp/wp-content/blogs.dir/13/files/2014/02/NTCIR10-math-topics.pdf.
 
 \end{thebibliography}

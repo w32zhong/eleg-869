@@ -3,39 +3,38 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: sigproc-sp.aux
 The style file: unsrt.bst
 Database file #1: sigproc.bib
-Warning--empty note in Kohlhase0p4
 Warning--empty note in Kohlhase0p5
 Warning--empty booktitle in heavypathde
-You've used 25 entries,
+You've used 24 entries,
             1791 wiz_defined-function locations,
-            579 strings with 7628 characters,
-and the built_in function-call counts, 5652 in all, are:
-= -- 523
-> -- 209
+            576 strings with 7548 characters,
+and the built_in function-call counts, 5561 in all, are:
+= -- 516
+> -- 205
 < -- 13
-+ -- 80
-- -- 55
-* -- 290
-:= -- 858
-add.period$ -- 77
-call.type$ -- 25
-change.case$ -- 25
++ -- 78
+- -- 54
+* -- 287
+:= -- 839
+add.period$ -- 75
+call.type$ -- 24
+change.case$ -- 24
 chr.to.int$ -- 0
-cite$ -- 28
-duplicate$ -- 301
-empty$ -- 544
-format.name$ -- 55
-if$ -- 1342
+cite$ -- 26
+duplicate$ -- 297
+empty$ -- 536
+format.name$ -- 54
+if$ -- 1325
 int.to.chr$ -- 0
-int.to.str$ -- 25
+int.to.str$ -- 24
 missing$ -- 21
-newline$ -- 125
-num.names$ -- 24
-pop$ -- 82
+newline$ -- 121
+num.names$ -- 23
+pop$ -- 80
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 188
+skip$ -- 187
 stack$ -- 0
 substring$ -- 297
 swap$ -- 111
@@ -43,8 +42,8 @@ text.length$ -- 13
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 3
-while$ -- 47
-width$ -- 27
-write$ -- 263
-(There were 3 warnings)
+warning$ -- 2
+while$ -- 46
+width$ -- 26
+write$ -- 256
+(There were 2 warnings)

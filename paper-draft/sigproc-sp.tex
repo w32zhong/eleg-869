@@ -35,12 +35,12 @@
 
 \maketitle
 \begin{abstract}
-Mathematical content are widely contained by digital document, search engine should provide us the ability to better search these rich structural content.
-We propose a similarity-search method to advance information retrieval in \LaTeX\ math content.
-Our approach uses an intermediate tree representation to capture structural information of mathematical expression, and based on a previous idea, we index math expressions by tree leaf-root paths. 
+Mathematical content are widely contained by digital document, but major search engines fail to offer a way to search those structural content effectively, because traditional IR methods are deficient to capture some important aspects in math language. 
+We propose a similarity-search method for \LaTeX\ math expressions trying to provide a new idea to better search math content.
+Our approach uses an intermediate tree representation to capture structural information of math expression, and based on a previous idea, we index math expressions by tree leaf-root paths. 
 A search method to limit search set for possible subexpression isomorphism is provided.
-We rank search results by intuitive query/document similarity in both structural and symbolic point of view, with consideration of their $\alpha$-equivalence. 
-For the purpose of evaluation, we also implement a search engine based on our idea. 
+We rank search results by a few intuitive similarity measurements from both structural and symbolic points of view. 
+Experiment shows these proposed measurements can advance effectiveness with respect to our baseline search method.
 \end{abstract}
 
 \category{H.3}{Information Search and Retrieval}{Miscellaneous}
@@ -50,29 +50,39 @@ For the purpose of evaluation, we also implement a search engine based on our id
 
 \section{Introduction}
 \label{intro}
-With \textit{MathJax} becoming popular, more and more \LaTeX{} markup can be crawled directly from many websites. 
-In order to search those mathematical language in \LaTeX{} markup, a search method that can respect the semantic properties of math expression needs to be developed. 
-Although many researches have been conducted to retrieve information in structured mathematical content (e.g. \textit{MathML}), information retrieval on \LaTeX{} math content is still not well-studied or exhaustively covered by mainstream math IR research.
+Mathematics is frequently used in scientific publications, 
+the ability to search in mathematical content can be significantly important as most publications today are digitalized.
 
-Unlike general text content, mathematical language, by its nature, has many differences from other textual document, there are a number of new problems in measuring mathematical expression similarity.
-Among these problems, we know one math expression can be transformed to alternative forms, e.g. $\frac{a + b}{c}$ and $\frac{a}{c} + \frac{b}{c}$ should be considered as semantically the same. To identify those variations requires search engine to apply mathematical transformation rules to a query in order to obtain all forms of relevant expressions. 
-Further, math expressions with the same evaluated value may also be considered relevant, in this case, $1/\sqrt 2$ is equivalent to $\sin(\pi / 4)$. Some computational search engines (e.g. \textit{Symbolab} and \textit{WolframAlpha}) are aware of these problems.
-But sometimes we need to rely on conventions and context to distinguish expressions such as $f(a+b)$ and $c(a+b)$, because the symbol $f$ in the former expression is likely to represent function instead of a variable, 
-in addition, expression such as $g^{-1}$ can either be reciprocal or an inverse function.
-Moreover, a higher level of understanding of mathematic knowledge may be required for math-aware search engine to find the results for queries such as ``find an article related to the four color theorem"~\cite{ntcirtopic}.
+However, mathematical language is intrinsically different from general text.
+For example, math expressions with identical sets of symbols are not necessarily the same, e.g. $ax+(b+c)$ is not similar to $(a+b)x+c$ in terms of semantic meaning,
+and given the fact that symbols in different formula can be used interchangeably, e.g. both $a^2+b^2=c^2$ and $x^2+y^2=z^2$ can describe Pythagorean theorem,
+ it makes IR models such as \textit{bag of words} model deficient. 
+Secondly, symbol frequency in a math equation does not indicate its significance in its context, which also makes popular tf-idf weighting ineffective. 
+Although many text-based IR researches are still based on these classical IR methods, they have to unify symbols and normalize math expressions by augmentation to accommodate these problems.
+In addition, famous math-aware search engines (e.g. \textit{WolframAlpha}) are mainly focusing on computational evaluation of math expressions, without offering the ability to search similar expressions in related context, 
+which can be useful in cases particularly when identifying a math entity or searching a existing proof for an equation.
 
-Yet the problems addressed above are not considered in this paper, instead, we are focusing on the aspects which does not require a ``good understanding" of mathematics, we target our research domain to be the following:
-The first aspect is structural similarity, for example, $ax+(b+c)$ is not equivalent to $(a+b)x+c$ although they have the same set of symbols, this is because their structural difference. However, as the position of operands in math expression can be commutative in some cases, structural similarity is often measured by substructure isomorphism if we use \textit{operation tree}~\cite{goodsurvey} to represent math expressions.
-The second aspect is symbolic similarity, with concern of $\alpha$-equivalence. We know that symbols can be used interchangeably in each math formula to express the same meaning, e.g. $a^2+b^2=c^2$ and $x^2+y^2=z^2$. Nevertheless, we still weight symbolic similarity sometimes, for instance, $E=mc^2$ is considered more meaningful when exact symbols are used rather than just being structurally identical with $y=ax^2$.
-On the other hand, we should value $\alpha$-equivalent expressions because changes of symbols in expression preserve more syntactic similarity when changes are made by substitution, e.g. for query $x(1+x)$, expression $a(1+a)$ are considered more relevant than $a(1+b)$. Because the ``bond variable" $x$ and $a$ here are at the same positions and both are supposed to represent the same value.
-All the points addressed here makes transitional IR methods (e.g. bag of words model and tf-idf weighting) deficient to handle mathematical language. 
+Given the usefulness of similarity search, and the overhead for traditional IR methods to effectively search mathematical content, it is desired to have a search engine which can help us find formula similar with a query.
+But there are also difficulties in terms of measuring similarity between two math expressions.
+For example, math expression can be transformed to alternative forms, 
+and math expressions with the same evaluated value may also be considered relevant. 
+We are not going to include these problems into our research domain, however, our method measures mathematical expression similarity from two perspective: structural similarity and symbolic similarity.
+For structural similarity, we introduce some definitions to better describe math expressions structural similarity from substructure isomorphism point of view. 
+\textit{Operation tree}~\cite{goodsurvey} is used to represent math expressions to achieve immunity to commutative operands. 
+On top of that, we propose a search method to boolean search structurally relevant expressions and also score structural similarity.
+As for symbolic similarity, we label our operation tree to unify the symbols so that we will able to identify the similarity of expressions even if their symbols are different, but at the same time we do not ignore symbolic value, for instance, $E=mc^2$ is considered more meaningful when exact symbols are used rather than just being structurally identical with $y=ax^2$.
+On the other hand, we provide an way to rank documents higher if they are \textit{$\alpha$-equivalent} to query.
+Because changes of symbols in an expression preserve more syntactic similarity when changes are made by substitution, e.g. for query $x(1+x)$, expression $a(1+a)$ are considered more relevant than $a(1+b)$, 
+because the ``bond variable" $x$ and $a$ here are at the same positions and both are supposed to represent the same value.
+Evaluation for our methods has been done to show the efficiency and effectiveness of our proposed methods.
 
+\pagebreak
 \section{Related Work}
 Similarity/boolean search for mathematical content is not a new topic,
 conference in this topic is getting increasingly research attention and the proposed systems have progressed considerably~\cite{ov}.
 DLMF project from NIST~\cite{Youssef03,Youssef05} and MIaS system~\cite{mias11a,mias11,mias:thesis}, notably, use text-based approaches and utilize existing models to deal with math content on top of existing IR tools (such as \textit{Apache Lucene}). 
 They are commonly using augmentation and normalization (by ordering the subexpressions) to enumerate and represent all possible sequences of commutative subexpressions or operands.
-MWS~\cite{Kohlhase06,Kohlhase0p4,Kohlhase0p5} takes an \textit{automatic theorem proving} approach and uses \textit{term indexing} to minimize the cost of unification algorithm which is able to find if two expressions are equivalent, 
+MWS~\cite{Kohlhase06,Kohlhase0p5} takes an \textit{automatic theorem proving} approach and uses \textit{term indexing} to minimize the cost of unification algorithm which is able to find if two expressions are equivalent, 
 however, their index relies on RAM memory~\cite{Kohlhase0p5} and needs to include all sub-terms of a formula~\cite{Kohlhase06}.
 A \textit{symbol layout tree} or \textit{presentation tree}~\cite{symbollayout12,WikiMirs13} is introduced to describe geometric layouts of symbols in a formula. 
 \cite{WikiMirs13} uses two templates to parse \LaTeX\ markup with two typical operator terms: explicit ones (``\textbackslash frac", ``\textbackslash sqrt", etc.) and implicit ones (``$+$", ``$\div$", etc.) to form a presentation tree,
@@ -531,7 +541,7 @@ and unmark the tags of those marked paths that are not variable $m_v$.
 We continue doing so until all the query path is iterated, and finally return the result score indicating the symbolic similarity between the two expressions.
 
 \section{Implementation}
-In order to evaluate the performance of our method, we have implemented a proof-of-concept search engine~\footnote{demo page: http://infolab.ece.udel.edu:8912/cowpie/} as well as a parser for parsing \LaTeX\ markup content directly into our defined operation trees.
+In order to evaluate the performance of our method, we have implemented a proof-of-concept search engine~\footnote{demo page: [link not revealed here for anonymity]} as well as a parser for parsing \LaTeX\ markup content directly into our defined operation trees.
 
 \subsection{Parser}
 We are tokenizing math content using lexer generator \textit{flex} and have implemented a LALR parser generated from a set of grammar rules in \textit{GNU bison}, specifically for MathJax content in a subset of \LaTeX\ (those related to mathematics).
@@ -565,6 +575,7 @@ The second part of our index is a key-value database (using \textit{Kyoto Cabine
 \end{figure*}
 
 \subsection{Searching and Ranking}
+\label{se-and-rank}
 The compromised substructure searching (described in section~\ref{se-method}) in indexed expressions is used to filter out likely isomorphic expressions in our index.
 Searching is performed by simultaneously going from all the directories corresponding to the generated leaf-root paths of query formula tree,
 to all their merged subdirectories. 
@@ -586,30 +597,36 @@ so that when exceeding this limit, search engine will stop and return the search
 \end{figure}
 
 \section{Evaluation}
-The popular evaluation dataset in this research domain, the NTCIR Math Task dataset, is in MathML/XML format, and original \LaTeX\ information is not always preserved in their dataset. 
-We choose not to use their dataset because we are parsing \LaTeX\ directly, although converting MathML/XML formula to \LaTeX\ is possible, we fail to convert all the document in NTCIR-10 dataset correctly (using \textit{pandoc}).
-Furthermore, supporting wildcard query is a default requirement in NTCIR Math Task, while our approach does not find a way to enable wildcard so far.
-Nevertheless, we choose to create our own dataset to evaluate our method.
-We have crawled pure \LaTeX\ content from the posts of nearly entire (27180 pages of questions) Math Stack Exchange website before March 2015 (roughly 60MB \textit{bzip2} compressed raw data~\footnote{http://infolab.ece.udel.edu:8912/cowpie/math-stack-exchange-march-2015.tar.bz2} in plain text format with one \LaTeX\ math mode content per line, and one file for each post). 
-The resulting index has over 8 million formula IDs, with 892 MB key-value database file and roughly 9.4GB directories and posting files.
-Our test query set~\footnote{http://infolab.ece.udel.edu:8912/cowpie/test-queries.tex} consists queries mostly from \cite{ntcirtopic} and \cite{symbolpairs15}, some of them are excluded here because we are not able to find similar formula in our own dataset.
+Our own dataset is created to evaluate proposed method.
+We have crawled \LaTeX\ content from the posts of nearly entire (27180 pages of questions) Math Stack Exchange website before March 2015. 
+The data set is in plain text format with one \LaTeX\ math mode content per line, one file for each post. 
+Over 8 million expressions of math mode are contained in the data set. 
+The dataset is available through a roughly 60MB \textit{bzip2} compressed file~\footnote{raw data: [link not revealed here for anonymity]}.
+Our test query set~\footnote{query set: [link not revealed here for anonymity]} consists queries mostly from \cite{ntcirtopic} and \cite{symbolpairs15}, some of them are excluded here because we are not able to find similar formula in our own dataset.
 Table~\ref{TestQ} shows our complete test queries used in our evaluation. 
 
+The popular evaluation dataset in this research domain, the NTCIR Math Task collection, is in MathML/XML format, and original \LaTeX\ information is not always preserved in their dataset. 
+Here we choose not to use their dataset because we are parsing \LaTeX\ directly.
+Although converting MathML/XML formula to \LaTeX\ is possible, we fail to convert all the document in NTCIR-10 dataset correctly (using \textit{pandoc}).
+Furthermore, supporting wildcard query is a default requirement in NTCIR Math Task, while our approach does not find a way to enable wildcard so far.
+
+%Our resulting index includes an 892 MB key-value database file and roughly 9.4GB directories and posting files.
+We have evaluated two methods here, a baseline method is a boolean search for structural related document using the method in section~\ref{se-method}; another method is a similarity search which further considers symbolic similarity score, matching depth factor and matching ratio as described in section~\ref{se-and-rank}.
 There are four relevance levels, scored from 0 to 4 in our evaluation.
 The criteria considers both structural similarity and symbolic similarity. 
-Structural similarity is scored by either 0, 1 (mostly similar) or 2 (complete matching), 
-and symbolic similarity is measured by 0, 1 (mostly identical symbols for the matching parts) and 2 (identical symbols for the matching parts).
+Structural similarity is scored by either 0, 1 (mostly similar) or 2 (complete matching);
+symbolic similarity is scored by 0, 1 (mostly identical symbols for the matching parts) or 2 (identical symbols for the matching parts).
 The level of relevance is simply the sum of the two scores.
-We have evaluated our method (method 2) and a baseline method (method 1) without considering symbolic similarity.
-Table~\ref{distrtab} shows the distribution of hits and relevance level for each run.
+Table~\ref{distrtab} shows the distribution of hits and relevance level for top 20 results (or less, if the number of hits are fewer than 20).
 The performance and comparison of these two methods are shown in figure~\ref{effiperf} and figure~\ref{perfcomp}. 
-Here the query look-up time is the time consumed by our search engine to search directories and posting files.
-The evaluation results show that our symbolic similarity, if used, can boost search effectiveness in all the five metres evaluated, 
-and consumes a reasonable of extra time on top of the baseline method. 
+The query look-up time is the time consumed for search directories and posting files.
+Results show that our similarity measurement, if used, can boost search effectiveness in all the five metres evaluated, 
+and consumes a reasonable extra time on top of the baseline method. 
 
 \section{Conclusion and Future Work}
 Our method tries to measure mathematical expressions similarity through their structures and operand symbols. 
-We search relevant expressions only in a subset of index and have achieved rather satisfactory effectiveness by our standard, meanwhile, our index does not need augmentation thus has less redundancy.
+We search relevant expressions only in a subset of index and proposed similarity measurement has achieved rather satisfactory effectiveness by our standard.
+% meanwhile, our index does not need augmentation thus has less redundancy.
 In the next stage, it is desired to integrate text search ability into our math-only search method. 
 Additionally, the manner we use to break math formula into branch words and to index them through posting list makes it easy to parallelize and distribute the searching process,
 which means there is a large potential for future efforts to improve the efficiency of this method.
@@ -708,7 +725,7 @@ $\bar{u} = (x,y,z)$ \\\hline
 20  &  19 &  1 &  0 &  0 &  0 &  20\\ 
 \hline
 \end{tabular}
-\\[0.3cm] Method 1
+\\[0.3cm] Baseline method
 \end{center}
 \end{minipage}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -741,7 +758,7 @@ $\bar{u} = (x,y,z)$ \\\hline
 20  &  0 &  0 &  2 &  7 &  11 &  20\\ 
 \hline
 \end{tabular}
-\\[0.3cm] Method 2
+\\[0.3cm] Similarity search
 \end{center}
 \end{minipage}
 \caption{Relevance score distribution}\label{distrtab}
