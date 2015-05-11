@@ -1,5 +1,5 @@
 #!/bin/bash
-for i in {1..18}
+for i in {1..20}
 do
 	echo -n "$i "
 	cat "$1" | grep "query-$i-" | awk '$4=="0" { print $0 }' | wc -l | xargs echo -n ' & '
