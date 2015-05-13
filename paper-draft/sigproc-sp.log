@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  10 MAY 2015 15:01
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  13 MAY 2015 01:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -391,7 +391,7 @@ Package epstopdf Info: Source file: <res/not-necessary.eps>
 (epstopdf)                    size: 4976 bytes
 (epstopdf)             Command: <repstopdf --outfile=res/not-necessary-eps-conv
 erted-to.pdf res/not-necessary.eps>
-(epstopdf)             \includegraphics on input line 190.
+(epstopdf)             \includegraphics on input line 192.
 Package epstopdf Info: Output file is already uptodate.
 
 <res/not-necessary-eps-converted-to.pdf, id=33, 279.0425pt x 188.705pt>
@@ -399,7 +399,7 @@ File: res/not-necessary-eps-converted-to.pdf Graphic file (type pdf)
 
 <use res/not-necessary-eps-converted-to.pdf>
 Package pdftex.def Info: res/not-necessary-eps-converted-to.pdf used on input l
-ine 190.
+ine 192.
 (pdftex.def)             Requested size: 115.63016pt x 93.94914pt.
 Package epstopdf Info: Source file: <res/not-necessary2.eps>
 (epstopdf)                    date: 2015-04-30 09:01:37
@@ -409,7 +409,7 @@ Package epstopdf Info: Source file: <res/not-necessary2.eps>
 (epstopdf)                    size: 4942 bytes
 (epstopdf)             Command: <repstopdf --outfile=res/not-necessary2-eps-con
 verted-to.pdf res/not-necessary2.eps>
-(epstopdf)             \includegraphics on input line 197.
+(epstopdf)             \includegraphics on input line 199.
 Package epstopdf Info: Output file is already uptodate.
 
 <res/not-necessary2-eps-converted-to.pdf, id=34, 279.0425pt x 188.705pt>
@@ -417,7 +417,7 @@ File: res/not-necessary2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use res/not-necessary2-eps-converted-to.pdf>
 Package pdftex.def Info: res/not-necessary2-eps-converted-to.pdf used on input 
-line 197.
+line 199.
 (pdftex.def)             Requested size: 108.4046pt x 93.94914pt.
  [3 <./res/not-necessary-eps-converted-to.pdf> <./res/not-necessary2-eps-conver
 ted-to.pdf>]
@@ -429,14 +429,14 @@ Package epstopdf Info: Source file: <res/lpd.eps>
 (epstopdf)                    size: 4282 bytes
 (epstopdf)             Command: <repstopdf --outfile=res/lpd-eps-converted-to.p
 df res/lpd.eps>
-(epstopdf)             \includegraphics on input line 347.
+(epstopdf)             \includegraphics on input line 351.
 Package epstopdf Info: Output file is already uptodate.
 
 <res/lpd-eps-converted-to.pdf, id=50, 206.7725pt x 230.8625pt>
 File: res/lpd-eps-converted-to.pdf Graphic file (type pdf)
 
 <use res/lpd-eps-converted-to.pdf>
-Package pdftex.def Info: res/lpd-eps-converted-to.pdf used on input line 347.
+Package pdftex.def Info: res/lpd-eps-converted-to.pdf used on input line 351.
 (pdftex.def)             Requested size: 115.63405pt x 137.3138pt.
 Package epstopdf Info: Source file: <res/lpd2.eps>
 (epstopdf)                    date: 2015-04-30 09:01:37
@@ -446,54 +446,56 @@ Package epstopdf Info: Source file: <res/lpd2.eps>
 (epstopdf)                    size: 4831 bytes
 (epstopdf)             Command: <repstopdf --outfile=res/lpd2-eps-converted-to.
 pdf res/lpd2.eps>
-(epstopdf)             \includegraphics on input line 354.
+(epstopdf)             \includegraphics on input line 358.
 Package epstopdf Info: Output file is already uptodate.
 
 <res/lpd2-eps-converted-to.pdf, id=51, 153.57375pt x 211.79124pt>
 File: res/lpd2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use res/lpd2-eps-converted-to.pdf>
-Package pdftex.def Info: res/lpd2-eps-converted-to.pdf used on input line 354.
+Package pdftex.def Info: res/lpd2-eps-converted-to.pdf used on input line 358.
 (pdftex.def)             Requested size: 115.63463pt x 137.31688pt.
 
-Overfull \hbox (2.59409pt too wide) in paragraph at lines 345--358
+Overfull \hbox (2.59409pt too wide) in paragraph at lines 349--362
 [][] |  [] 
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [4 <./res/lpd-eps-converted-to.pdf> <./res/lpd2-eps-converted-to.pdf>] [5]
-Overfull \hbox (2.43733pt too wide) in paragraph at lines 535--543
-\T1/aer/m/n/9 out paths from same bound vari-able in maximum-occurrence-
+ [4 <./res/lpd-eps-converted-to.pdf> <./res/lpd2-eps-converted-to.pdf>]
+Overfull \hbox (1.66309pt too wide) in paragraph at lines 495--499
+\T1/aer/m/n/9 the fi-nal sym-bolic rel-e-vance score (pro-por-tion-ally to the 
+num-
  []
 
+[5]
 Package epstopdf Info: Source file: <res/partial-rel.eps>
-(epstopdf)                    date: 2015-05-09 21:41:05
+(epstopdf)                    date: 2015-05-11 02:55:47
 (epstopdf)                    size: 28058 bytes
 (epstopdf)             Output file: <res/partial-rel-eps-converted-to.pdf>
-(epstopdf)                    date: 2015-05-09 21:42:02
-(epstopdf)                    size: 19078 bytes
+(epstopdf)                    date: 2015-05-11 02:59:43
+(epstopdf)                    size: 19076 bytes
 (epstopdf)             Command: <repstopdf --outfile=res/partial-rel-eps-conver
 ted-to.pdf res/partial-rel.eps>
-(epstopdf)             \includegraphics on input line 564.
+(epstopdf)             \includegraphics on input line 568.
 Package epstopdf Info: Output file is already uptodate.
-<res/partial-rel-eps-converted-to.pdf, id=72, 587.19376pt x 442.65375pt>
+ <res/partial-rel-eps-converted-to.pdf, id=72, 587.19376pt x 442.65375pt>
 File: res/partial-rel-eps-converted-to.pdf Graphic file (type pdf)
 
 <use res/partial-rel-eps-converted-to.pdf>
 Package pdftex.def Info: res/partial-rel-eps-converted-to.pdf used on input lin
-e 564.
+e 568.
 (pdftex.def)             Requested size: 245.71475pt x 180.67868pt.
 Package epstopdf Info: Source file: <res/total-rel.eps>
-(epstopdf)                    date: 2015-05-09 21:41:36
-(epstopdf)                    size: 28026 bytes
+(epstopdf)                    date: 2015-05-11 02:59:25
+(epstopdf)                    size: 28022 bytes
 (epstopdf)             Output file: <res/total-rel-eps-converted-to.pdf>
-(epstopdf)                    date: 2015-05-09 21:42:02
-(epstopdf)                    size: 19057 bytes
+(epstopdf)                    date: 2015-05-11 02:59:43
+(epstopdf)                    size: 19048 bytes
 (epstopdf)             Command: <repstopdf --outfile=res/total-rel-eps-converte
 d-to.pdf res/total-rel.eps>
-(epstopdf)             \includegraphics on input line 571.
+(epstopdf)             \includegraphics on input line 575.
 Package epstopdf Info: Output file is already uptodate.
 
 <res/total-rel-eps-converted-to.pdf, id=73, 587.19376pt x 442.65375pt>
@@ -501,18 +503,18 @@ File: res/total-rel-eps-converted-to.pdf Graphic file (type pdf)
 
 <use res/total-rel-eps-converted-to.pdf>
 Package pdftex.def Info: res/total-rel-eps-converted-to.pdf used on input line 
-571.
+575.
 (pdftex.def)             Requested size: 245.71475pt x 180.67868pt.
  [6]
 Package epstopdf Info: Source file: <res/response-time.eps>
-(epstopdf)                    date: 2015-05-09 21:41:59
-(epstopdf)                    size: 35819 bytes
+(epstopdf)                    date: 2015-05-11 04:30:46
+(epstopdf)                    size: 43433 bytes
 (epstopdf)             Output file: <res/response-time-eps-converted-to.pdf>
-(epstopdf)                    date: 2015-05-09 21:42:02
-(epstopdf)                    size: 20092 bytes
+(epstopdf)                    date: 2015-05-11 04:31:46
+(epstopdf)                    size: 24172 bytes
 (epstopdf)             Command: <repstopdf --outfile=res/response-time-eps-conv
 erted-to.pdf res/response-time.eps>
-(epstopdf)             \includegraphics on input line 595.
+(epstopdf)             \includegraphics on input line 599.
 Package epstopdf Info: Output file is already uptodate.
 
 <res/response-time-eps-converted-to.pdf, id=77, 587.19376pt x 442.65375pt>
@@ -520,18 +522,15 @@ File: res/response-time-eps-converted-to.pdf Graphic file (type pdf)
 
 <use res/response-time-eps-converted-to.pdf>
 Package pdftex.def Info: res/response-time-eps-converted-to.pdf used on input l
-ine 595.
-(pdftex.def)             Requested size: 245.71475pt x 180.67868pt.
+ine 599.
+(pdftex.def)             Requested size: 256.55615pt x 180.67868pt.
 
-Overfull \hbox (5.71475pt too wide) in paragraph at lines 595--596
+Overfull \hbox (16.55615pt too wide) in paragraph at lines 599--600
  [] 
  []
 
-
-Underfull \vbox (badness 1112) has occurred while \output is active []
-
- [7 <./res/partial-rel-eps-converted-to.pdf> <./res/total-rel-eps-converted-to.
-pdf> <./res/response-time-eps-converted-to.pdf>] (./sigproc-sp.bbl) [8] [9]
+[7 <./res/partial-rel-eps-converted-to.pdf> <./res/total-rel-eps-converted-to.p
+df> <./res/response-time-eps-converted-to.pdf>] (./sigproc-sp.bbl) [8] [9]
 (./sigproc-sp.aux) ) 
 Here is how much of TeX's memory you used:
  3613 strings out of 495028
@@ -559,9 +558,9 @@ re/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/t
 exmf-dist/fonts/type1/urw/helvetic/uhvbo8a.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/
 times/utmri8a.pfb>
-Output written on sigproc-sp.pdf (9 pages, 325339 bytes).
+Output written on sigproc-sp.pdf (9 pages, 329552 bytes).
 PDF statistics:
- 269 PDF objects out of 1000 (max. 8388607)
+ 274 PDF objects out of 1000 (max. 8388607)
  119 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  46 words of extra memory for PDF output out of 10000 (max. 10000000)
