@@ -1,22 +1,16 @@
 \begin{thebibliography}{10}
 
-\bibitem{ntcirtopic}
-Topics for the ntcir-10 math task full-text search queries.
-\newblock
-  \url{http://ntcir-math.nii.ac.jp/wp-content/blogs.dir/13/files/2014/02/NTCIR10-math-topics.pdf}.
-\newblock Accessed: 2015-03-31.
-
 \bibitem{goodsurvey}
 Richard Zanibbi and Dorothea Blostein.
 \newblock Recognition and retrieval of mathematical expressions.
 \newblock {\em International Journal on Document Analysis and Recognition
   (IJDAR)}, 15(4):331--357, 2012.
 
-\bibitem{parsing_tex}
-Richard J, Fateman, and Eylon Caspi.
-\newblock Parsing tex into mathematics.
-\newblock {\em SIGSAM Bulletin (ACM Special Interest Group on Symbolic and
-  Algebraic Manipulation)}, 1999.
+\bibitem{ntcirtopic}
+Topics for the ntcir-10 math task full-text search queries.
+\newblock
+  \url{http://ntcir-math.nii.ac.jp/wp-content/blogs.dir/13/files/2014/02/NTCIR10-math-topics.pdf}.
+\newblock Accessed: 2015-03-31.
 
 \bibitem{ov}
 Akiko Aizawa, Michael Kohlhase, and Iadh Ounis.

@@ -1,87 +1,96 @@
 \chapter{Background}
+Apart from general text content, structured information is also widely contained by digital document. 
+Among these, a lot of mathematical content are represented, they are primarily using \LaTeX, which is a rich structural markup language. 
+Information Retrieval on those structured data in mathematics language is not as well-studied or exhaustively covered as that is in general text IR research. 
+To better search mathematical content can be significantly meaningful in terms of extending our border on information retrieval.
 
-Apart from general text content, structured information is also widely contained by digital document. Among these, a lot of mathematical content (including documents on Internet), are represented using markups like \LaTeX\  , MathML~\footnote{\url{http://www.w3.org/Math/}} or OpenMath~\footnote{\url{http://www.openmath.org/}}, which is in a rich structural way. 
-Information Retrieval on those structured data in mathematics language is not that well-studied or exhaustively covered by mainstream IR research, compared to that with general text. 
-Thus it can be challenging yet very helpful given the contribution and importance of mathematics to our science. 
 
-However, the structured sense of mathematical language, as well as many its semantic properties (see section~\ref{measure_sim}), makes general text retrieval models deficient to provide good search results. Through this paper, we have made our efforts to tackle some of these problems. 
-Some of the ideas used in this paper deals with "tree structured" data in a general way, have the potential to be applied by other fields of structured data retrieval besides that from mathematical language. 
+However, the structured sense of mathematical language, as well as many its semantic properties (see section~\ref{measure_sim}), makes general text retrieval models deficient to provide good search results. 
+This is because some fundamental differences between mathematical language and general text.
+Through this paper, we have made our efforts to tackle some of the problems we are having to search mathematical language. 
+Some of the ideas used in this paper that deals with "tree structured" data can be generalized and potentially applied to other fields of structured data retrieval. 
 
 \section{Math IR Domains}
 
 Mathematical information involves a wide spectrum of topics, 
-we are, of cause, not focusing on every aspects in mathematical information retrieval. 
-It is good to clarify our concentration in this paper here, by first listing a set of concentrations that a mathematical information retrieval topics may be classified into,
-and define our target field of study.
+\cite{goodsurvey} gives a comprehensive review on mathematical IR researches.
+We are of cause not focusing on every aspect in mathematical information retrieval. 
+It is good to clarify our concentration in this paper here by first listing a set of concentrations in the related research area and define our target field of study.
 
 \pagebreak
-Listed here, are considered four possible concentrations of topic for mathematical information retrieval:
+Listed here, are considered three major topics for mathematical information retrieval:
 
 \begin{enumerate}
 \item Boolean or Similarity Search
 \item Math Detection and Recognition
 \item Evaluation, Derivation and Calculation
-\item Other topics 
 \end{enumerate}
 
-The first one is doing mathematical information retrieval by searching, and finding the most relevant context of documents that match the query, very similar to the most common ways that other general text search engines will do, by boolean or similarity search. 
-The only difference is, the query may contain mathematical expressions. 
-Instances 
-(examples online are  
+Boolean/Similarity search finds or ranks mathematical expressions against a query. 
+They define the criteria of matching expressions or dimensions of similarity between two expressions.
+This is analogy to the boolean or similarity search of general text search engines,
+except the query and document may contain mathematical expressions. 
+Some search engines deal with only formula (e.g. 
 SearchOnMath~\footnote{\url{http://searchonmath.com}},
 Uniquation~\footnote{\url{http://uniquation.com/en}}
 and 
 Tangent~\footnote{\url{http://saskatoon.cs.rit.edu/tangent/random}}
+) 
+and some math-aware search engines (e.g.
+WolframAlpha~\footnote{\url{https://www.wolframalpha.com/}} and 
+Zentralblatt math from MathWebSearch~\footnote{\url{http://search.mathweb.org/zbl/}}
 )
-of such search engine can be useful in many ways, for example, student may utilize it to know which identity can be applied to a formulae in order to give a proof of that formulae.
-This is the area where we focus in this paper. Specifically, we are proposing a series of methods for similarity search of math content. And our method is using query only in \LaTeX\ markup 
-(some math-aware search engines~\footnote{WolframAlpha: \url{https://www.wolframalpha.com/} and Zentralblatt math \\from MathWebSearch: \url{http://search.mathweb.org/zbl/}} support queries in mathematical formulae and normal text together), and return documents ordered by score which indicates the similarity degree. 
+are able to search query with mixed text and mathematical formula.
+These search engines can be useful in many ways, for example, student may utilize it to know which identity can be applied to a formulae in order to give a proof of that formulae.
+This is also the area where we focus in this paper. 
 
-Digital mathematical content document can also be in an image format (e.g. generated by a handwritten query), thus to retrieve these information involves detection or recognition. Inspired by the advances from deep learning, we may foresee a large potential to be explored on topics related to this. 
+Digital mathematical content document can also be in an image format (e.g. a handwritten formula), topics on retrieving information in these image requires detection and recognition of their visual features (texture, outline, shape etc.).
 
-Because the nature of mathematical language, a query (e.g. an algebra expression) can be evaluated and potentially derived into an alternate form, or calculated. 
-The result value of evaluation or derived form may also be considered being relevant to that query. 
-These potentially require a system to handle symbolic or value calculation, or even a good knowledge of derivation rules implied by different mathematical expression
-(e.g. computational engine \textit{Symbolab}~\footnote{Symbolab Web Search: \url{http://www.symbolab.com}} and WolframAlpha).
+Also, because the nature of mathematical language, a query (e.g. an algebra expression) can potentially derived into alternate forms, or calculated and evaluated into a value. 
+These potentially require a system to handle symbolic or numeric calculation, or even a good knowledge of derivation rules implied by different mathematical expression. 
+Those numeric search engines
+(e.g. computational engine \textit{Symbolab}~\footnote{Symbolab Web Search: \url{http://www.symbolab.com}} and WolframAlpha)
+can help evaluate mathematical expressions and reveal the deeper information contained from those expressions.
 
-Besides the first three concentrations, there are many other topics. Knowledge mining, for example, will need deeper level of understanding on math content. A typical goal of this topic is to give a solution or answer based on information retrieved from math content. e.g. ``Find an article related to the \textit{Four Color Theorem}"~\cite{ntcirtopic}.
+Besides the first three concentrations, there are many other topics. Knowledge mining, for example, will need deeper level of understanding on math language. A typical goal of this topic is to give a solution or answer based on all the document information retrieved. e.g. ``Find an article related to the \textit{Four Color Theorem}"~\cite{ntcirtopic}.
 
-These concentrations somehow overlap in some cases, for example, some derivation can be used to better assess the similarity between math formulae, e.g. $\dfrac{a + b}{c}$ and $\dfrac{a}{c} + \dfrac{b}{c}$ should be considered as relevant.
-Or, mathematical knowledge being used be know the same meaning (thus high similarity) between $ \dbinom n 1 $ and $C_n^1$.
-Therefore even boolean or similarity search possibly involves certain level of understanding of mathematics. In terms of similarity, however, we only address the measurement for structural and symbol differences in this paper, without considering further topics lured from measuring math content similarity, such as evaluation, derivation or knowledge inference.
-
-As supplementary, \cite{goodsurvey} gives a comprehensive review on mathematical IR researches and covers many topics across different domains.
+These topics somehow overlap in some cases, for example, some derivation can be used to better assess the similarity between math formulae, e.g. $\dfrac{a + b}{c}$ and $\dfrac{a}{c} + \dfrac{b}{c}$ should be considered as relevant because their equivalent form of representation.
+Similarly, mathematical knowledge is required to understand the same meaning (thus high similarity) between $ \dbinom n 1 $ and $C_n^1$.
+So boolean or similarity search possibly involves a level of understanding on mathematical language. 
+However, we are not going to include these problems into our research domain, instead, this paper addresses mathematical expression similarity from only structural and symbolic perspectives.
 
 \section{Issues in Measuring Similarity}
 \label{measure_sim}
 Unlike general text content, mathematical language, by its nature, has many differences from other textual documents, there are a number of new problems in measuring mathematical expression similarity. 
-Among these, we select and focus on those regarding to structural similarity and symbolic differences between expressions. 
-At the same time trying to respect the semantical information inferred from structure or symbols in mathematical expressions.
-But even without caring about the possible derivations and high level knowledge inference, there are still many new problems.
+Even without caring about the possible derivations and high level knowledge inference, there are still a set of new problems for measuring mathematical similarity.
 
-Firstly, differences of symbols, structure and possible semantic rules in mathematics should be captured, and not one by one, but in an cooperative manner to measure similarity. 
-To illustrate this point, we know that only respecting symbolic information is of course not sufficient in mathematical language. e.g. $ax+(b+c)$ in most cases is not equivalent to $(a+b)x+c$ (although they have the same set of symbols).
-And the order of tokens in math expression can be commutative in some cases but not always. For example, commutative property in math makes $a+b=b+c$ for addition operation, but on the other hand $\dfrac a b$ is most likely not equivalent to $\dfrac b a$.
-These make many general text search methods (e.g. \textit{bag of words} model, \textit{tf-idf} weighting) inadequate or inevitability less storage-efficient.  
+Firstly, the differences between mathematical expressions should be captured in a cooperative manner in order to measure similarity,
+because only respecting symbolic information is not sufficient in mathematical language.
+To illustrate this point, we know that
+$ax+(b+c)$ in most cases is not equivalent to $(a+b)x+c$ although they have the same set of symbols, because the different structure represents a different semantic meaning.
+And the order of tokens in math expression can be commutative in some cases but not always, for example, commutative property in math makes $a+b=b+c$ for addition operation, but on the other hand $\dfrac a b$ is most likely not equivalent to $\dfrac b a$.
+These characteristics make many general text search methods (e.g. \textit{bag of words} model, \textit{tf-idf} weighting) inadequate.  
 Moreover, symbols can be used interchangeably to represent the same meaning, e.g. $a^2+b^2=c^2$ and $x^2+y^2=z^2$. 
-However, interchangeability comes with some constrains to maintain the same semantical meaning, that is, changes of symbols in expression preserve more syntactic similarity when changes are made by substitution. e.g. For query $x(1+x)$, expression $a(1+a)$ are considered more relevant than $a(1+b)$. 
+However, interchanging symbols does not always preserve mathematical semantics, changes of symbols in expression preserve more syntactic similarity when changes are made by substitution or they are $\alpha$-equivalent. e.g. Given query $x(1+x)$, expression $a(1+a)$ are considered more relevant than $a(1+b)$. 
 
 Secondly, how we evaluate structural similarity between expressions is a question. A complete query may structurally be a part of a document, or only some parts of a query match somewhere in a document expression.
 In cases when a set of matches occur within some measure of ``distance", we may consider them to contribute similarity as a whole, but when matches occur ``far away" for a query expression, then under the semantic implication of mathematics, they probably will not contribute the similarity degree in any way.
-We need metrics to score these similarity under certain criteria and set up standard and rules for relevance assessments. 
+We need metrics to score these similarity under certain rules for relevance assessments. 
 
-Lastly, trying to capture semantic information from expressions will help measure similarity but introduce ambiguity. 
-Apart from the cases covered in \cite{parsing_tex}, semantic incorrect written markups, which is somehow common in many online documents, e.g. writing ``sin" in \LaTeX\ markup instead of macro ``\textbackslash sin", will make it difficult to tell whether it is a product of three symbols or a \textit{sine} function, thus need to disambiguate. 
+Lastly, when trying to capture more semantic information from expressions, we can improve our measurement on similarity but it may introduce more ambiguity. 
+For example, semantically incorrect math markups in document, e.g. using ``sin" in \LaTeX\ markup instead of macro ``\textbackslash sin", will make it difficult to tell whether it is a product of three symbols or a \textit{sine} function if we want to capture their semantical meaning in such a depth. 
 And depending on what level of semantical meaning we want to capture, ambiguity cases can be different. 
-Consider $f(2x+1)$, if we want to know if $f$ is a function rather than a variable, the only possibility is looking for implicit contexts, but we can nevertheless always think of it as a product without losing the possibility to search similar expression like $f(1 + 2y)$, the same way goes reciprocal $a^{-1}$ and inverse function $f^{-1}$. 
-Most often, even if no semantic ambiguity occurs, efforts are needed to capture some semantical meanings. e.g. In $\displaystyle\int f(x) \dfrac{\mathrm{d}x}{\sin x}$ and $\sin 2 \pi$, it is not easy to figure out, without a little knowledge on integral or trigonometric function, that integral is applied to $\dfrac {f(x)} {\sin x}$ and the scope applied by sine function is $2 \pi$, if we want to capture the subordinative relationship information.
+Consider $f(2x+1)$, if we want to know if $f$ is a function rather than a variable, the only possibility is looking for its contexts, but we can nevertheless always think of it as a product without losing the possibility to search similar expression like $f(1 + 2y)$, the same way goes reciprocal $a^{-1}$ and inverse function $f^{-1}$. 
+Most often, even if no semantic ambiguity occurs, efforts are needed to capture some semantical meanings. e.g. In $\sin 2 \pi$, it is not easy to figure out,
+ without a knowledge on trigonometric function convention, that $2 \pi$ is the subordinative of sine function.
 
 
 \section{Related Work}
 \label{relatedwork}
 Boolean or similarity search for mathematical content is not a new topic, conference in this topic is getting increasingly research attention and the proposed systems have progressed considerably~\cite{ov}. 
-And a variety of approaches have already emerged in an early timeline~\cite{egomath13}.
-But there are a limited number of main ideas, from different angle, to deal with mathematical structured data. \cite{WikiMirs13,symbolpairs15,Youssef14} use the same way to classify them into text-based and tree-based (structure-based). Here we follow the same classification (long with approaches different from this two) and give a recap and an overview on their core ideas.
+A variety of approaches have already emerged in an early timeline~\cite{egomath13}, but we can nevertheless divide them into several different ideas.
+\cite{WikiMirs13,symbolpairs15,Youssef14} use the same way to classify them into text-based and tree-based (structure-based),
+here we decide to follow the same classification method and give a overview on their ideas.
 
 \subsection{Text-based methods}
 Many researchers are utilizing existing models to deal with mathematical search, and use texted-based approaches to capture structural information on top of matured text search engine and tools (such as \textit{Apache Lucene}). 

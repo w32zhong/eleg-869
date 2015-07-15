@@ -13,45 +13,45 @@ Database file #1: sample.bib
 Warning--empty note in Kohlhase0p4
 Warning--empty note in Kohlhase0p5
 Warning--empty booktitle in heavypathde
-You've used 41 entries,
+You've used 40 entries,
             1791 wiz_defined-function locations,
-            662 strings with 9944 characters,
-and the built_in function-call counts, 8743 in all, are:
-= -- 785
-> -- 355
+            657 strings with 9781 characters,
+and the built_in function-call counts, 8583 in all, are:
+= -- 773
+> -- 344
 < -- 16
-+ -- 135
-- -- 94
-* -- 432
-:= -- 1352
-add.period$ -- 126
-call.type$ -- 41
-change.case$ -- 36
++ -- 131
+- -- 91
+* -- 424
+:= -- 1322
+add.period$ -- 123
+call.type$ -- 40
+change.case$ -- 35
 chr.to.int$ -- 0
-cite$ -- 44
-duplicate$ -- 467
-empty$ -- 858
-format.name$ -- 94
-if$ -- 2061
+cite$ -- 43
+duplicate$ -- 459
+empty$ -- 844
+format.name$ -- 91
+if$ -- 2027
 int.to.chr$ -- 0
-int.to.str$ -- 41
-missing$ -- 40
-newline$ -- 205
-num.names$ -- 40
-pop$ -- 158
+int.to.str$ -- 40
+missing$ -- 39
+newline$ -- 200
+num.names$ -- 39
+pop$ -- 155
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 265
+skip$ -- 262
 stack$ -- 0
 substring$ -- 384
-swap$ -- 151
+swap$ -- 150
 text.length$ -- 16
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 3
-while$ -- 71
-width$ -- 43
-write$ -- 429
+while$ -- 70
+width$ -- 42
+write$ -- 419
 (There were 3 warnings)
