@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  15 JUL 2015 00:33
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  16 JUL 2015 00:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1260,7 +1260,7 @@ Here is how much of TeX's memory you used:
  21354 multiletter control sequences out of 15000+600000
  15887 words of font info for 60 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 56i,15n,65p,802b,942s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 56i,15n,65p,681b,942s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texl
@@ -1279,7 +1279,7 @@ texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/public/amsfonts/latxfont/line10.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis-main.pdf (52 pages, 351067 bytes).
+Output written on thesis-main.pdf (52 pages, 351009 bytes).
 PDF statistics:
  791 PDF objects out of 1000 (max. 8388607)
  699 compressed objects within 7 object streams
