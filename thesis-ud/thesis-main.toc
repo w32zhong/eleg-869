@@ -13,27 +13,31 @@
 \contentsline {subsection}{\numberline {2.1.1}Commutative immunity}{11}{subsection.2.1.1}
 \contentsline {subsection}{\numberline {2.1.2}Sub-structure query ability}{11}{subsection.2.1.2}
 \contentsline {subsection}{\numberline {2.1.3}Index and search properties}{11}{subsection.2.1.3}
-\contentsline {section}{\numberline {2.2}Structure Similarity}{13}{section.2.2}
+\contentsline {section}{\numberline {2.2}Structure Similarity}{12}{section.2.2}
 \contentsline {subsection}{\numberline {2.2.1}Definitions}{13}{subsection.2.2.1}
 \contentsline {subsubsection}{\numberline {2.2.1.1}Formula tree}{14}{subsubsection.2.2.1.1}
 \contentsline {subsubsection}{\numberline {2.2.1.2}Formula subtree}{14}{subsubsection.2.2.1.2}
-\contentsline {subsubsection}{\numberline {2.2.1.3}Index}{14}{subsubsection.2.2.1.3}
-\contentsline {subsubsection}{\numberline {2.2.1.4}Leaf-root path set}{15}{subsubsection.2.2.1.4}
-\contentsline {subsection}{\numberline {2.2.2}Observations}{15}{subsection.2.2.2}
-\contentsline {subsection}{\numberline {2.2.3}Interpretation}{17}{subsection.2.2.3}
-\contentsline {subsection}{\numberline {2.2.4}Structure match}{20}{subsection.2.2.4}
-\contentsline {section}{\numberline {2.3}Symbolic Similarity}{22}{section.2.3}
-\contentsline {subsection}{\numberline {2.3.1}Ranking constrains}{22}{subsection.2.3.1}
+\contentsline {subsubsection}{\numberline {2.2.1.3}Leaf-root path set}{14}{subsubsection.2.2.1.3}
+\contentsline {subsubsection}{\numberline {2.2.1.4}Index}{15}{subsubsection.2.2.1.4}
+\contentsline {subsection}{\numberline {2.2.2}Search method}{15}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.2.3}Substructure matching}{16}{subsection.2.2.3}
+\contentsline {subsubsection}{\numberline {2.2.3.1}Observation \#1}{16}{subsubsection.2.2.3.1}
+\contentsline {subsubsection}{\numberline {2.2.3.2}Observation \#2}{17}{subsubsection.2.2.3.2}
+\contentsline {subsubsection}{\numberline {2.2.3.3}Observation \#3}{17}{subsubsection.2.2.3.3}
+\contentsline {subsection}{\numberline {2.2.4}Interpretation}{18}{subsection.2.2.4}
+\contentsline {subsection}{\numberline {2.2.5}The decompose-and-match algorithm}{20}{subsection.2.2.5}
+\contentsline {section}{\numberline {2.3}Symbolic Similarity}{21}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Ranking constrains}{23}{subsection.2.3.1}
 \contentsline {subsection}{\numberline {2.3.2}An algorithm}{24}{subsection.2.3.2}
-\contentsline {section}{\numberline {2.4}Combine the Two}{27}{section.2.4}
+\contentsline {section}{\numberline {2.4}Combine the Two}{28}{section.2.4}
 \contentsline {subsection}{\numberline {2.4.1}Relaxed structure match}{28}{subsection.2.4.1}
-\contentsline {subsection}{\numberline {2.4.2}Matching-depth}{28}{subsection.2.4.2}
-\contentsline {subsection}{\numberline {2.4.3}Matching-ratio}{29}{subsection.2.4.3}
-\contentsline {subsection}{\numberline {2.4.4}Illustrated by an example}{30}{subsection.2.4.4}
-\contentsline {chapter}{\numberline {3}Implementation and Evaluation}{35}{chapter.3}
-\contentsline {section}{\numberline {3.1}Implementation}{35}{section.3.1}
-\contentsline {subsection}{\numberline {3.1.1}Crawler}{35}{subsection.3.1.1}
-\contentsline {subsection}{\numberline {3.1.2}Parser}{35}{subsection.3.1.2}
-\contentsline {chapter}{\uppercase {References}}{40}{chapter*.15}
-\contentsline {appendix}{\numberline {A}Title of Appendix A}{44}{appendix.A}
-\contentsline {appendix}{\numberline {B}Title of Appendix B}{45}{appendix.B}
+\contentsline {subsection}{\numberline {2.4.2}Matching-depth}{29}{subsection.2.4.2}
+\contentsline {subsection}{\numberline {2.4.3}Matching-ratio}{30}{subsection.2.4.3}
+\contentsline {subsection}{\numberline {2.4.4}Illustrated by an example}{31}{subsection.2.4.4}
+\contentsline {chapter}{\numberline {3}Implementation and Evaluation}{36}{chapter.3}
+\contentsline {section}{\numberline {3.1}Implementation}{36}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Crawler}{36}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}Parser}{36}{subsection.3.1.2}
+\contentsline {chapter}{\uppercase {References}}{41}{chapter*.11}
+\contentsline {appendix}{\numberline {A}Title of Appendix A}{45}{appendix.A}
+\contentsline {appendix}{\numberline {B}Title of Appendix B}{46}{appendix.B}

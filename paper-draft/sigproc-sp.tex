@@ -122,7 +122,8 @@ We develop these ideas to simultaneously search along the way of all leaf-root p
 To better describe this idea and further ideas based upon this, we will put it in a formal way.
 
 \subsection{Formal Definition}
-Here we clarify some notations used throughout this paper. A \textit{path} $p$ is a sequence of numbers given by $p = p_0 p_1 \ldots p_n$ where $n\ge0$, $p_i \in \mathbf{R}$. $\mathbf{P}$ is the set of all paths.
+Here we clarify some notations used throughout this paper. 
+A \textit{path} $p$ is a sequence of numbers given by $p = p_0 p_1 \ldots p_n$ where $n\ge0$, $p_i \in \mathbf{R}$. $\mathbf{P}$ is the set of all paths.
 A \textit{leaf-root path} is a path from root to a leaf in a tree.
 Any function $f: \mathbf{R} \rightarrow \mathbf{R}$ applied on path $p$ is mapped to a path too: $f(p)=f(p_0)f(p_1) \ldots f(p_n)$.
 And we name  a \textit{concatenation} of two paths $\,^1p = p_0p_1 \ldots p_n$ and $\,^2p = p_np_{n+1} \ldots p_m$ where $m \ge n$, to be a new path denoted as $\,^1p \cdot \,^2p = p_0p_1 \ldots p_n p_{n+1} \ldots p_m$,
@@ -369,7 +370,7 @@ For example, because $\left| \mathrm{lcp}(a,b) \right| = \left| \mathrm{lcp}(a',
 After going through these eliminations for each leaf-node path (except the reference path $a$) in (a), we now have two similar subproblems: $c$ as a subtree along with its candidate set, and $b$ as a subtree along with its candidate set. 
 We can apply this algorithm recursively until a trivial subproblem is reached (e.g. the case in \ref{observation2}). During this process, if we find any candidate set to be empty, we stop the subproblem process and change to another reference path or stop the algorithm completely if every possible reference path is tried.
 The argument $Q$ and $C$ is the set of leaf-root paths in query tree and the candidate sets associated with all query tree leaf-root paths respectively.
-The procedure returns \textproc{SUCC} if a matching possibility is found, otherwise \textproc{FAIL} is returned indicating the formula tree in (a) cannot not be a formula subtree of that in (b).
+The procedure returns \textproc{SUCC} if a matching possibility is found, otherwise \textproc{FAIL} is returned indicating the formula tree in (a) cannot be a formula subtree of that in (b).
 
 \textproc{decomposeAndMatch} algorithm offers a way to ``double-check" structure isomorphism, because 
 for any two formula tree $T_q$ and $T_d$ and $\forall\; \hat{a} \in \mathbf{P}$, if $\ell(g(T_q)) \cdot \hat{a} \subseteq \ell(g(T_d))$, it is not sufficient to imply $T_q \preceq_l T_d$.
@@ -386,7 +387,7 @@ For example, given query formula $\sqrt a$, expression $\sqrt {x}$ would score h
 To reflect the depth where two expressions match, we define \textit{matching depth factor} $f(d)$ to be a function value in negative correlation with matching depth $d = |\hat{a}|$, e.g. $f(d) = 1/(1 + d)$ in our method.
 The second factor is \textit{matching ratio}. According to the property $(3)$ in \ref{observation1}, 
 we have $|g(T_q)| / |g(T_d)| \le 1$, and the ratio on the left-hand is defined as \textit{matching-ratio}, which characterises the structural coverage for the matching part in an expression.
-Intuition behind this is, for example, given query $\alpha y + \beta$, document expression $ax + b$ should precede $x^2 + ax + b$ simply because the query matches more ``percentage" of the former expression than that of the latter.
+Intuition behind this is, for example, given query $\alpha y + \beta$, document expression $ax + b$ should precede $x^2 + ax + b$ simply because the query matches more ``area" of the former expression than that of the latter.
 
 \subsection{Symbolic Similarity}
 As we have discussed in section~\ref{intro}, besides structural similarity, symbolic similarity is also essential to be considered.
