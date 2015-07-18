@@ -346,35 +346,37 @@ The procedure returns SUCC if a match is found, otherwise FAIL is returned indic
 \end{figure}
 
 \section{Symbolic Similarity}
-Until now, we have not addressed symbolic similarity yet. 
-Although mathematical expression often use symbols interchangeably, symbolic matches is a good way to differentiate similarity, and most importantly, measure some semantic similarity in mathematical language.
+Besides structural similarity, symbolic similarity is also essential to be considered,
+because it has some benefits to further differentiate math expression similarity.
 
-Firstly, structure similarity of math expression is either boolean match (subtree or not) or measured with the similarity degree only depend on the subtree depth where expressions are matched. Symbolic similarity will introduce more factors to further distinguish similarity among structural identical math expressions.
-Also it is essential to give those with symbolic matches a higher rank because they may imply more semantic similarity. 
+Firstly, it is essential to score equations with symbolic matches a higher similarity because they may imply more semantic meaning. 
 For example, $E=mc^2$ is considered more meaningful when exact symbols are used rather than just being structure identical with $y=ax^2$.
 
-Secondly, as illustrated in section~\ref{measure_sim}, same mathematical symbols in an expression (or bound variables) usually can only maintain semantical equality if the changes are made by substitutions. (similar to the notion of $\alpha$-equality~\cite{Hindley1986}). This is an important semantic information that we need to capture and certainly it involves comparison of symbols. 
+Secondly, as illustrated in section~\ref{measure_sim}, same mathematical symbols in an expression (or bound variables) usually can only maintain semantical equality if the changes are made by substitutions. (similar to the notion of $\alpha$-equality~\cite{Hindley1986}). 
+This is an important semantic information that we need to capture 
+in most math expressions that contain bound variables, to capture this kind of equality between expressions certainly involves comparison of symbols. 
 
-Yet there is one thing to notice here, in many mathematical search systems, a query may be specified with wildcards and thus will match any document with an expression substitution to that wildcard. 
+There is one thing to address here, in many mathematical search systems, a query may be specified with wildcards and thus will match any document with an expression substitution to that wildcard. 
 And a query symbol not specified by wildcard is expecting an exact symbolic occurrence in document.
-We are not considering wildcards here with the limitation of our substructure matching method. 
-And in terms of symbolic wildcard, we also doubt the its demand in mathematical search as it is not common to expect an exact symbol occurrence when we query in mathematical language (also addressed in \cite{mias11a}).
+Yet in our approach, same symbols imply a higher rank, we can get an exact symbolic match if it does exist in our index. 
+On the other hand, we do not have to specify wildcard to match its $\alpha$-equalities.
+\cite{mias11a} also doubts the wildcard demand in mathematical search as it is not common to expect an exact symbol occurrence when we query in mathematical language.
 
 \subsection{Ranking constrains}
 As we have discussed, symbolic similarity is essential to be captured, in order to further rank document expressions. 
 Here we propose two constrains to addressed all the considerations, they can be summarized as:
 
 \begin{itemize}
-\item A document expression with both structure and symbol matches (not necessarily all the symbols) is considered more relevant than that with only structure matches. 
-And the more symbol matches, the more relevant it is.
-\item Expressions with identical symbols at the same place (i.e. bound variable) should be considered more similar than those with different symbols at the same position. 
+\item Given two formula trees
+$T_q \preceq_l T_d$ on $\Phi$,  
+suppose a leaf $l \in V(T_q)$ is isomorphic to leaf $l' \in V(T_d)$, that is to say, there exists $\phi(l)=l'$, where $\phi \in \Phi$, then if their symbol matches, i.e. $\mathcal{S}(l) = \mathcal{S}(l')$, we score them higher than those do not match symbolically. And the more symbolic matches there are, the higher symbolic relevance degree two expressions would expect to have.
+\item $\alpha$-equivalent expressions have more symbolic relevance degree than those are not, and the more \textit{bond variables} (variable with same symbol in an expression) two expressions match at the structurally matching positions, the more symbolically relevant they are considered to be.
 \end{itemize}
 
 In this paper, we use these two constrains as the rule to rank retrieval results in terms of symbolic similarity.
 And in cases where both constrains can be applied, we prioritize the second constrain. 
 This is because, intuitively, as long as the semantic meaning of two expressions is the same, using different set of symbols does not make a difference. 
-However, bound variable match is more important because an mathematical expression with more than one identical symbols most often imply that those symbols represents the same variable. 
-Missing one or more symbols being identical will lose semantics in a certain degree.
+However, bound variable match is more important because an mathematical expression with more than one identical symbols most often implies those symbols represents the same variable. 
 
 The constrains and idea above are illustrated by the following example. 
 Let the rank of a document math expression $d$ be $r(d)$, and given query $\sqrt a (a - b)$ for instance. 
@@ -382,27 +384,31 @@ It is easy to see under the first constrain:
 $$
 r\big(\sqrt a (a - b)\big) > r\big(\sqrt a (a - x)\big) > r\big(\sqrt x (x - y)\big)
 $$
-The one with the highest rank here is an exact match, with three symbols matching in total. 
-The second one has two symbols match while the third one has no symbolic match at all. 
+The document with the highest rank here is an exact match, with three symbols matching in total. 
+The second document has two symbols matching while the third document has no symbolic match at all. 
 
 In the same manner, by the second constrain we have:
 $$
 r\big(\sqrt x (x - b)\big) > r\big(\sqrt x (y - b)\big)
 $$
-The first one uses bound variable $x$ but it preserves the same semantics except for the symbol of bound variable is different with that of query.
+The first document uses bound variable $x$ but it preserves the same semantics compared to the query, except for the symbol of that bond variable is different with that of query.
 The second one does not have bound variable match, in another word, it uses different symbols (i.e. ``$x,\ y$") at positions where query expression uses the same symbols (i.e. ``$a$").
 
-One common pattern the first example follows is they all have the bound variable match. 
-And for the second example, they have the same number of symbol matches (only ``$b$" is matched in a symbolic way). 
+One common pattern the first example follows is all ``ranking'' documents in the first example have the bound variable match, the only difference is the number of symbol matches. 
+On the other hand, all ``ranking'' documents in the second example  have the same number of symbol matches (only ``$b$" is matched in a symbolic way). 
 So it is easy to follow only one of the two constrain. 
-However, sometimes both constrains can be applied where conflict may occur and we have to choose only one to follow. 
-Given document expression $\sqrt a (x - b)$ and $\sqrt x (x - b)$ for instance, the former has two symbolic matches (i.e. ``$a,\ b$") while does not have bound variable match. The latter, on the other hand, has bound variable match while only has one symbolic match (i.e. ``$b$"). We nevertheless score the latter higher because it does not lose any semantics. 
+However, sometimes both constrains can be applied so that conflict may occur and we have to choose only one to follow. 
+For example, given document expression $\sqrt a (x - b)$ and $\sqrt x (x - b)$, the former has two symbolic matches (i.e. ``$a,\ b$") with our query $\sqrt a (a - b)$,
+while it does not have bound variable match. 
+The latter, on the other hand, has bound variable match while only has one symbolic match (i.e. ``$b$"). We nevertheless score the latter higher because it does not lose any semantics. 
 
-\subsection{An algorithm}
+\subsection{The mark-and-cross algorithm}
 Here we propose an algorithm to score symbolic similarity between query and document expressions.
-To follow all the constrains and issues addressed, intuitively, we first take the bound variable with greatest number of occurrence, e.g. ``$a$" with three occurrences in $\left(b \cdot \dfrac{a+b}{a+c} + a\right)$, to match as many as symbols of each bound variable in a document expression in a greedy way. 
-Whenever a symbol in document expression is matched, we exclude it from matching candidates in future iterations.
-In the next iteration, we choose the bound variable with the second number of occurrence and repeat this process until all the query bound variable are looped.
+To follow all the constrains and issues addressed, 
+intuitively, we first take the bond variable with greatest number of occurrence in query expression, try to match as much as possible with each bond variable from document expression. 
+The \textit{best-matching} bond variable in document expression is chosen to contribute to the final symbolic relevance score (proportionally to the number of matches in that bond variable), 
+and we exclude its paths from matching query paths in future iterations.
+In the next iteration, we choose the bond variable with the second number of occurrence in query expression and repeat this process until all the query bond variables are iterated.
 
 \begin{figure}
 \begin{algorithmic}[1]
@@ -416,18 +422,18 @@ In the next iteration, we choose the bound variable with the second number of oc
 \For {$a' \in D$}
 \State $T_{a'} := \mathrm{unmark}$ 
 \EndFor
-\For {$v \in V(D)$}
+\For {$v \in \mathcal{V}(D)$}
 \State $B_v := 0$ 
 \EndFor
 
-\State QList := \Call{sortBySymbolAndOccur}{Q}
+\State QList := \Call{sortByOccurAndSymbol}{Q}
 
 \For {$a$ {\bf in} QList}
 
-\For {$v \in V(D)$}
+\For {$v \in \mathcal{V}(D)$}
 \State $m := -\infty$
 \State $m_p := \varnothing$
-\For {$a' \in C_a \cap \{ y \mid y = v,\ y \in V(D)\} $}
+\For {$a' \in C_a \cap \{ y \mid \mathcal{S}(y) = v,\ y \in D\} $}
 \If {$T_{a'} = \mathrm{unmark}$ {\bf and} $\mathrm{sim}(a, a') > m$} 
 \State $m := \mathrm{sim}(a, a')$ 
 \State $m_p := a'$ 
@@ -442,12 +448,12 @@ In the next iteration, we choose the bound variable with the second number of oc
 \EndIf
 \EndFor
 
-\If {$\mathcal{S}(a) \mathrm{\ has\ changed}$ {\bf or} $\mathrm{\ last\ iteration\ of\ } a$}
+\If {$\mathcal{S}(a) \mathrm{\ changed}$ {\bf or} $\mathrm{\ last\ iteration\ of\ } a$}
 \label{line_bond_finish}
 
 \State $m := -\infty$
 \State $m_v := \varnothing $
-\For {$v \in V(D)$}
+\For {$v \in \mathcal{V}(D)$}
 \If {$B_v > m$} 
 \State $m := B_v$ 
 \State $m_v := v$ 
@@ -456,13 +462,13 @@ In the next iteration, we choose the bound variable with the second number of oc
 \EndFor
 \State $\mathrm{score} := \mathrm{score} + m$ 
 
-\For {$v \in V(D)$}
+\For {$v \in \mathcal{V}(D)$}
 \If {$v = m_v$} 
 \State $\mathrm{nextState} := \mathrm{unmark}$ 
 \Else
 \State $\mathrm{nextState} := \mathrm{cross}$ 
 \EndIf
-\For {$a' \in C_a \cap \{ y \mid \{ y \mid y = v,\ y \in V(D)\} $}
+\For {$a' \in C_a \cap \{ y \mid \mathcal{S}(y) = v,\ y \in D\} $}
 \If {$T_{a'} = \mathrm{mark}$} 
 \State $T_{a'} := \mathrm{nextState}$ 
 \EndIf
@@ -480,13 +486,16 @@ In the next iteration, we choose the bound variable with the second number of oc
 \caption{The mark-and-cross algorithm}\label{markcrossalgo}
 \end{figure}
 
-The algorithm is described in figure~\ref{markcrossalgo}. It takes three arguments, the set of leaf-root paths $D$ and $Q$ in document expression and query expression respectively, and the candidate sets $C$ associated with all leaf-root paths. 
+The algorithm is described in figure~\ref{markcrossalgo}. It takes three arguments, the set of leaf-root paths $D$ and $Q$ in document expression and query expression respectively, and the candidate sets $C$ associated with all leaf-root paths in query. 
 The bound variables in $D$ is defined by a set $V(D) = \{x \mid \mathcal{S}(x),\ x \in D\}$, which contains all the leaf node symbols from document expression.
-Function \textit{sortBySymbolAndOccur} takes the elements from a set of leaf-root paths and return a list of all the leaf-root paths, each path $p$ is ordered by the tuple $(\mathcal{S}(p), O_p)$ in the list, where $O_p$ is the number of occurrence of path $p$ in the set. 
+Procedure \textit{sortBySymbolAndOccur} takes a set of leaf-root paths and return a list of all the leaf-root paths. 
+The list is sorted by tuple $\big(N_p, \mathcal{S}(p)\big)$ for list element $p$, where $N_p$ is the number of $\mathcal{S}(p)$ occurred in all the list path symbols. 
 Take the example expression $\left(b \cdot \dfrac{a+b}{a+c} + a\right)$ again, the result list returned by \textit{sortBySymbolAndOccur} is a sequence of leaf-root path of $a,a,a,b,b,c$ respectively.
-Each document path $a'$ is associated with a tag $T_{a'}$ which has three possible state: marked, unmarked and crossed. And bound variable $v \in V(D)$ can be given a score $B_v$ which represents the similarity degree between two bound variables. 
-The symbolic similarity function $\mathrm{sim}(a,a')$ measures the similarity degree between two leaf-root paths $a$ and $a'$. 
-Intuitively, we set the similarity function:
+
+Each document path $a'$ is associated with a tag $T_{a'}$ which has three possible states: marked, unmarked and crossed. And bond variable $v \in \mathcal{V}(D)$ can be given a score $B_v$ which represents the similarity degree between current evaluating query/document bond variables. 
+The function $\mathrm{sim}(a,a')$ measures the symbolic similarity degree between two leaf-root paths $a$ and $a'$. 
+
+Intuitively, we set the similarity function
 $$
 \mathrm{sim}(a,a') = 
 \left\{
@@ -498,24 +507,34 @@ $$
 \end{array}
 \right.
 $$
-to give greater (double) weight to leaf-root paths with exact symbol match than those without symbol match but in a candidate set
-(this function is called only when a document path is in candidate set, see figure~\ref{markcrossalgo}).
-Furthermore, denote the number of variables in a bound variable $x$ in query expression that best matches the bound variable $y$ in document expression as $n_{x,y}$, 
-then for the bound variable $a$ in query expression and two bound variable $a$ and $b$ in document expression, if $n_{a,b} > n_{a,a}$ then we weight the bound variable matching of $a$ in query with $b$ in document more than that of $a$ in query with $a$ in document, even if the latter has exact symbol matches.
-For example, for query expression $a+\dfrac 1 a + \sqrt{a}$ and document expression $a+\dfrac 1 a + b + \dfrac 1 b + \sqrt{b}$, we have bound variable matching $\fbox{a}+\dfrac 1 {\fbox{a}} + \sqrt{\fbox{a}}$ with $a+\dfrac 1 a + \fbox{b} + \dfrac 1 {\fbox{b}} + \sqrt{\fbox{b}}$ weighted more than exact symbol matching $\fbox{a}+\dfrac 1 {\fbox{a}} + \sqrt{a}$ with $\fbox{a}+\dfrac 1 {\fbox{a}} + b + \dfrac 1 b + \sqrt{b}$
-(expressions surrounded by a box indicate the matching part),
-because the former matching has more variables involved even if they are not symbolic identical with its counterpart. 
-That is to say, given a bound variable matching with $k$ variables of that bound variable in query, we need $\alpha$ to satisfy $ k \alpha > k-1 $
-and $\alpha < 1$. In our practice, we set $\alpha$ to a value close to $1$, like $0.9$ for instance.
+to give more similarity weights to leaf-root paths with exact symbol match.
+(this function $\mathrm{sim}(a,a')$ is used only when a document path is in candidate set, see figure~\ref{markcrossalgo}).
 
-By sorting the query paths $Q$, the algorithm is able to take out paths from same bound variable in maximum-occurrence-first order from QList. 
-Each query path $a$ tries to match a path $a'$ in each document bond variable $v$ by selecting the unmarked path $m_p$ with maximum $\mathrm{sim}(a,a')$ value, and accumulate the value on $B_v$ indicating the similarity between currently evaluating query bond variable and the bond variable $v$.
-In addition, mark the tag $T_{m_p}$ associated with the document path $m_p$ which has maximum similarity value.
-Once a query bond variable has been iterated (line~\ref{line_bond_finish}),
-we find the document variable $m_v$ with greatest $B_v$ value $m$, and regard it as the best match bond variable in document for the bond variable just iterated, and use $m$ to contribute total score.
+Let us determine the proper value for $\alpha$. 
+Consider the conflicting cases stated in this section by using another example here, 
+given query expression $a+\frac 1 a + \sqrt{a}$ and document expression $a+\frac 1 a + b + \frac 1 b + \sqrt{b}$, we consider bond-variable matching 
+$$\fbox{a}+\dfrac 1 {\fbox{a}} + \sqrt{\fbox{a}}$$
+with 
+$$a+\dfrac 1 a + \fbox{b} + \dfrac 1 {\fbox{b}} + \sqrt{\fbox{b}}$$
+weighted more than exact symbol matching 
+$$\fbox{a}+\dfrac 1 {\fbox{a}} + \sqrt{a}$$ 
+with 
+$$\fbox{a}+\dfrac 1 {\fbox{a}} + b + \dfrac 1 b + \sqrt{b}$$
+(expressions surrounded by a box here indicates the matching part)
+
+Because the former matching has more variables involved even if they are not identical symbolic matches compared with its counterpart of the latter. 
+That is to say, given a document bond-variable matching $k$ variables with that in query, we need $\alpha$ to satisfy $ k \alpha > (k-1) \times 1 = k - 1 $
+and $\alpha < 1$. 
+Therefore, in our practice, we set $\alpha$ to a value close to $1$, e.g. $0.9$.
+
+By sorting the query paths in $Q$, the algorithm is able to take out paths from same bond variable in maximum-occurrence-first order from QList. 
+Each query path $a$ tries to match a path $a'$ in each document bond variable $v$ by selecting the unmarked path $m_p$ with maximum $\mathrm{sim}(a,a')$ value, and accumulate this value on $B_v$ indicating the similarity between currently evaluating query bond variable and the bond variable $v$ in document expression.
+In addition, mark the tag $T_{m_p}$ associated with the document path $m_p$.
+Once a query bond variable has been iterated completely (line~\ref{line_bond_finish}),
+let the document bond variable $m_v$ with greatest $B_v$ value $m$, be the best-matching bond variable in $\mathcal{V}(D)$ with the query bond variable just iterated, then add $m$ to the score.
 Before iterating a new query bond variable, we will cross all the document paths of variable $m_v$ to indicate they are confirmed been matched, 
-and rollback those marked paths that are not variable $m_v$ to be unmarked.
-We continue doing so until all the query path is iterated, and finally return the score indicating the symbolic similarity between query and document expression.
+and unmark the tags of those marked paths that are not variable $m_v$.
+We continue doing so until all the query paths are iterated, finally return the score indicating the symbolic similarity between the two expressions.
 
 \section{Combine the Two}
 We have already discussed and proposed the problem and algorithms to both test structure isomorphic and measure symbolic similarity between mathematical expressions. The two algorithms, however, do not cooperate in an unified way. 

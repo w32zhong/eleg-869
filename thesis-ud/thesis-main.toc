@@ -6,7 +6,7 @@
 \contentsline {section}{\numberline {1.3}Related Work}{5}{section.1.3}
 \contentsline {subsection}{\numberline {1.3.1}Text-based methods}{5}{subsection.1.3.1}
 \contentsline {subsection}{\numberline {1.3.2}Structure-based methods}{6}{subsection.1.3.2}
-\contentsline {subsection}{\numberline {1.3.3}Other related work}{9}{subsection.1.3.3}
+\contentsline {subsection}{\numberline {1.3.3}Other related work}{8}{subsection.1.3.3}
 \contentsline {subsection}{\numberline {1.3.4}Performance Review}{9}{subsection.1.3.4}
 \contentsline {chapter}{\numberline {2}Methodology}{10}{chapter.2}
 \contentsline {section}{\numberline {2.1}Intuitions}{10}{section.2.1}
@@ -28,7 +28,7 @@
 \contentsline {subsection}{\numberline {2.2.5}The decompose-and-match algorithm}{20}{subsection.2.2.5}
 \contentsline {section}{\numberline {2.3}Symbolic Similarity}{21}{section.2.3}
 \contentsline {subsection}{\numberline {2.3.1}Ranking constrains}{23}{subsection.2.3.1}
-\contentsline {subsection}{\numberline {2.3.2}An algorithm}{24}{subsection.2.3.2}
+\contentsline {subsection}{\numberline {2.3.2}The mark-and-cross algorithm}{24}{subsection.2.3.2}
 \contentsline {section}{\numberline {2.4}Combine the Two}{28}{section.2.4}
 \contentsline {subsection}{\numberline {2.4.1}Relaxed structure match}{28}{subsection.2.4.1}
 \contentsline {subsection}{\numberline {2.4.2}Matching-depth}{29}{subsection.2.4.2}

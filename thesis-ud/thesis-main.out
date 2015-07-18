@@ -28,7 +28,7 @@
 \BOOKMARK [2][-]{subsection.2.2.5}{2.2.5 The decompose-and-match algorithm}{section.2.2}% 28
 \BOOKMARK [1][-]{section.2.3}{2.3 Symbolic Similarity}{chapter.2}% 29
 \BOOKMARK [2][-]{subsection.2.3.1}{2.3.1 Ranking constrains}{section.2.3}% 30
-\BOOKMARK [2][-]{subsection.2.3.2}{2.3.2 An algorithm}{section.2.3}% 31
+\BOOKMARK [2][-]{subsection.2.3.2}{2.3.2 The mark-and-cross algorithm}{section.2.3}% 31
 \BOOKMARK [1][-]{section.2.4}{2.4 Combine the Two}{chapter.2}% 32
 \BOOKMARK [2][-]{subsection.2.4.1}{2.4.1 Relaxed structure match}{section.2.4}% 33
 \BOOKMARK [2][-]{subsection.2.4.2}{2.4.2 Matching-depth}{section.2.4}% 34

@@ -71,7 +71,7 @@ $ax+(b+c)$ in most cases is not equivalent to $(a+b)x+c$ although they have the 
 And the order of tokens in math expression can be commutative in some cases but not always, for example, commutative property in math makes $a+b=b+c$ for addition operation, but on the other hand $\dfrac a b$ is most likely not equivalent to $\dfrac b a$.
 These characteristics make many general text search methods (e.g. \textit{bag of words} model, \textit{tf-idf} weighting) inadequate.  
 Moreover, symbols can be used interchangeably to represent the same meaning, e.g. $a^2+b^2=c^2$ and $x^2+y^2=z^2$. 
-However, interchanging symbols does not always preserve mathematical semantics, changes of symbols in expression preserve more syntactic similarity when changes are made by substitution or they are $\alpha$-equivalent. e.g. Given query $x(1+x)$, expression $a(1+a)$ are considered more relevant than $a(1+b)$. 
+However, interchanging symbols does not always preserve mathematical semantics, changes of symbols in expression preserve more syntactic similarity when changes are made by substitution, e.g. Given query $x(1+x)$, expression $a(1+a)$ are considered more relevant than $a(1+b)$. 
 
 Secondly, how we evaluate structural similarity between expressions is a question. A complete query may structurally be a part of a document, or only some parts of a query match somewhere in a document expression.
 In cases when a set of matches occur within some measure of ``distance", we may consider them to contribute similarity as a whole, but when matches occur ``far away" for a query expression, then under the semantic implication of mathematics, they probably will not contribute the similarity degree in any way.
