@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  17 JUL 2015 22:56
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.27)  18 JUL 2015 00:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -863,7 +863,7 @@ verted-to.pdf ./res/leafroottree.eps>
 (epstopdf)             \includegraphics on input line 38.
 Package epstopdf Info: Output file is already uptodate.
 
-<./res/leafroottree-eps-converted-to.pdf, id=458, 170.6375pt x 188.705pt>
+<./res/leafroottree-eps-converted-to.pdf, id=463, 170.6375pt x 188.705pt>
 File: ./res/leafroottree-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./res/leafroottree-eps-converted-to.pdf>
@@ -881,7 +881,7 @@ verted-to.pdf ./res/leafrootpath.eps>
 (epstopdf)             \includegraphics on input line 45.
 Package epstopdf Info: Output file is already uptodate.
 
-<./res/leafrootpath-eps-converted-to.pdf, id=459, 206.7725pt x 188.705pt>
+<./res/leafrootpath-eps-converted-to.pdf, id=464, 206.7725pt x 188.705pt>
 File: ./res/leafrootpath-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./res/leafrootpath-eps-converted-to.pdf>
@@ -907,7 +907,7 @@ nverted-to.pdf ./res/not-necessary.eps>
 (epstopdf)             \includegraphics on input line 230.
 Package epstopdf Info: Output file is already uptodate.
 
-<./res/not-necessary-eps-converted-to.pdf, id=520, 279.0425pt x 188.705pt>
+<./res/not-necessary-eps-converted-to.pdf, id=525, 279.0425pt x 188.705pt>
 File: ./res/not-necessary-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./res/not-necessary-eps-converted-to.pdf>
@@ -930,7 +930,7 @@ Package epstopdf Info: Source file: <./res/not-necessary2.eps>
 onverted-to.pdf ./res/not-necessary2.eps>
 (epstopdf)             \includegraphics on input line 237.
 Package epstopdf Info: Output file is already uptodate.
-<./res/not-necessary2-eps-converted-to.pdf, id=521, 279.0425pt x 188.705pt>
+<./res/not-necessary2-eps-converted-to.pdf, id=526, 279.0425pt x 188.705pt>
 File: ./res/not-necessary2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./res/not-necessary2-eps-converted-to.pdf>
@@ -952,7 +952,7 @@ Package epstopdf Info: Source file: <./res/lpd.eps>
 .pdf ./res/lpd.eps>
 (epstopdf)             \includegraphics on input line 256.
 Package epstopdf Info: Output file is already uptodate.
-<./res/lpd-eps-converted-to.pdf, id=525, 206.7725pt x 230.8625pt>
+<./res/lpd-eps-converted-to.pdf, id=530, 206.7725pt x 230.8625pt>
 File: ./res/lpd-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./res/lpd-eps-converted-to.pdf>
@@ -974,7 +974,7 @@ Package epstopdf Info: Source file: <./res/lpd2.eps>
 o.pdf ./res/lpd2.eps>
 (epstopdf)             \includegraphics on input line 263.
 Package epstopdf Info: Output file is already uptodate.
-<./res/lpd2-eps-converted-to.pdf, id=526, 153.57375pt x 211.79124pt>
+<./res/lpd2-eps-converted-to.pdf, id=531, 153.57375pt x 211.79124pt>
 File: ./res/lpd2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./res/lpd2-eps-converted-to.pdf>
@@ -1011,8 +1011,8 @@ e.2.5}) has been already used, duplicate ignored
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.516 ...}+\dfrac 1 {\fbox{a}} + \sqrt{\fbox{a}}$$
-                                                  ] [27] [28] [29] [30]
-(./chap-2-example.tex
+                                                  ] [27] [28] [29]
+(./chap-2-example.tex [30]
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
@@ -1047,97 +1047,87 @@ Overfull \hbox (46.97797pt too wide) in paragraph at lines 96--210
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.221 
-      ] [32]
+l.235 $$
+        ]
 
 Package hhline Warning: the character " ignored in \hhline argument
-(hhline)                 on input line 302.
-
-
-Package hhline Warning: the character " ignored in \hhline argument
-(hhline)                 on input line 302.
+(hhline)                 on input line 300.
 
 
 Package hhline Warning: the character " ignored in \hhline argument
-(hhline)                 on input line 302.
+(hhline)                 on input line 300.
 
 
 Package hhline Warning: the character " ignored in \hhline argument
-(hhline)                 on input line 302.
+(hhline)                 on input line 300.
 
 
 Package hhline Warning: the character " ignored in \hhline argument
-(hhline)                 on input line 302.
-
-
-Overfull \hbox (20.10965pt too wide) in paragraph at lines 289--306
- [] 
- []
+(hhline)                 on input line 300.
 
 
 Package hhline Warning: the character " ignored in \hhline argument
-(hhline)                 on input line 326.
+(hhline)                 on input line 300.
 
 
 Package hhline Warning: the character " ignored in \hhline argument
-(hhline)                 on input line 326.
+(hhline)                 on input line 324.
 
 
 Package hhline Warning: the character " ignored in \hhline argument
-(hhline)                 on input line 326.
+(hhline)                 on input line 324.
 
 
 Package hhline Warning: the character " ignored in \hhline argument
-(hhline)                 on input line 326.
+(hhline)                 on input line 324.
 
 
 Package hhline Warning: the character " ignored in \hhline argument
-(hhline)                 on input line 326.
+(hhline)                 on input line 324.
 
 
 Package hhline Warning: the character " ignored in \hhline argument
-(hhline)                 on input line 327.
+(hhline)                 on input line 324.
 
 
 Package hhline Warning: the character " ignored in \hhline argument
-(hhline)                 on input line 327.
+(hhline)                 on input line 325.
 
 
 Package hhline Warning: the character " ignored in \hhline argument
-(hhline)                 on input line 327.
+(hhline)                 on input line 325.
 
 
 Package hhline Warning: the character " ignored in \hhline argument
-(hhline)                 on input line 327.
+(hhline)                 on input line 325.
 
 
 Package hhline Warning: the character " ignored in \hhline argument
-(hhline)                 on input line 327.
+(hhline)                 on input line 325.
 
 
-Overfull \hbox (16.91396pt too wide) in paragraph at lines 313--331
- [] 
- []
+Package hhline Warning: the character " ignored in \hhline argument
+(hhline)                 on input line 325.
 
-[33pdfTeX warning (ext4): destination with the same identifier (name{table.2.1}
-) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.345 
-      ] [34pdfTeX warning (ext4): destination with the same identifier (name{ta
-ble.2.2}) has been already used, duplicate ignored
+[32] [33pdfTeX warning (ext4): destination with the same identifier (name{table
+.2.1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.345 
       pdfTeX warning (ext4): destination with the same identifier (name{table.2
-.3}) has been already used, duplicate ignored
+.2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.345 
-      ])) [35]
+      ])) [34pdfTeX warning (ext4): destination with the same identifier (name{
+table.2.3}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.81 \include{chap-2}
+                     ]
 \openout2 = `chap-3.aux'.
 
  (./chap-3.tex
@@ -1148,29 +1138,29 @@ Overfull \hbox (1.88658pt too wide) in paragraph at lines 13--19
 \OT1/cmr/m/n/12 , we have tried to con-vert MathML/XML
  []
 
-[36
+[35
 
 
 
-] [37pdfTeX warning (ext4): destination with the same identifier (name{table.3.
+] [36pdfTeX warning (ext4): destination with the same identifier (name{table.3.
 1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.86 
-     ]) [38pdfTeX warning (ext4): destination with the same identifier (name{ta
+     ]) [37pdfTeX warning (ext4): destination with the same identifier (name{ta
 ble.3.2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.82 \include{chap-3}
-                     ] [39pdfTeX warning (ext4): destination with the same iden
+                     ] [38pdfTeX warning (ext4): destination with the same iden
 tifier (name{table.3.3}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.82 \include{chap-3}
-                     ] [40]
+                     ] [39]
 \openout2 = `bibtex.aux'.
 
  (./bibtex.tex (./thesis-main.bbl
@@ -1209,7 +1199,7 @@ Missing character: There is no Ã in font cmr12!
 Missing character: There is no ­ in font cmr12!
 Missing character: There is no Å in font cmr12!
 Missing character: There is no ¡ in font cmr12!
-[41
+[40
 
 
 
@@ -1220,7 +1210,7 @@ Missing character: There is no Å in font cmr12!
 Missing character: There is no ¡ in font cmr12!
 Missing character: There is no Â in font cmr12!
 Missing character: There is no ¸ in font cmr12!
- [42] [43])) [44]
+ [41] [42])) [43]
 \openout2 = `appA.aux'.
 
  (./appA.tex
@@ -1228,7 +1218,7 @@ Appendix A.
 
 Package hyperref Warning: bookmark level for unknown appendix defaults to 0.
 
-) [45
+) [44
 
 
 
@@ -1237,7 +1227,7 @@ Package hyperref Warning: bookmark level for unknown appendix defaults to 0.
 
  (./appB.tex
 Appendix B.
-) [46
+) [45
 
 
 
@@ -1249,14 +1239,14 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 98.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 98.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 98.
 Package rerunfilecheck Info: File `thesis-main.out' has not changed.
-(rerunfilecheck)             Checksum: 0B6B69FD66C6FB7DD362715EE6F6F381;3143.
+(rerunfilecheck)             Checksum: E953E8AD436881C715964606EDA57139;3223.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 98.
  ) 
 Here is how much of TeX's memory you used:
- 18793 strings out of 495028
- 355935 string characters out of 6181497
- 476547 words of memory out of 5000000
- 21362 multiletter control sequences out of 15000+600000
+ 18794 strings out of 495028
+ 355962 string characters out of 6181497
+ 475706 words of memory out of 5000000
+ 21363 multiletter control sequences out of 15000+600000
  15887 words of font info for 60 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  56i,15n,65p,681b,942s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1278,10 +1268,10 @@ texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/public/amsfonts/latxfont/line10.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis-main.pdf (53 pages, 354190 bytes).
+Output written on thesis-main.pdf (52 pages, 352861 bytes).
 PDF statistics:
- 818 PDF objects out of 1000 (max. 8388607)
+ 817 PDF objects out of 1000 (max. 8388607)
  724 compressed objects within 8 object streams
  171 named destinations out of 1000 (max. 500000)
- 387 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 395 words of extra memory for PDF output out of 10000 (max. 10000000)
 

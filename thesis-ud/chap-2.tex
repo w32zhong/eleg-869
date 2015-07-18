@@ -537,63 +537,49 @@ and unmark the tags of those marked paths that are not variable $m_v$.
 We continue doing so until all the query paths are iterated, finally return the score indicating the symbolic similarity between the two expressions.
 
 \section{Combine the Two}
-We have already discussed and proposed the problem and algorithms to both test structure isomorphic and measure symbolic similarity between mathematical expressions. The two algorithms, however, do not cooperate in an unified way. 
-To illustrate this point, assume we first use decompose-and-match algorithm and have concluded one is a formula subtree of another, but we only get one possible substructure match. 
-There are very likely other possible positions where this tree can also be formula subtree of another, because the candidate sets are not unique. 
-Thus we need to exhaust all possibilities and apply mark-and-cross algorithm to each of them, in order to find the maximum symbolic similarity pair. 
-Analogously, assume we first want to get the symbolic similarity degree, then we are uncertain about the paths we have specified in candidate set are really isomorphic paths to the query path. 
-We will not guarantee substructure relation before using decompose-and-match algorithm.
+We have already discussed the problem and proposed the algorithms to both test structure isomorphic and measure symbolic similarity between mathematical expressions. The two algorithms, however, do not cooperate in an unified way. 
+To illustrate this point, assume we first use \textproc{decompose-and-match} algorithm and have concluded one is a formula subtree of another, but we only get one possible substructure match. 
+There are very likely other possible positions where this tree can also be formula subtree of another, because the candidate sets are not unique (or $|\Phi| > 1$). 
+Thus we need to exhaust all possibilities and apply \textproc{mark-and-cross} algorithm to each of them, in order to find the maximum symbolic similarity pair. 
+Analogously, assume we first want to get the symbolic similarity degree, then we are uncertain about the paths we have specified in candidate set are really isomorphic paths to the query path, i.e. we will not guarantee substructure relation when using \textproc{decompose-and-match} algorithm.
 
-One possible way to both test strict structure isomorphism and measure symbolic similarity is to decompose the tree trying to match all the substructures but at the same time heuristically choose reference paths to achieve best symbolic similarity in a greedy way, if no possible substructure can be matched isomorphically, we have to rollback and try other candidates using backtracking.
-Because the mark-and-cross algorithm has an worst case time complexity of $O\big(|Q| \times |D|\big)$,
-trying to find the maximum point while introduce more parameters (we try to find the one with not only the most symbolic similarity but also who satisfies structure isomorphism) would lead to even more time complexity. 
+One possible way to both test strict structure isomorphism and measure symbolic similarity is to decompose the tree and try to match all the substructures but at the same time heuristically choose reference paths to find the best simbolic match in a greedy way, if no possible substructure can be matched isomorphically, we have to rollback and try other candidates using backtracking.
+From efficiency perspective, the \textproc{mark-and-cross} algorithm already has an worst case time complexity of $O\big(|Q| \times |D|\big)$, if we try to find the best match (find the one with not only the most symbolic similarity but also who satisfies structure isomorphism), then it will eventually lead to more time complexity.
 
 \subsection{Relaxed structure match}
 The complexity introduced to combine the two methods will make our approach infeasible to efficiently deal with large data set. 
 Here we choose to relax our constrain on strict structure isomorphism. 
-As figure~\ref{notnecessary} has illustrated, we know that the labels of a leaf-node path set being a subset of that of another does not necessarily mean the tree generating the former path set is a formula subtree of that generating the latter.
+As figure~\ref{notnecessary} has illustrated, we know that the labels of a leaf-node path set being a subset of another does not necessarily mean the tree generating the former path set is a formula subtree of that generating the latter.
 To further generalize it, we say for any two formula tree $T_q$ and $T_d$ and $\forall\; \hat{a} \in \mathbf{P}$, if $\ell(g(T_q)) \cdot \hat{a} \subseteq \ell(g(T_d))$, it is not sufficient to imply $T_q \preceq_l T_d$.
 Nevertheless, we think the cases which makes the above statement insufficient are fairly rare in common mathematical content, and the complexity introduced from considering those cases will offset the benefit to strictly identify the structure isomorphism.
 Therefore, we loose our constrain on structure similarity so that any  $T_d \in \bigcap_{a \in L} \mathcal{I}_{\Pi}(a) $ is considered structurally relevant to query formula tree $T_q$ in section~\ref{se-method},
 and we say $T_d$ is \textit{searchable} by $T_q$ in index $\Pi$.
-Optionally, we can apply constrain \ref{prop1} in observation \#1 to further eliminate cases such as the one in figure~\ref{notnecessary} thus less query/document expressions that are not in formula subtree relation would be considered relevant. We name this constrain as \textit{fan-number constrain}.
+Optionally, we can apply constrain \ref{prop1} in observation \#1 to further eliminate cases such as the one in figure~\ref{notnecessary} so that less query/document expressions which are not in formula subtree relation would be considered relevant. We name this constrain as \textit{fan-number constrain}.
 
-The revised method will collect all the ``structure similar" document formula trees that satisfy the fan-number constrain in the set $\bigcap_{a \in L} \mathcal{I}_{\Pi}(a)$. 
-Then use mark-and-cross algorithm to finally rank the collected set by symbolic similarity.
+The revised method will collect all the ``structurally similar" document formula trees that satisfy the fan-number constrain in the set $\bigcap_{a \in L} \mathcal{I}_{\Pi}(a)$. 
+Then use \textproc{mark-and-cross} algorithm to rank their symbolic similarity.
 
 \subsection{Matching-depth}
-On the other hand, we may introduce a \textit{matching-depth factor} into symbolic similarity measurement algorithm, to make it also consider some structurally matching depth. 
+On the other hand, we introduce a \textit{matching depth} $d = |\hat{a}|$ into symbolic similarity measurement algorithm, to make it also consider the depth of a structural match. 
 As it is addressed in \cite{mias11a}, the deeper level at where two formula matches, the lower similarity weight would it be, since the deeper sub-formulae in in mathematical expression will make it less important to the overall formula.
 For example, given query formula $\sqrt a$, expression $\sqrt {x}$ would score higher than $\sqrt{\sqrt{x}}$ does. 
-
-To reflect the depth where two math expressions matches, we introduce the matching-depth factor $f(d)$ and modify the similarity function in the mark-and-cross algorithm:
-$$
-\mathrm{sim}(a,a') = 
-\left\{
-\begin{array}{ll}
-f(d)   &\qquad \mathrm{if}\  \mathcal{S}(a) = \mathcal{S}(a')
-\\
-\\
-f(d) \cdot \alpha  &\qquad \mathrm{otherwise}
-\end{array}
-\right.
-$$
-where the factor value $f(d)$ is in a negative correlation with matching depth $d = |\hat{a}|$ (See section~\ref{se-method}). 
-Many possible functions may be adopted, we use $f(d) = \dfrac{1}{1 + d}$ in our method. 
-
-The idea behind this is because we accumulate $\mathrm{sim}(a,a')$ value to contribute the overall symbolic similarity score returned by algorithm~\ref{markcrossalgo}. In order to incorporate mark-and-cross algorithm, by distributivity, we can distribute the factor of matching depth for two mathematical expressions, over all the path pairs generated from the two expressions. 
+To reflect the impact on score, we define \textit{matching depth factor} $f(d)$ to be a function value where $f$ is in negative correlation with matching depth: $f(d) = 1/(1 + d)$.
 
 \subsection{Matching-ratio}
-Before matching-depth is introduced, if a formula subtree relation is inferred between two formula trees, they are considered structurally matching in a boolean manner. 
+We may also need a way to evaluate how many percentage is a query matching a document expression.
+According to the property \ref{prop4} in section~\ref{observationlabel} (observation~\#1), for two expression in formula subtree relation, we have $\dfrac{|g(T_q)|}{|g(T_d)|} \le 1$, 
+we name the ratio of left-hand as \textit{matching-ratio}, which characterises the structural coverage for a matching query in an expression.
+Consider the scenario where a query expression is structural isomorphic to two document expressions, and the symbolic similarity between them are the same.
+However, the different ``area'' that the query matches to the two document expressions essentially makes them scored differently.
+For example, for query $ax + b$, document expression $ax + b$ should precede $x^2 + ax + b$ although the query matches both two document expressions equally in terms of symbol.
+
+\subsection{Final ranking schema}
+Before matching-depth and matching-ratio is introduced, if a formula subtree relation is inferred between two formula trees, they are considered structurally matching in a boolean manner. 
 There is no similarity degree between a complete match (or a sub-formula) and structurally irrelevant. 
 In another word, structural differences is considered in a way to filter indexed expressions, for further symbolic similarity assessment. 
 The final output ranking is determined by symbolic similarity degree, without considering structural similarity. 
-Here we introduce another metres that measures the structural similarity, combined with symbolic similarity to rank final search results.
-
-According to the property \ref{prop4} in section~\ref{observationlabel} (observation~\#1), for two expression in formula subtree relation, we have $\dfrac{|g(T_q)|}{|g(T_d)|} \le 1$, and the ratio of left-hand is named as \textit{matching-ratio}, which characterises the structural coverage for a matching query in an expression.
-Consider the scenario where a query expression is structural isomorphic to two document expressions, and the symbolic similarity between them are the same. 
-However, the different ratio of the document expression ``area'' to the ``area'' which the matching query covers essentially makes them scored differently.
-For example, for query $ax + b$, document expression $ax + b$ should precede $x^2 + ax + b$ although the query matches both two document expressions with same symbolic score.
-Therefore, in addition to the symbolic similarity degree $s$ given by mark-and-cross algorithm, we combine matching-ratio $r$ to score overall similarity and rank document expressions by the tuple $(s, r)$, that is, first compare $s$ and then compare $r$ if $s$ is equal, to rank document expressions.
+Matching-depth and matching-ratio are metres introduced to measure the structural similarity, in the end we need to combine them with symbolic similarity to rank search results.
+Denote symbolic similarity score calculated by \textproc{mark-and-cross} algorithm to be $s$, and $f(d)$ being the matching depth factor, $r$ being the matching ratio for a pair of query/document. 
+We will use them together in a tuple $(s, f(d), r)$, to indicate the overall similarity and rank items in search results,
 
 \input{chap-2-example}

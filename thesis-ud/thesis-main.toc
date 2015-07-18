@@ -33,11 +33,12 @@
 \contentsline {subsection}{\numberline {2.4.1}Relaxed structure match}{28}{subsection.2.4.1}
 \contentsline {subsection}{\numberline {2.4.2}Matching-depth}{29}{subsection.2.4.2}
 \contentsline {subsection}{\numberline {2.4.3}Matching-ratio}{30}{subsection.2.4.3}
-\contentsline {subsection}{\numberline {2.4.4}Illustrated by an example}{31}{subsection.2.4.4}
-\contentsline {chapter}{\numberline {3}Implementation and Evaluation}{36}{chapter.3}
-\contentsline {section}{\numberline {3.1}Implementation}{36}{section.3.1}
-\contentsline {subsection}{\numberline {3.1.1}Crawler}{36}{subsection.3.1.1}
-\contentsline {subsection}{\numberline {3.1.2}Parser}{36}{subsection.3.1.2}
-\contentsline {chapter}{\uppercase {References}}{41}{chapter*.11}
-\contentsline {appendix}{\numberline {A}Title of Appendix A}{45}{appendix.A}
-\contentsline {appendix}{\numberline {B}Title of Appendix B}{46}{appendix.B}
+\contentsline {subsection}{\numberline {2.4.4}Final ranking schema}{30}{subsection.2.4.4}
+\contentsline {subsection}{\numberline {2.4.5}Illustrated by an example}{30}{subsection.2.4.5}
+\contentsline {chapter}{\numberline {3}Implementation and Evaluation}{35}{chapter.3}
+\contentsline {section}{\numberline {3.1}Implementation}{35}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Crawler}{35}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}Parser}{35}{subsection.3.1.2}
+\contentsline {chapter}{\uppercase {References}}{40}{chapter*.11}
+\contentsline {appendix}{\numberline {A}Title of Appendix A}{44}{appendix.A}
+\contentsline {appendix}{\numberline {B}Title of Appendix B}{45}{appendix.B}

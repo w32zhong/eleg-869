@@ -214,8 +214,8 @@ document expression $ax + (b+a)by$
 \caption{Example query/document expression representation}\label{expGraph}
 \end{figure}
 
-The query expression and document expression are represented by operation trees $T_q$ and $T_d$ in figure~\ref{expGraph}, 
-instead of only denoting the operation symbols at the internal nodes and the variable (also can be a constant) symbols at the leaf nodes, we use the notation $^i_l S$ or $^i S$ to denote a node with symbol $S$ labeled by $l$ (i.e. $\ell(S)=l$) with vertex number $i$. 
+The query expression and document expression are represented by operation trees $T_q$ and $T_d$ in figure~\ref{expGraph}. 
+Instead of only denoting the operation symbols at the internal nodes and the variable/constant symbols at the leaf nodes, we use the notation $^i_l S$ or $^i S$ to denote a node with symbol $S$ labeled by $l$ (i.e. $\ell(S)=l$) with vertex number $i$. 
 The three different possible labels used here are $v,\ t$ and $a$, standing for unified name ``variable", ``times" and ``add" respectively.
 To be concise and descriptive, we will interchangeably use either $^i S$ notation or $q_i$ (or $p_i$) to represent the leaf-root path in a query (or document) operation tree where the leaf vertex $i$ resides.
 
@@ -238,8 +238,7 @@ $$
 \ell(g(T_q)) \cdot \hat{a} \subseteq \ell(g(T_d))
 $$
 where $\hat{a} = a$, 
-we know $T_d$ is searchable by $T_q$, so there exists a path $\hat{a}$ we can search to append after every labeled path in set $\ell\left(g(T_d)\right)$ so that we will find $T_d$ by intersecting all the formula trees indexed in these paths in index $\Pi$.
-We can also infer from the conclusions above that the matching-depth $d$ is $|\hat{a}| = 1$, and the matching-ratio $r=\dfrac{|g(T_q)|}{|g(T_d)|} = \dfrac{2}{3}$. 
+we know $T_d$ is searchable by $T_q$, so there exists a path $\hat{a}$ we can search to append after every labeled path in set $\ell\left(g(T_d)\right)$ so that we will find $T_d$ by intersecting all the formula trees indexed (in index $\Pi$) in these paths.
 
 Secondly, by the implications from observation~\#1 of section~\ref{observationlabel}, we get the candidate set for each of the path in $T_q$:
 $$
@@ -253,7 +252,7 @@ $$
 
 In addition, get the list $L$ containing all the query paths in $T_q$ sorted by symbol and its occurrence in all path symbols, 
 $$
-\mathrm{QList} = q_1,\ q_3,\ q_4,\ q_3.
+\mathrm{QList} = q_1,\ q_3,\ q_4,\ q_2.
 $$
 
 \begin{table}
@@ -263,34 +262,33 @@ $$
 \hline
 \textbf{current score} & \multicolumn{4}{c|}{$0.9$}\\ \thickhline
 \textbf{bound variable} & 
-\multicolumn{1}{c|}{$B_a = \dfrac 1 2$} & 
-\multicolumn{2}{c|}{$B_b = 0.9$ (max)} & 
-\multicolumn{1}{c|}{$B_y = \dfrac 1 2 \times 0.9$} \\ \thickhline
+\multicolumn{1}{c|}{$B_a = 1$} & 
+\multicolumn{2}{c|}{$B_b = 1.8$ (max)} & 
+\multicolumn{1}{c|}{$B_y = 0.9$} \\ \thickhline
 \backslashbox{\textbf{query path}}{\textbf{document path}} & 
 \multicolumn{1}{c|}{$^3 a$} & 
 \multicolumn{1}{c|}{$^4 b$} & 
 \multicolumn{1}{c|}{$^5 b$} & 
 \multicolumn{1}{c|}{$^6 y$} \\ \thickhline
-$^1 a$ & & & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$} & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$}\\ \hline
-$^3 a$ & \multicolumn{1}{c|}{$\dfrac 1 2$} & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$} & & \\ \hline
+$^1 a$ & & & \multicolumn{1}{c|}{$0.9$} & \multicolumn{1}{c|}{$0.9$}\\ \hline
+$^3 a$ & \multicolumn{1}{c|}{$1$} & \multicolumn{1}{c|}{$0.9$} & & \\ \hline
 \end{tabular}
 \renewcommand{\arraystretch}{1}
 \end{center}
 \caption{First two iterations of example score evaluation}\label{figure_it2}
 \end{table}
 
-Lastly, we can calculate the symbolic similarity degree between the two expressions by going through each query path from $\mathrm{QList}$ in order and apply mark-and-cross algorithm. 
-Let factor function $f(d) = \dfrac{1}{1 + d}$ (so that matching-depth factor is $0.5$ in this case), and $\alpha = 0.9$.
-Then the first three iterations which calculates the matching score for  bound variable $a$ in $T_q$ can be illustrated by table~\ref{figure_it2}.
+Lastly, we can calculate the symbolic similarity degree between the two expressions by going through each query path from $\mathrm{QList}$ in order and apply mark-and-cross algorithm (use $\alpha = 0.9$).
+Then the first two iterations which calculates the matching score for bound variable $a$ in $T_q$ can be illustrated by table~\ref{figure_it2}.
 
 \begin{table}
 \begin{center}
 \renewcommand{\arraystretch}{2}
 \begin{tabular}{|c"D{.}{}{2.5}|D{.}{}{2.5}|D{.}{}{2.5}|D{.}{}{2.5}|}
 \hline
-\textbf{current score} & \multicolumn{4}{c|}{$0.9 + 0.45 = 1.35$}\\ \thickhline
+\textbf{current score} & \multicolumn{4}{c|}{$0.9 + 0.9 = 1.8 $}\\ \thickhline
 \textbf{bound variable} & 
-\multicolumn{1}{c|}{$B_a = \dfrac 1 2 \times 0.9$ (max)} & 
+\multicolumn{1}{c|}{$B_a = 0.9$ (max)} & 
 \multicolumn{2}{c|}{$B_b = 0$ } & 
 \multicolumn{1}{c|}{$B_y = 0$} \\ \thickhline
 \backslashbox{\textbf{query path}}{\textbf{document path}} & 
@@ -298,9 +296,9 @@ Then the first three iterations which calculates the matching score for  bound v
 \multicolumn{1}{c|}{$^4 b$} & 
 \multicolumn{1}{c|}{$^5 b$} & 
 \multicolumn{1}{c|}{$^6 y$} \\ \thickhline
-$^1 a$ & & & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$} & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$}\\ \hline
-$^3 a$ & \multicolumn{1}{c|}{$\dfrac 1 2$} & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$} & & \\ \hhline{="="="="="}
-$^4 b$ & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$} & \notableentry & \notableentry & \\ \hline
+$^1 a$ & & & \multicolumn{1}{c|}{$0.9$} & \multicolumn{1}{c|}{$0.9$}\\ \hline
+$^3 a$ & \multicolumn{1}{c|}{$1$} & \multicolumn{1}{c|}{$0.9$} & & \\ \hhline{="="="="="}
+$^4 b$ & \multicolumn{1}{c|}{$0.9$} & \notableentry & \notableentry & \\ \hline
 \end{tabular}
 \renewcommand{\arraystretch}{1}
 \end{center}
@@ -312,20 +310,20 @@ $^4 b$ & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$} & \notableentry & \notable
 \renewcommand{\arraystretch}{2}
 \begin{tabular}{|c"D{.}{}{2.5}|D{.}{}{2.5}|D{.}{}{2.5}|D{.}{}{2.5}|}
 \hline
-\textbf{current score} & \multicolumn{4}{c|}{$1.35 + 0.45 = 1.8$}\\ \thickhline
+\textbf{current score} & \multicolumn{4}{c|}{$1.8 + 0.9 = 2.7$}\\ \thickhline
 \textbf{bound variable} & 
 \multicolumn{1}{c|}{$B_a = 0$} & 
 \multicolumn{2}{c|}{$B_b = 0$} & 
-\multicolumn{1}{c|}{$B_y = \dfrac 1 2 \times 0.9$ (max)} \\ \thickhline
+\multicolumn{1}{c|}{$B_y = 0.9$ (max)} \\ \thickhline
 \backslashbox{\textbf{query path}}{\textbf{document path}} & 
 \multicolumn{1}{c|}{$^3 a$} & 
 \multicolumn{1}{c|}{$^4 b$} & 
 \multicolumn{1}{c|}{$^5 b$} & 
 \multicolumn{1}{c|}{$^6 y$} \\ \thickhline
-$^1 a$ & & & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$} & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$}\\ \hline
-$^3 a$ & \multicolumn{1}{c|}{$\dfrac 1 2$} & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$} & & \\ \hhline{="="="="="}
-$^4 b$ & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$} & \notableentry & \notableentry & \\ \hhline{="="="="="}
-$^2 x$ & \notableentry & \notableentry & \notableentry & \multicolumn{1}{c|}{$\dfrac 1 2 \times 0.9$} \\ \hline
+$^1 a$ & & & \multicolumn{1}{c|}{$0.9$} & \multicolumn{1}{c|}{$0.9$}\\ \hline
+$^3 a$ & \multicolumn{1}{c|}{$1$} & \multicolumn{1}{c|}{$0.9$} & & \\ \hhline{="="="="="}
+$^4 b$ & \multicolumn{1}{c|}{$0.9$} & \notableentry & \notableentry & \\ \hhline{="="="="="}
+$^2 x$ & \notableentry & \notableentry & \notableentry & \multicolumn{1}{c|}{$0.9$} \\ \hline
 \end{tabular}
 \renewcommand{\arraystretch}{1}
 \end{center}
@@ -338,9 +336,16 @@ Then the current score is also calculated, by accumulating the max $B_v$ value a
 The tags associated with document path $^4b$ and $^5b$ are marked as crossed state, to prevent path $^4b$ and $^5b$ from being compared in future iterations.
 For the next query bond variable $b$ in $\mathrm{QList}$, 
 first zero every $B_v$ value, 
-then calculate its matching score with the document paths in its candidate sets in a similar manner.
-Except we have skipped some document paths in candidate sets because they are crossed in the previous iteration.
+then calculate its matching score with the document paths in its candidate sets in a similar manner 
+except we have skipped some document paths in candidate sets because they are crossed in the previous iteration.
 Table~\ref{figure_it3} shows the intermediate results before iterate to the next query bond variable in $\mathrm{QList}$.
-Finally, we use the same way to process the last query bond variable $b$, of which the query path $^2x$ is matched with document path $^6 y$ with $\mathrm{sim}(a,a')$ value equals to $0.45$. Then the only non-zero $B_v$ value from document bound variable $y$ will contribute to final symbolic similarity score added up to $1.8$ (see table~\ref{figure_it4}). 
+Finally, we use the same way to process the last query bond variable $x$. 
+Its query path $^2x$ is matched with document path $^6 y$ with $\mathrm{sim}(^2 x,\ ^6 y)$ value equals to $0.9$. 
+Then the only non-zero $B_v$ value from document bound variable $y$ will contribute to final symbolic similarity score which in the end is added up to $2.7$ (see table~\ref{figure_it4}). 
 
-Now we have finished our symbolic similarity evaluation between given query expression and document expression. The final score value $s=1.8$ is combined with matching-ratio $r = \dfrac{2}{3}$ together in a tuple $(1.8,\ \dfrac{2}{3})$, to rank the document expression and determine the similarity degree in general.
+
+Now we have finished our symbolic similarity evaluation between given query expression and document expression. 
+We can also infer that the matching-depth $d$ is $|\hat{a}| = 1$, matching factor 
+$f(d) = \dfrac{1}{1 + d} = 0.5$, 
+and the matching-ratio $r=\dfrac{|g(T_q)|}{|g(T_d)|} = \dfrac{4}{6} \approx 0.67$. 
+The final score tuple $(2.7,\ 0.5,\ 0.67)$ is used to determine the similarity degree in general and rank the document expression.
