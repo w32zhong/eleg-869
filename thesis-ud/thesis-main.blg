@@ -7,15 +7,14 @@ A level-1 auxiliary file: chap-2.aux
 A level-1 auxiliary file: chap-3.aux
 A level-1 auxiliary file: bibtex.aux
 The style file: unsrt.bst
-A level-1 auxiliary file: appA.aux
-A level-1 auxiliary file: appB.aux
+A level-1 auxiliary file: app.aux
 Database file #1: sample.bib
 Warning--empty note in Kohlhase0p4
 Warning--empty note in Kohlhase0p5
 Warning--empty booktitle in heavypathde
 You've used 40 entries,
             1791 wiz_defined-function locations,
-            657 strings with 9781 characters,
+            656 strings with 9772 characters,
 and the built_in function-call counts, 8583 in all, are:
 = -- 773
 > -- 344

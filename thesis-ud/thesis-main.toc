@@ -36,9 +36,18 @@
 \contentsline {subsection}{\numberline {2.4.4}Final ranking schema}{30}{subsection.2.4.4}
 \contentsline {subsection}{\numberline {2.4.5}Illustrated by an example}{30}{subsection.2.4.5}
 \contentsline {chapter}{\numberline {3}Implementation and Evaluation}{35}{chapter.3}
-\contentsline {section}{\numberline {3.1}Implementation}{35}{section.3.1}
-\contentsline {subsection}{\numberline {3.1.1}Crawler}{35}{subsection.3.1.1}
-\contentsline {subsection}{\numberline {3.1.2}Parser}{35}{subsection.3.1.2}
-\contentsline {chapter}{\uppercase {References}}{40}{chapter*.11}
-\contentsline {appendix}{\numberline {A}Title of Appendix A}{44}{appendix.A}
-\contentsline {appendix}{\numberline {B}Title of Appendix B}{45}{appendix.B}
+\contentsline {section}{\numberline {3.1}System Overview}{35}{section.3.1}
+\contentsline {section}{\numberline {3.2}Implementation}{36}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Crawler}{36}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Parser}{36}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Index}{38}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.4}Search program}{38}{subsection.3.2.4}
+\contentsline {subsection}{\numberline {3.2.5}Web front-end}{39}{subsection.3.2.5}
+\contentsline {section}{\numberline {3.3}Evaluation}{40}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Dataset and index}{41}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}Relevance judgement}{41}{subsection.3.3.2}
+\contentsline {subsection}{\numberline {3.3.3}Results}{42}{subsection.3.3.3}
+\contentsline {section}{\numberline {3.4}Conclusion and Future Work}{43}{section.3.4}
+\contentsline {chapter}{\uppercase {References}}{44}{chapter*.11}
+\contentsline {appendix}{\numberline {A}Grammar rules of parser}{48}{appendix.A}
+\contentsline {appendix}{\numberline {B}Lexer tokens of parser}{50}{appendix.B}

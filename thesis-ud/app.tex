@@ -1,6 +1,600 @@
 %
-% This is one Appendix file (app.tex)
+% This is the Appendix A file (appA.tex)
 %
-\oneappendix{Title for Appendix}
+\appendix{Grammar rules of parser}
+\label{grammarRules}
 
-This is the information for one appendix. This is to be used if there is only one appendix.
+\begin{verbatim}
+doc : tex '\n' ;
+
+rel : atom | _REL ;
+
+tex : NULL | term 
+| tex '+' term | tex '+' 
+| tex '-' term | tex '-' 
+| tex _REL tex 
+| tex _SEP_CLASS tex 
+| tex _ABOVE tex 
+| tex _OVER tex 
+| tex _MODULAR tex 
+| tex _CHOOSE tex  
+| tex _STACKREL atom rel tex 
+| tex _SET_REL atom rel tex 
+| tex _X_ARROW atom tex 
+| tex _X_ARROW '[' tex ']' atom tex ;
+
+term : factor | term factor 
+| term _TIMES factor | term _DIV factor ;
+
+factor : pack | factor '!' | factor script ;
+
+pack : atom 
+| '(' tex ')' | '(' tex ']' 
+| '[' tex ')' | '[' tex ']' 
+| _LEFT_CEIL tex _RIGHT_CEIL 
+| _LEFT_FLOOR tex _RIGHT_FLOOR ;
+
+script
+: '_' atom | '^' atom 
+| '_' atom '^' atom
+| '^' atom '_' atom ;
+
+atom : NUM | ZERO | ONE | VAR 
+| FUN_CLASS | SUM_CLASS 
+| '{' tex '}' 
+| FRAC__ | _FRAC atom atom 
+| COMBIN__ | _COMBIN atom atom 
+| _VECT atom 
+| _SQRT atom | _SQRT '[' tex ']' atom | _ROOT atom _OF atom 
+| _PRIME_VAR 
+| _DOTS | _PARTIAL | _PI | _INFTY 
+| _EMPTY | _ANGLE | _PERP | _CIRC 
+| _PERCENT | _VERT ;
+\end{verbatim}
+
+\appendix{Lexer tokens of parser}
+\label{lexerTokens}
+\begin{verbatim}
+\times                                    { _TIMES }
+\otimes                                   { _TIMES }
+\ltimes                                   { _TIMES }
+\rtimes                                   { _TIMES }
+\cdot                                     { _TIMES }
+\odot                                     { _TIMES }
+\ast                                      { _TIMES }
+
+\over                                      { _OVER }
+/* above */
+\above                                    { _ABOVE }
+/* div */
+/                                           { _DIV }
+\div                                        { _DIV }
+\divideontimes                              { _DIV }
+/* frac */
+\frac                                      { _FRAC }
+\dfrac                                     { _FRAC }
+\cfrac                                     { _FRAC }
+\tfrac                                     { _FRAC }
+
+\frac[ ]*[0-9][0-9]                        { FRAC_ }
+\dfrac[ ]*[0-9][0-9]                       { FRAC_ } 
+\cfrac[ ]*[0-9][0-9]                       { FRAC_ } 
+\tfrac[ ]*[0-9][0-9]                       { FRAC_ } 
+
+\left[ ]*\\lceil                     { _LEFT_CEIL; }
+\left[ ]*\\lfloor                    { _LEFT_FLOOR }
+\right[ ]*\\rceil                    { _RIGHT_CEIL; }
+\right[ ]*\\rfloor                   { _RIGHT_FLOOR }
+/* shorter ceil and floor */
+\lceil                               { _LEFT_CEIL }
+\lfloor                              { _LEFT_FLOOR }
+\rceil                               { _RIGHT_CEIL }
+\rfloor                              { _RIGHT_FLOOR }
+
+"|"                                         { _VERT }
+"\\|"                                       { _VERT }
+\vert                                      { _VERT }
+\Vert                                      { _VERT }
+\[Aa]rrowvert                              { _VERT }
+\bracevert                                 { _VERT }
+\r[vV]ert                                  { _VERT }
+\l[vV]ert                                  { _VERT }
+\mid                                       { _VERT }
+
+\choose                                  { _CHOOSE }
+\brack                                   { _CHOOSE }
+
+\dbinom[ ]*[0-9][0-9]                    { COMBIN__ }
+\tbinom[ ]*[0-9][0-9]                    { COMBIN__ } 
+\binom[ ]*[0-9][0-9]                     { COMBIN__ } 
+\dbinom                                  { _COMBIN }
+\tbinom                                  { _COMBIN }
+\binom                                   { _COMBIN }
+
+ /* modular operation */
+
+\\pmod                                   { _MODULAR } 
+\\bmod                                   { _MODULAR } 
+\\mod                                    { _MODULAR } 
+
+ /* prime */
+
+"'"                                    { _PRIME_SUP }
+\\prime                                { _PRIME_VAR } 
+
+ /* sqrt and root */
+
+\\sqrt                                      { _SQRT }
+\\root                                      { _ROOT }
+\\of                                        { _OF;  }
+
+ /* vector */
+ 
+\\vec                                       { _VECT }
+\\overleftarrow                             { _VECT }
+\\overrightarrow                            { _VECT }
+
+ /* partial */
+ 
+\\partial                                { _PARTIAL } 
+\\nabla                                  { _PARTIAL } 
+
+ /* PI */
+
+\\pi                                         { _PI } 
+
+ /* infty */
+
+\\infty                                    { _INFTY }
+
+ /* empty */
+
+\\empty                                    { _EMPTY }
+\\emptyset                                 { _EMPTY }
+\\varnothing                               { _EMPTY }
+
+ /* angle */
+
+\\triangle                                 { _ANGLE }
+\\triangledown                             { _ANGLE }
+\\angle                                    { _ANGLE }
+\\vartriangle                              { _ANGLE }
+\\vartriangleleft                          { _ANGLE }
+\\vartriangleright                         { _ANGLE }
+\\triangleleft                             { _ANGLE }
+\\triangleright                            { _ANGLE }
+\\measuredangle                            { _ANGLE }
+\\sphericalangle                           { _ANGLE }
+
+ /* perpendicular */
+
+\\perp                                      { _PERP }
+\\bot                                       { _PERP }
+
+ /* circle */
+
+\\circ                                      { _CIRC }
+
+ /* percentage */
+
+\\%                                      { _PERCENT }
+
+ /* dots */
+
+\\dots                                      { _DOTS }
+\.\.\.                                      { _DOTS }
+\\ldots                                     { _DOTS }
+\\vdots                                     { _DOTS }
+\\cdots                                     { _DOTS }
+\\ddots                                     { _DOTS }
+\\ddot                                      { _DOTS }
+\\dddot                                     { _DOTS }
+\\ddddot                                    { _DOTS }
+\\dotsb                                     { _DOTS }
+\\dotsc                                     { _DOTS }
+\\dotsi                                     { _DOTS }
+\\dotsm                                     { _DOTS }
+\\dotso                                     { _DOTS }
+\\iddots                                    { _DOTS }
+
+ /* equality class */
+
+=                                            { _REL }
+:=                                           { _REL }
+"<"                                          { _REL }
+">"                                          { _REL }
+\\Cap                                        { _REL }
+\\Cup                                        { _REL }
+\\Join                                       { _REL }
+\\Prec                                       { _REL }
+\\Subset                                     { _REL }
+\\Supset                                     { _REL }
+\\[dD]oteq                                   { _REL }
+\\and                                        { _REL } 
+\\approx                                     { _REL }
+\\approxeq                                   { _REL }
+\\asymp                                      { _REL }
+\\backepsilon                                { _REL }
+\\backsim                                    { _REL }
+\\backsimeq                                  { _REL }
+\\bowtie                                     { _REL }
+\\cap                                        { _REL }
+\\circeq                                     { _REL }
+\\cong                                       { _REL }
+\\cup                                        { _REL }
+\\curlyeqprec                                { _REL }
+\\curlyeqsucc                                { _REL }
+\\curlyvee                                   { _REL }
+\\curlywedge                                 { _REL }
+\\dashv                                      { _REL }
+\\dot=                                       { _REL }
+\\eqslantgtr                                 { _REL }
+\\eqslantless                                { _REL }
+\\equiv                                      { _REL }
+\\ge                                         { _REL }
+\\geq                                        { _REL }
+\\geqq                                       { _REL }
+\\geqslant                                   { _REL }
+\\gg                                         { _REL }
+\\gnapprox                                   { _REL }
+\\gnsim                                      { _REL }
+\\gt                                         { _REL }
+\\gtrapprox                                  { _REL }
+\\gtrdot                                     { _REL }
+\\gtreqless                                  { _REL }  
+\\gtreqqless                                 { _REL } 
+\\gtrless                                    { _REL } 
+\\gtrsim                                     { _REL }
+\\in                                         { _REL }
+\\land                                       { _REL } 
+\\le                                         { _REL }
+\\leadsto                                    { _REL }
+\\leq                                        { _REL }
+\\leqq                                       { _REL }
+\\leqslant                                   { _REL }
+\\lessapprox                                 { _REL }
+\\lessdot                                    { _REL }
+\\lesssim                                    { _REL }
+\\ll                                         { _REL }
+\\lnapprox                                   { _REL }
+\\lneq                                       { _REL }
+\\lneqq                                      { _REL }
+\\lor                                        { _REL } 
+\\lt                                         { _REL }
+\\lvertneqq                                  { _REL }
+\\ncong                                      { _REL }
+\\ne                                         { _REL }
+\\neq                                        { _REL }
+\\ngeq                                       { _REL }
+\\ngeqq                                      { _REL }
+\\ngeqslant                                  { _REL }
+\\ni                                         { _REL }
+\\nleq                                       { _REL }
+\\nleqq                                      { _REL }
+\\nleqslant                                  { _REL }
+\\nless                                      { _REL } 
+\\not("="|"\equiv"|"\in")                    { _REL }
+\\nparallel                                  { _REL }
+\\nprec                                      { _REL }
+\\npreceq                                    { _REL }
+\\nsim                                       { _REL }
+\\nsubseteq                                  { _REL }
+\\nsucc                                      { _REL }
+\\nsucceq                                    { _REL }
+\\nsupseteq                                  { _REL }
+\\owns                                       { _REL }
+\\parallel                                   { _REL }
+\\prec                                       { _REL }
+\\preceq                                     { _REL }
+\\propto                                     { _REL }
+\\sim                                        { _REL }
+\\simeq                                      { _REL }
+\\sqcap                                      { _REL }
+\\sqcup                                      { _REL }
+\\sqsubset                                   { _REL }
+\\sqsubseteq                                 { _REL }
+\\sqsupset                                   { _REL }
+\\sqsupseteq                                 { _REL }
+\\subset                                     { _REL }
+\\subseteq                                   { _REL }
+\\subseteqq                                  { _REL }
+\\subsetneq                                  { _REL }
+\\subsetneqq                                 { _REL }
+\\succ                                       { _REL }
+\\succapprox                                 { _REL }
+\\succcurlyeq                                { _REL }
+\\succeq                                     { _REL }
+\\succnapprox                                { _REL }
+\\succneqq                                   { _REL }
+\\succnsim                                   { _REL }
+\\succsim                                    { _REL }
+\\supset                                     { _REL }
+\\supseteq                                   { _REL }
+\\supseteqq                                  { _REL }
+\\supsetneq                                  { _REL }
+\\supsetneqq                                 { _REL }
+\\thickapprox                                { _REL }
+\\thicksim                                   { _REL }
+\\trianglelefteq                             { _REL }
+\\triangleq                                  { _REL }
+\\trianglerighteq                            { _REL }
+\\unlhd                                      { _REL }
+\\unrhd                                      { _REL }
+\\varsubsetneq                               { _REL }
+\\varsubsetneqq                              { _REL }
+\\varsupsetneq                               { _REL }
+\\varsupsetneqq                              { _REL }
+\\vee                                        { _REL } 
+\\veebar                                     { _REL } 
+\\wedge                                      { _REL } 
+ 
+ /* stack above operations */
+
+\\xleftarrow                            { _X_ARROW  }
+\\xrightarrow                           { _X_ARROW  }
+\\stackrel                              { _STACKREL }
+\\buildrel                              { _BUILDREL }
+\\overset                               { _SET_REL  }
+\\underset                              { _SET_REL  }
+
+ /* seperation class */
+
+ /* table related */                              
+\\\\                                   { _SEP_CLASS }
+\\cr                                   { _SEP_CLASS }
+\\newline                              { _SEP_CLASS }
+\\:                                    { _SEP_CLASS }
+\\>                                    { _SEP_CLASS }
+\\enspace                              { _SEP_CLASS }
+ /* -- */                              
+,                                      { _SEP_CLASS }
+;                                      { _SEP_CLASS }
+\colon                                 { _SEP_CLASS }
+":"                                    { _SEP_CLASS }
+\\\&                                   { _SEP_CLASS }
+\\And                                  { _SEP_CLASS }
+\\Downarrow                            { _SEP_CLASS }
+\\Leftarrow                            { _SEP_CLASS }
+\\Leftrightarrow                       { _SEP_CLASS }
+\\Lleftarrow                           { _SEP_CLASS }
+\\Longleftarrow                        { _SEP_CLASS }
+\\Longleftrightarrow                   { _SEP_CLASS }
+\\Longrightarrow                       { _SEP_CLASS }
+\\Lsh                                  { _SEP_CLASS }
+\\Rightarrow                           { _SEP_CLASS }
+\\Rrightarrow                          { _SEP_CLASS }
+\\Rsh                                  { _SEP_CLASS }
+\\Uparrow                              { _SEP_CLASS }
+\\Updownarrow                          { _SEP_CLASS }
+\\atop                                 { _SEP_CLASS }
+\\between                              { _SEP_CLASS }
+\\circlearrowleft                      { _SEP_CLASS }
+\\circlearrowright                     { _SEP_CLASS }
+\\curvearrowleft                       { _SEP_CLASS }
+\\curvearrowright                      { _SEP_CLASS }
+\\downarrow                            { _SEP_CLASS }
+\\downdownarrows                       { _SEP_CLASS }
+\\downharpoonleft                      { _SEP_CLASS }
+\\downharpoonright                     { _SEP_CLASS }
+\\eqcirc                               { _SEP_CLASS }
+\\eqsim                                { _SEP_CLASS }
+\\exists                               { _SEP_CLASS }
+\\forall                               { _SEP_CLASS }
+\\frown                                { _SEP_CLASS }
+\\gets                                 { _SEP_CLASS }
+\\ggg                                  { _SEP_CLASS }
+\\gggtr                                { _SEP_CLASS }
+\\gneq                                 { _SEP_CLASS }
+\\gneqq                                { _SEP_CLASS }
+\\gvertneqq                            { _SEP_CLASS }
+\\hookleftarrow                        { _SEP_CLASS }
+\\hookrightarrow                       { _SEP_CLASS }
+\\iff                                  { _SEP_CLASS }
+\\impliedby                            { _SEP_CLASS }
+\\implies                              { _SEP_CLASS }
+\\leftarrow                            { _SEP_CLASS }
+\\leftarrowtail                        { _SEP_CLASS }
+\\leftharpoondown                      { _SEP_CLASS }
+\\leftharpoonup                        { _SEP_CLASS }
+\\leftleftarrows                       { _SEP_CLASS }
+\\leftrightarrow                       { _SEP_CLASS }
+\\leftrightarrows                      { _SEP_CLASS }
+\\leftrightharpoons                    { _SEP_CLASS }
+\\leftrightsquigarrow                  { _SEP_CLASS }
+\\longleftarrow                        { _SEP_CLASS }
+\\longleftrightarrow                   { _SEP_CLASS }
+\\longmapsto                           { _SEP_CLASS }
+\\longrightarrow                       { _SEP_CLASS }
+\\looparrowleft                        { _SEP_CLASS }
+\\looparrowright                       { _SEP_CLASS }
+\\mapsto                               { _SEP_CLASS }
+\\multimap                             { _SEP_CLASS }
+\\nLeftarrow                           { _SEP_CLASS }
+\\nLeftrightarrow                      { _SEP_CLASS }
+\\nRightarrow                          { _SEP_CLASS }
+\\nearrow                              { _SEP_CLASS }
+\\nexists                              { _SEP_CLASS }
+\\ngtr                                 { _SEP_CLASS }
+\\nleftarrow                           { _SEP_CLASS }
+\\nleftrightarrow                      { _SEP_CLASS }
+\\nmid                                 { _SEP_CLASS }
+\\nrightarrow                          { _SEP_CLASS }
+\\nwarrow                              { _SEP_CLASS }
+\\precapprox                           { _SEP_CLASS }
+\\preccurlyeq                          { _SEP_CLASS }
+\\precnapprox                          { _SEP_CLASS }
+\\precneqq                             { _SEP_CLASS }
+\\precnsim                             { _SEP_CLASS }
+\\precsim                              { _SEP_CLASS }
+\\qquad                                { _SEP_CLASS }
+\\quad                                 { _SEP_CLASS }
+\\rightarrow                           { _SEP_CLASS }
+\\rightarrowtail                       { _SEP_CLASS }
+\\rightharpoondown                     { _SEP_CLASS }
+\\rightharpoonup                       { _SEP_CLASS }
+\\rightleftarrows                      { _SEP_CLASS }
+\\rightleftharpoons                    { _SEP_CLASS }
+\\rightrightarrows                     { _SEP_CLASS }
+\\rightsquigarrow                      { _SEP_CLASS }
+\\searrow                              { _SEP_CLASS }
+\\smallfrown                           { _SEP_CLASS }
+\\smallsmile                           { _SEP_CLASS }
+\\swarrow                              { _SEP_CLASS }
+\\to                                   { _SEP_CLASS }
+\\uparrow                              { _SEP_CLASS }
+\\updownarrow                          { _SEP_CLASS }
+\\upharpoonleft                        { _SEP_CLASS }
+\\upharpoonright                       { _SEP_CLASS }
+\\upuparrows                           { _SEP_CLASS }
+
+ /* variables */
+\\Alpha                                { VAR } 
+\\Beta                                 { VAR } 
+\\Chi                                  { VAR } 
+\\Delta                                { VAR } 
+\\Epsilon                              { VAR } 
+\\Eta                                  { VAR } 
+\\Gamma                                { VAR } 
+\\Iota                                 { VAR }
+\\Kappa                                { VAR }
+\\Lambda                               { VAR } 
+\\Mu                                   { VAR } 
+\\Nu                                   { VAR } 
+\\Omega                                { VAR } 
+\\Omicron                              { VAR }
+\\Phi                                  { VAR } 
+\\Pi                                   { VAR } 
+\\Psi                                  { VAR } 
+\\Re                                   { VAR }
+\\Rho                                  { VAR } 
+\\Sigma                                { VAR } 
+\\Tau                                  { VAR } 
+\\Theta                                { VAR } 
+\\Upsilon                              { VAR } 
+\\VarLambda                            { VAR } 
+\\VarOmega                             { VAR } 
+\\Xi                                   { VAR } 
+\\Zeta                                 { VAR }
+\\aleph                                { VAR }
+\\alpha                                { VAR } 
+\\amalg                                { VAR }
+\\beta                                 { VAR } 
+\\beth                                 { VAR } 
+\\chi                                  { VAR } 
+\\delta                                { VAR } 
+\\ell                                  { VAR }
+\\epsilon                              { VAR } 
+\\eta                                  { VAR } 
+\\eth                                  { VAR } 
+\\gamma                                { VAR } 
+\\imath                                { VAR }
+\\iota                                 { VAR }
+\\jmath                                { VAR }
+\\kappa                                { VAR }
+\\lambda                               { VAR } 
+\\mho                                  { VAR }
+\\mu                                   { VAR } 
+\\nu                                   { VAR } 
+\\omega                                { VAR } 
+\\omicron                              { VAR }
+\\phi                                  { VAR } 
+\\psi                                  { VAR } 
+\\rho                                  { VAR } 
+\\sigma                                { VAR } 
+\\tau                                  { VAR } 
+\\theta                                { VAR } 
+\\top                                  { VAR }
+\\upsilon                              { VAR } 
+\\varDelta                             { VAR } 
+\\varGamma                             { VAR } 
+\\varPhi                               { VAR } 
+\\varPi                                { VAR }
+\\varPsi                               { VAR } 
+\\varSigma                             { VAR } 
+\\varTheta                             { VAR } 
+\\varUpsilon                           { VAR } 
+\\varXi                                { VAR } 
+\\varepsilon                           { VAR } 
+\\varkappa                             { VAR } 
+\\varphi                               { VAR } 
+\\varpi                                { VAR }
+\\varpropto                            { VAR } 
+\\varrho                               { VAR }
+\\varsigma                             { VAR } 
+\\vartheta                             { VAR } 
+\\wr                                   { VAR }
+\\xi                                   { VAR } 
+\\zeta                                 { VAR }
+
+ /* functions, auto-generated */
+
+\\Pr                             { FUN_CLASS }
+\\arccos                         { FUN_CLASS }
+\\arcsin                         { FUN_CLASS }
+\\arctan                         { FUN_CLASS }
+\\cos                            { FUN_CLASS }
+\\cosh                           { FUN_CLASS }
+\\cot                            { FUN_CLASS }
+\\coth                           { FUN_CLASS }
+\\csc                            { FUN_CLASS }
+\\deg                            { FUN_CLASS }
+\\det                            { FUN_CLASS }
+\\dim                            { FUN_CLASS }
+\\exp                            { FUN_CLASS }
+\\gcd                            { FUN_CLASS }
+\\hom                            { FUN_CLASS }
+\\ker                            { FUN_CLASS }
+\\lg                             { FUN_CLASS }
+\\ln                             { FUN_CLASS }
+\\log                            { FUN_CLASS }
+\\max                            { FUN_CLASS }
+\\min                            { FUN_CLASS }
+\\sec                            { FUN_CLASS }
+\\sin                            { FUN_CLASS }
+\\sinh                           { FUN_CLASS }
+\\tan                            { FUN_CLASS }
+\\tanh                           { FUN_CLASS }
+ /* not LaTeX standard commands */
+\\sgn                            { FUN_CLASS }
+\\signum                         { FUN_CLASS }
+\\sign                           { FUN_CLASS }
+
+ /* sum class, auto-generated */
+
+\\arg                            { SUM_CLASS }
+\\bigcap                         { SUM_CLASS }
+\\bigcup                         { SUM_CLASS }
+\\bigcirc                        { SUM_CLASS }
+\\bigodot                        { SUM_CLASS }
+\\bigoplus                       { SUM_CLASS }
+\\bigotimes                      { SUM_CLASS }
+\\bigsqcup                       { SUM_CLASS }
+\\bigtriangledown                { SUM_CLASS }
+\\bigtriangleup                  { SUM_CLASS }
+\\biguplus                       { SUM_CLASS }
+\\bigvee                         { SUM_CLASS }
+\\bigwedge                       { SUM_CLASS }
+\\coprod                         { SUM_CLASS }
+\\idotsint                       { SUM_CLASS }
+\\int                            { SUM_CLASS }
+\\iint                           { SUM_CLASS }
+\\iiint                          { SUM_CLASS }
+\\iiiint                         { SUM_CLASS }
+\\intop                          { SUM_CLASS }
+\\inf                            { SUM_CLASS }
+\\injlim                         { SUM_CLASS }
+\\smallint                       { SUM_CLASS }
+\\sup                            { SUM_CLASS }
+\\varinjlim                      { SUM_CLASS }
+\\varprojlim                     { SUM_CLASS }
+\\lim                            { SUM_CLASS }
+\\liminf                         { SUM_CLASS }
+\\limsup                         { SUM_CLASS }
+\\varliminf                      { SUM_CLASS }
+\\varlimsup                      { SUM_CLASS }
+\\oint                           { SUM_CLASS }
+\\prod                           { SUM_CLASS }
+\\projlim                        { SUM_CLASS }
+\\sum                            { SUM_CLASS }
+
+\end{verbatim}

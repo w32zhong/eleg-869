@@ -346,6 +346,7 @@ The procedure returns SUCC if a match is found, otherwise FAIL is returned indic
 \end{figure}
 
 \section{Symbolic Similarity}
+\label{symSimi}
 Besides structural similarity, symbolic similarity is also essential to be considered,
 because it has some benefits to further differentiate math expression similarity.
 
@@ -574,6 +575,7 @@ However, the different ``area'' that the query matches to the two document expre
 For example, for query $ax + b$, document expression $ax + b$ should precede $x^2 + ax + b$ although the query matches both two document expressions equally in terms of symbol.
 
 \subsection{Final ranking schema}
+\label{rankingTuple}
 Before matching-depth and matching-ratio is introduced, if a formula subtree relation is inferred between two formula trees, they are considered structurally matching in a boolean manner. 
 There is no similarity degree between a complete match (or a sub-formula) and structurally irrelevant. 
 In another word, structural differences is considered in a way to filter indexed expressions, for further symbolic similarity assessment. 
