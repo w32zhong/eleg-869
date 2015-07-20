@@ -538,6 +538,7 @@ and unmark the tags of those marked paths that are not variable $m_v$.
 We continue doing so until all the query paths are iterated, finally return the score indicating the symbolic similarity between the two expressions.
 
 \section{Combine the Two}
+\label{CombineTheTwo}
 We have already discussed the problem and proposed the algorithms to both test structure isomorphic and measure symbolic similarity between mathematical expressions. The two algorithms, however, do not cooperate in an unified way. 
 To illustrate this point, assume we first use \textproc{decompose-and-match} algorithm and have concluded one is a formula subtree of another, but we only get one possible substructure match. 
 There are very likely other possible positions where this tree can also be formula subtree of another, because the candidate sets are not unique (or $|\Phi| > 1$). 

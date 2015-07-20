@@ -47,7 +47,7 @@
 \contentsline {subsection}{\numberline {3.3.1}Dataset and index}{41}{subsection.3.3.1}
 \contentsline {subsection}{\numberline {3.3.2}Relevance judgement}{41}{subsection.3.3.2}
 \contentsline {subsection}{\numberline {3.3.3}Results}{42}{subsection.3.3.3}
-\contentsline {section}{\numberline {3.4}Conclusion and Future Work}{43}{section.3.4}
-\contentsline {chapter}{\uppercase {References}}{44}{chapter*.11}
-\contentsline {appendix}{\numberline {A}Grammar rules of parser}{48}{appendix.A}
-\contentsline {appendix}{\numberline {B}Lexer tokens of parser}{50}{appendix.B}
+\contentsline {section}{\numberline {3.4}Conclusion and Future Work}{45}{section.3.4}
+\contentsline {chapter}{\uppercase {References}}{47}{chapter*.11}
+\contentsline {appendix}{\numberline {A}Grammar rules of parser}{51}{appendix.A}
+\contentsline {appendix}{\numberline {B}Lexer tokens of parser}{53}{appendix.B}

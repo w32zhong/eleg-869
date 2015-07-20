@@ -200,7 +200,33 @@ We have defined four relevance levels, scored from 0 to 4 in our evaluation expe
 This criteria considers both structural similarity and symbolic similarity. 
 Structural similarity is scored by either 0, 1 (mostly similar) or 2 (complete matching);
 symbolic similarity is scored by 0, 1 (mostly identical symbols for the matching parts) or 2 (identical symbols for the matching parts).
-The level of relevance is simply the sum of the two scores.
+The overall level of relevance is simply the sum of the two scores.
+Table~\ref{JudgTab} lists all possible values for the overall relevance score in each case.
+
+\begin{figure}
+\begin{minipage}[b]{4.65in}
+\begin{center}
+%%%%%%%%%%%%%%%%%%%%%
+\begin{tabular}{|c|c"c|c|c|}
+\hline
+\multicolumn{2}{|c"}{\multirow{2}{*}{Relevance Score}} 
+& \multicolumn{3}{c|}{Structurally} \\
+\cline{3-5}
+\multicolumn{2}{|c"}{} & Low similarity & High similarity & Complete match \\
+\thickhline
+\multirow{3}{*}{Symbolically} 
+& Low similarity &  0 & 1 & 2 \\
+\cline{2-5}
+& High similarity &  1 & 2 & 3 \\
+\cline{2-5}
+& Complete match &  2 & 3 & 4 \\
+\hline
+\end{tabular}
+%%%%%%%%%%%%%%%%%%%%%
+\end{center}
+\end{minipage}
+\caption{Judgement Score Table}\label{JudgTab}
+\end{figure}
 
 \begin{figure}
 \begin{minipage}[b]{2.65in}
@@ -232,7 +258,7 @@ The level of relevance is simply the sum of the two scores.
 20  &  19 &  1 &  0 &  0 &  0 &  20\\
 \hline
 \end{tabular}
-\\[0.3cm] Baseline method
+% \\[0.3cm] Baseline method
 \end{center}
 \end{minipage}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -267,33 +293,68 @@ The level of relevance is simply the sum of the two scores.
 20  &  0 &  0 &  2 &  7 &  11 &  20\\
 \hline
 \end{tabular}
-\\[0.3cm] Similarity search
+% \\[0.3cm] Similarity search
 \end{center}
 \end{minipage}
 \caption{Relevance score distribution}\label{distrtab}
 \end{figure}
 
-\subsection{Results}
-We have evaluated two methods here, a baseline method is a boolean search for structural related document using the method in section~\ref{se-method}; another method is a similarity search which further considers symbolic similarity score, matching depth factor and matching ratio as described in section~\ref{se-and-rank}.
 
-Table~\ref{distrtab} shows the distribution of hits and relevance level for top 20 results (or less, if the number of hits are fewer than 20).
-The performance and comparison of these two methods are shown in figure~\ref{perfcomp} and figure~\ref{effiperf}. 
-The query look-up time is the time consumed for searching directories and posting files.
+\subsection{Results}
+
+We have evaluated two methods here. 
+The baseline method is a boolean search for structural related document using the method in section~\ref{se-method}. 
+We compare the baseline method with the more comprehensive search method proposed in this paper, 
+which further considers symbolic similarity score, matching depth factor and matching ratio as described in section~\ref{CombineTheTwo}.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=4.8in, height=3.6in]{partial-rel}
+\\Partial relevance (relevance score $\ge 1$)
+\\[0.4in]
+\includegraphics[width=4.8in, height=3.6in]{total-rel}
+\\ Relevance (relevance score $\ge 3$)
+\end{center}
+\caption{Effectiveness performance}\label{perfcomp}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=4.7in, height=3.3in]{response-time.eps}
+\end{center}
+\caption{Efficiency performance}\label{effiperf}
+\end{figure}
+
+Table~\ref{distrtab} shows the distribution of hits and relevance judgement score of top 20 results (or less, if the number of hits are fewer than 20) for each test query listed in table~\ref{TestQ}.
+The relevance scores directly reflect the effectiveness of our methods.
+figure~\ref{perfcomp} has visualized the relevance level of our evaluation.
+On the other hand,
+we also have done a performance evaluation on the average query look up time for each test query.
+The efficiency performance comparison of these two methods is shown in figure~\ref{effiperf} 
+(The query look-up time is the time consumed for searching directories and posting files, this is the majority of time consumption for the query look-up in our implementation).
+
 Results show that our similarity measurement, if used, can boost search effectiveness in all the five metres evaluated, 
 and consumes a reasonable extra time on top of the baseline method. 
 
 \section{Conclusion and Future Work}
-Our method tries to measure math-expression similarity by their structures and operand symbols. 
-We search structurally relevant expressions in a subset of index and our proposed similarity search method has achieved satisfactory effectiveness by our standard.
-Meanwhile, our index does not need augmentation thus has less redundancy.
-In the next stage, it is desired to integrate text search ability into our math-only search method. 
+Our method tries to measure math-expression similarity from the perspective of their structures and operand symbols. 
+We search structurally relevant expressions in a subset of index and our evaluation results have demonstrated the overall cost-effectiveness of adding symbolic similarity-search method on proposed structural similarity-search.
+
+We expect our index to be less redundant because our method does not need augmentation to capture the same semantical meanings between different alternative forms of a math expression.
+However, it is observed that our index size is still relatively large (9.4GB) compared to the size of input raw data (around 60MB).
+There are presumably two reasons for this: 
+Firstly we are implementing our index based on file system directories for the ease of implementation, the overhead for constructing directories in file system cannot be overlooked. 
+Secondly, the 60MB raw data are all math formula in \LaTeX,	in contrast to a general text search engine, whose raw data usually contains the entire document text, our raw data is comparatively more data-intensive, and carries more information than general text. 
+Moreover, we do not use any kind of compression in our index.
+Another observation is, the absolute value of our query lookup time is not ideal, especially
+the first-time querying takes much longer time (because cache miss) than the time of subsequent same queries. 
+Furthermore, queries with simple decomposed sub-paths takes relative much longer time to search (e.g. query number 2 takes almost 4 seconds in average). 
+
+In the next stage, trying to reduce the overhead for searching the index can be a good way to fix our bottleneck on both improving storage space efficiency and speeding up query look-up process. 
+We may try to index the data into a single large file (e.g. implement a B-tree like file structure to store sub-paths) instead of small files spread over directories, to lower the system overhead in storage and take advantage of cache locality. 
+It maybe also a good idea to try compressing the index and saving less information on disk for a branch word to further reduce the storage demand for our index.
+Nevertheless, Considering the fact that our system is newly created, we have already meet the goal to test our new ideas on mathematical search, despite the less usability compared to already mature existing tools for general text search.
+
+Other than the problems addressed above, it is also desired to integrate text search ability into our math-only search method. 
 Additionally, the manner we use to break math formula into branch words and to index them through posting list make it easy to parallelize and distribute the searching process,
 which means there is a large potential for future efforts to improve the efficiency of this method.
-
-There are four levels of relevance scored from 0 to 4 in our evaluation.
-The criteria considers both structural similarity and symbolic similarity. 
-Structural similarity is measured by 0, 1 (mostly similar) and 2 (complete matching). 
-While symbolic similarity is measured by 0, 1 (mostly similar for the matching parts) and 2 (identical symbols for the matching parts).
-The level of relevance is simply the sum of the two scores.
-
-directly huge
