@@ -109,7 +109,7 @@ User query is sent from browser to the front-end program by HTTP POST method and
 The front end CGI program calls search library and wrap search results in HTML list elements, at the same time creates navigation links to help user browse results by page.
 Figure~\ref{frontEnd} shows a screenshot of the search page and a result page from Web front-end.
 
-\begin{table*}
+\begin{table}
 \begin{center}
 \renewcommand{\arraystretch}{1.5}
 \begin{tabular}{|c|c||c|c|}\hline
@@ -168,7 +168,7 @@ $\bar{u} = (x,y,z)$ \\\hline
 \renewcommand{\arraystretch}{1}
 \end{center}
 \caption{Test query set}\label{TestQ}
-\end{table*}
+\end{table}
 
 \section{Evaluation}
 We rely on the search engine described in previous section to evaluate our search methods proposed in this paper.
@@ -177,6 +177,7 @@ The criteria to give judges about assessing the level of similarity degree betwe
 Nevertheless, we choose to evaluate our system by comparison to a naive baseline, and provide our intuitive guidelines for relevance judgements, given the newness of the domain.
 
 \subsection{Dataset and index}
+\label{datasetAndIndex}
 Our own dataset is created to evaluate proposed method.
 We have crawled \LaTeX\ content from the posts of nearly entire (27180 pages of questions) Math Stack Exchange website before March 2015. 
 The data set~\footnote{raw data: \url{http://infolab.ece.udel.edu:8912/cowpie/raw.tar.bz2} }
@@ -203,7 +204,7 @@ symbolic similarity is scored by 0, 1 (mostly identical symbols for the matching
 The overall level of relevance is simply the sum of the two scores.
 Table~\ref{JudgTab} lists all possible values for the overall relevance score in each case.
 
-\begin{figure}
+\begin{table}
 \begin{minipage}[b]{4.65in}
 \begin{center}
 %%%%%%%%%%%%%%%%%%%%%
@@ -226,9 +227,9 @@ Table~\ref{JudgTab} lists all possible values for the overall relevance score in
 \end{center}
 \end{minipage}
 \caption{Judgement Score Table}\label{JudgTab}
-\end{figure}
+\end{table}
 
-\begin{figure}
+\begin{table}
 \begin{minipage}[b]{2.65in}
 \begin{center}
 \begin{tabular}{|c"c|c|c|c|c|c|}
@@ -297,7 +298,7 @@ Table~\ref{JudgTab} lists all possible values for the overall relevance score in
 \end{center}
 \end{minipage}
 \caption{Relevance score distribution}\label{distrtab}
-\end{figure}
+\end{table}
 
 
 \subsection{Results}
@@ -335,26 +336,3 @@ The efficiency performance comparison of these two methods is shown in figure~\r
 
 Results show that our similarity measurement, if used, can boost search effectiveness in all the five metres evaluated, 
 and consumes a reasonable extra time on top of the baseline method. 
-
-\section{Conclusion and Future Work}
-Our method tries to measure math-expression similarity from the perspective of their structures and operand symbols. 
-We search structurally relevant expressions in a subset of index and our evaluation results have demonstrated the overall cost-effectiveness of adding symbolic similarity-search method on proposed structural similarity-search.
-
-We expect our index to be less redundant because our method does not need augmentation to capture the same semantical meanings between different alternative forms of a math expression.
-However, it is observed that our index size is still relatively large (9.4GB) compared to the size of input raw data (around 60MB).
-There are presumably two reasons for this: 
-Firstly we are implementing our index based on file system directories for the ease of implementation, the overhead for constructing directories in file system cannot be overlooked. 
-Secondly, the 60MB raw data are all math formula in \LaTeX,	in contrast to a general text search engine, whose raw data usually contains the entire document text, our raw data is comparatively more data-intensive, and carries more information than general text. 
-Moreover, we do not use any kind of compression in our index.
-Another observation is, the absolute value of our query lookup time is not ideal, especially
-the first-time querying takes much longer time (because cache miss) than the time of subsequent same queries. 
-Furthermore, queries with simple decomposed sub-paths takes relative much longer time to search (e.g. query number 2 takes almost 4 seconds in average). 
-
-In the next stage, trying to reduce the overhead for searching the index can be a good way to fix our bottleneck on both improving storage space efficiency and speeding up query look-up process. 
-We may try to index the data into a single large file (e.g. implement a B-tree like file structure to store sub-paths) instead of small files spread over directories, to lower the system overhead in storage and take advantage of cache locality. 
-It maybe also a good idea to try compressing the index and saving less information on disk for a branch word to further reduce the storage demand for our index.
-Nevertheless, Considering the fact that our system is newly created, we have already meet the goal to test our new ideas on mathematical search, despite the less usability compared to already mature existing tools for general text search.
-
-Other than the problems addressed above, it is also desired to integrate text search ability into our math-only search method. 
-Additionally, the manner we use to break math formula into branch words and to index them through posting list make it easy to parallelize and distribute the searching process,
-which means there is a large potential for future efforts to improve the efficiency of this method.

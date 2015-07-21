@@ -3,8 +3,10 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: thesis-main.aux
 A level-1 auxiliary file: thesis-tap.aux
 A level-1 auxiliary file: chap-1.aux
+A level-1 auxiliary file: chap-1-1.aux
 A level-1 auxiliary file: chap-2.aux
 A level-1 auxiliary file: chap-3.aux
+A level-1 auxiliary file: chap-4.aux
 A level-1 auxiliary file: bibtex.aux
 The style file: unsrt.bst
 A level-1 auxiliary file: app.aux
@@ -14,7 +16,7 @@ Warning--empty note in Kohlhase0p5
 Warning--empty booktitle in heavypathde
 You've used 40 entries,
             1791 wiz_defined-function locations,
-            656 strings with 9772 characters,
+            658 strings with 9794 characters,
 and the built_in function-call counts, 8583 in all, are:
 = -- 773
 > -- 344

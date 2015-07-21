@@ -1,53 +1,59 @@
-\contentsline {prefacesection}{Abstract}{vii}{chapter*.6}
+\contentsline {prefacesection}{List of Tables}{vii}{chapter*.4}
+\contentsline {prefacesection}{List of Figures}{viii}{chapter*.5}
+\contentsline {prefacesection}{Abstract}{ix}{chapter*.6}
 \select@language {english}
-\contentsline {chapter}{\numberline {1}Background}{1}{chapter.1}
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
 \contentsline {section}{\numberline {1.1}Math IR Domains}{1}{section.1.1}
 \contentsline {section}{\numberline {1.2}Issues in Measuring Similarity}{3}{section.1.2}
-\contentsline {section}{\numberline {1.3}Related Work}{5}{section.1.3}
-\contentsline {subsection}{\numberline {1.3.1}Text-based methods}{5}{subsection.1.3.1}
-\contentsline {subsection}{\numberline {1.3.2}Structure-based methods}{6}{subsection.1.3.2}
-\contentsline {subsection}{\numberline {1.3.3}Other related work}{8}{subsection.1.3.3}
-\contentsline {subsection}{\numberline {1.3.4}Performance Review}{9}{subsection.1.3.4}
-\contentsline {chapter}{\numberline {2}Methodology}{10}{chapter.2}
-\contentsline {section}{\numberline {2.1}Intuitions}{10}{section.2.1}
-\contentsline {subsection}{\numberline {2.1.1}Commutative immunity}{11}{subsection.2.1.1}
-\contentsline {subsection}{\numberline {2.1.2}Sub-structure query ability}{11}{subsection.2.1.2}
-\contentsline {subsection}{\numberline {2.1.3}Index and search properties}{11}{subsection.2.1.3}
-\contentsline {section}{\numberline {2.2}Structure Similarity}{12}{section.2.2}
-\contentsline {subsection}{\numberline {2.2.1}Definitions}{13}{subsection.2.2.1}
-\contentsline {subsubsection}{\numberline {2.2.1.1}Formula tree}{14}{subsubsection.2.2.1.1}
-\contentsline {subsubsection}{\numberline {2.2.1.2}Formula subtree}{14}{subsubsection.2.2.1.2}
-\contentsline {subsubsection}{\numberline {2.2.1.3}Leaf-root path set}{14}{subsubsection.2.2.1.3}
-\contentsline {subsubsection}{\numberline {2.2.1.4}Index}{15}{subsubsection.2.2.1.4}
-\contentsline {subsection}{\numberline {2.2.2}Search method}{15}{subsection.2.2.2}
-\contentsline {subsection}{\numberline {2.2.3}Substructure matching}{16}{subsection.2.2.3}
-\contentsline {subsubsection}{\numberline {2.2.3.1}Observation \#1}{16}{subsubsection.2.2.3.1}
-\contentsline {subsubsection}{\numberline {2.2.3.2}Observation \#2}{17}{subsubsection.2.2.3.2}
-\contentsline {subsubsection}{\numberline {2.2.3.3}Observation \#3}{17}{subsubsection.2.2.3.3}
-\contentsline {subsection}{\numberline {2.2.4}Interpretation}{18}{subsection.2.2.4}
-\contentsline {subsection}{\numberline {2.2.5}The decompose-and-match algorithm}{20}{subsection.2.2.5}
-\contentsline {section}{\numberline {2.3}Symbolic Similarity}{21}{section.2.3}
-\contentsline {subsection}{\numberline {2.3.1}Ranking constrains}{23}{subsection.2.3.1}
-\contentsline {subsection}{\numberline {2.3.2}The mark-and-cross algorithm}{24}{subsection.2.3.2}
-\contentsline {section}{\numberline {2.4}Combine the Two}{28}{section.2.4}
-\contentsline {subsection}{\numberline {2.4.1}Relaxed structure match}{28}{subsection.2.4.1}
-\contentsline {subsection}{\numberline {2.4.2}Matching-depth}{29}{subsection.2.4.2}
-\contentsline {subsection}{\numberline {2.4.3}Matching-ratio}{30}{subsection.2.4.3}
-\contentsline {subsection}{\numberline {2.4.4}Final ranking schema}{30}{subsection.2.4.4}
-\contentsline {subsection}{\numberline {2.4.5}Illustrated by an example}{30}{subsection.2.4.5}
-\contentsline {chapter}{\numberline {3}Implementation and Evaluation}{35}{chapter.3}
-\contentsline {section}{\numberline {3.1}System Overview}{35}{section.3.1}
-\contentsline {section}{\numberline {3.2}Implementation}{36}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}Crawler}{36}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}Parser}{36}{subsection.3.2.2}
-\contentsline {subsection}{\numberline {3.2.3}Index}{38}{subsection.3.2.3}
-\contentsline {subsection}{\numberline {3.2.4}Search program}{38}{subsection.3.2.4}
-\contentsline {subsection}{\numberline {3.2.5}Web front-end}{39}{subsection.3.2.5}
-\contentsline {section}{\numberline {3.3}Evaluation}{40}{section.3.3}
-\contentsline {subsection}{\numberline {3.3.1}Dataset and index}{41}{subsection.3.3.1}
-\contentsline {subsection}{\numberline {3.3.2}Relevance judgement}{41}{subsection.3.3.2}
-\contentsline {subsection}{\numberline {3.3.3}Results}{42}{subsection.3.3.3}
-\contentsline {section}{\numberline {3.4}Conclusion and Future Work}{45}{section.3.4}
-\contentsline {chapter}{\uppercase {References}}{47}{chapter*.11}
-\contentsline {appendix}{\numberline {A}Grammar rules of parser}{51}{appendix.A}
-\contentsline {appendix}{\numberline {B}Lexer tokens of parser}{53}{appendix.B}
+\contentsline {section}{\numberline {1.3}Contribution Summary}{5}{section.1.3}
+\contentsline {chapter}{\numberline {2}Related Work}{6}{chapter.2}
+\contentsline {section}{\numberline {2.1}Text-based methods}{6}{section.2.1}
+\contentsline {section}{\numberline {2.2}Structure-based methods}{7}{section.2.2}
+\contentsline {section}{\numberline {2.3}Other related work}{10}{section.2.3}
+\contentsline {section}{\numberline {2.4}Performance Review}{10}{section.2.4}
+\contentsline {chapter}{\numberline {3}Methodology}{11}{chapter.3}
+\contentsline {section}{\numberline {3.1}Intuitions}{11}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Commutative immunity}{12}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}Sub-structure query ability}{12}{subsection.3.1.2}
+\contentsline {subsection}{\numberline {3.1.3}Index and search properties}{12}{subsection.3.1.3}
+\contentsline {section}{\numberline {3.2}Structure Similarity}{13}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Definitions}{14}{subsection.3.2.1}
+\contentsline {subsubsection}{\numberline {3.2.1.1}Formula tree}{15}{subsubsection.3.2.1.1}
+\contentsline {subsubsection}{\numberline {3.2.1.2}Formula subtree}{15}{subsubsection.3.2.1.2}
+\contentsline {subsubsection}{\numberline {3.2.1.3}Leaf-root path set}{15}{subsubsection.3.2.1.3}
+\contentsline {subsubsection}{\numberline {3.2.1.4}Index}{16}{subsubsection.3.2.1.4}
+\contentsline {subsection}{\numberline {3.2.2}Search method}{16}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Substructure matching}{17}{subsection.3.2.3}
+\contentsline {subsubsection}{\numberline {3.2.3.1}Observation \#1}{17}{subsubsection.3.2.3.1}
+\contentsline {subsubsection}{\numberline {3.2.3.2}Observation \#2}{18}{subsubsection.3.2.3.2}
+\contentsline {subsubsection}{\numberline {3.2.3.3}Observation \#3}{18}{subsubsection.3.2.3.3}
+\contentsline {subsection}{\numberline {3.2.4}Interpretation}{19}{subsection.3.2.4}
+\contentsline {subsection}{\numberline {3.2.5}The decompose-and-match algorithm}{21}{subsection.3.2.5}
+\contentsline {section}{\numberline {3.3}Symbolic Similarity}{22}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Ranking constrains}{24}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}The mark-and-cross algorithm}{25}{subsection.3.3.2}
+\contentsline {section}{\numberline {3.4}Combine the Two}{29}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Relaxed structure match}{29}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Matching-depth}{30}{subsection.3.4.2}
+\contentsline {subsection}{\numberline {3.4.3}Matching-ratio}{31}{subsection.3.4.3}
+\contentsline {subsection}{\numberline {3.4.4}Final ranking schema}{31}{subsection.3.4.4}
+\contentsline {subsection}{\numberline {3.4.5}Illustrated by an example}{31}{subsection.3.4.5}
+\contentsline {chapter}{\numberline {4}Implementation and Evaluation}{36}{chapter.4}
+\contentsline {section}{\numberline {4.1}System Overview}{36}{section.4.1}
+\contentsline {section}{\numberline {4.2}Implementation}{37}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Crawler}{37}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Parser}{37}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Index}{39}{subsection.4.2.3}
+\contentsline {subsection}{\numberline {4.2.4}Search program}{39}{subsection.4.2.4}
+\contentsline {subsection}{\numberline {4.2.5}Web front-end}{40}{subsection.4.2.5}
+\contentsline {section}{\numberline {4.3}Evaluation}{41}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Dataset and index}{42}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Relevance judgement}{42}{subsection.4.3.2}
+\contentsline {subsection}{\numberline {4.3.3}Results}{43}{subsection.4.3.3}
+\contentsline {chapter}{\numberline {5}Conclusion and Future Work}{47}{chapter.5}
+\contentsline {section}{\numberline {5.1}Summery and Conclusion}{47}{section.5.1}
+\contentsline {section}{\numberline {5.2}Current Problems}{48}{section.5.2}
+\contentsline {section}{\numberline {5.3}Future Work}{48}{section.5.3}
+\contentsline {chapter}{\uppercase {References}}{50}{chapter*.11}
+\contentsline {appendix}{\numberline {A}Grammar rules of parser}{54}{appendix.A}
+\contentsline {appendix}{\numberline {B}Lexer tokens of parser}{56}{appendix.B}

@@ -385,17 +385,14 @@ mu.\mkern
 
 \renewcommand{\listoffigures}{%
  \@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn
- \fi
-\section*{List of Figures\@mkboth{LIST OF FIGURES}{LIST OF FIGURES}}
-\vspace*{\parskip}
- {
-\pretolerance=10000\raggedright
-\advance\hsize by -\@pnumwidth
-\renewcommand{\baselinestretch}{1}\large\normalsize
-\parskip\baselineskip
-\@starttoc{lof}
-\if@restonecol\twocolumn\fi
-}}
+ \fi\chapter*{List of Figures\@mkboth{LIST OF FIGURES}{LIST OF FIGURES}}
+\addcontentsline{toc}{prefacesection}{List of Figures}
+ \vspace*{\parskip}
+ {\pretolerance=10000\raggedright
+ \advance\hsize by -\@pnumwidth
+ \renewcommand{\baselinestretch}{1}\large\normalsize
+ \parskip\baselineskip
+ \@starttoc{lof}\if@restonecol\twocolumn\fi}}
 
 % Increased 3em to 3.2em to handle double digit chapter/figtab numbers
 % Redefined \l@table to be the new \l@figure - 1/25/99
@@ -404,7 +401,8 @@ mu.\mkern
 
 \renewcommand{\listoftables}{%
  \@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn
- \fi\section*{List of Tables\@mkboth{LIST OF TABLES}{LIST OF TABLES}}
+ \fi\chapter*{List of Tables\@mkboth{LIST OF TABLES}{LIST OF TABLES}}
+\addcontentsline{toc}{prefacesection}{List of Tables}
  \vspace*{\parskip}
  {\pretolerance=10000\raggedright
  \advance\hsize by -\@pnumwidth
