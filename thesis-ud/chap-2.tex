@@ -1,588 +1,65 @@
-\chapter{Methodology}
-Our method can be seen as an approach built upon the idea of leaf-root path or sub-path~\cite{signifjap,MathMLleafroot,signfused,sefobyfo} from an operation tree~\cite{goodsurvey}. 
-But we have developed this idea further in many ways. 
-Our index is composed from leaf-root paths extracted from an operation tree, we simultaneously search along the way of all leaf-root paths from a given query operation tree, which is essentially traversing ``reversed" sub-paths.
-Searching in this way also makes a pruning method possible to limit our search set. 
-We also propose a sub-structure testing algorithm, which are utilizing some observed properties from our indexed tree. 
-Apart from these, we provide a symbolic similarity algorithm to rank $\alpha$-equivalent expressions higher.
-The methods in a nutshell is, for a document expression, construct operation tree, break it down into sub-paths, and index those paths. For a query, traversal index tree as the same way of going through the reversed sub-paths of that query operation tree, search the sub-paths and their merged paths in index meanwhile calculate indexed expression similarity to rank each document expression.
-
-\section{Intuitions}
-First it is beneficial to document our intuitions on using operation tree as our intermediate representation and our idea to index it in a way of “reversed” sub-path tree, and also explain in abstract why this way helps reduce index space and boost search speed.
-We will give an illustrative example to describe these processes further in section~\ref{secIllu}.
-
-\subsection{Commutative immunity}
-Operators with semantic implication of commutative property (e.g. addition and multiplication) are exhaustively used in mathematical language. The ability to identify the identical equations for any permutation is very essential for a mathematical similarity search engine. 
-Given this as a starting point, the leaf-root paths have the advantage to cope this so that we do not need to generate different order of patterns to match formulae with commutative operator. 
-To illustrate this, we know that a leaf-root path from an operation tree (see figure~\ref{oprtreeExample}) is generated through traversing in a bottom-up (or top-down) fashion from a tree, therefore these sub-paths are independent to the relative position of commutative operands.
-In another word, an operation tree uniquely determines the leaf-node paths decomposed from the tree, no matter how operands are ordered. 
-
-\subsection{Sub-structure query ability}
-On the other hand, the structure of operation tree also makes it easy to represent sub-expression relation with a formula, because a sub-expression in a formula is usually (depending on the way we construct an operation tree) also a subtree in an operation tree. 
-And by going up from leaves of operation tree, we are essentially traversing to an expression from its subexpression for every level. 
-By making all the leaf-root paths as an index, we can search an expression by going through and beyond the leaf-root paths from its subexpression. 
-This makes operation tree better in terms of searching an expression given a sub-expression of it in query. 
-And it avoids information augmentation on index as some other structure-based methods need (e.g. index all sub-terms of an expression in MWS~\cite{Kohlhase06}). Therefore it also helps save storage space. 
-
-\subsection{Index and search properties}
-Additionally, some properties from this method suggest some reduce of space and pruning possibilities in search process. 
-First the sub-paths themselves can be indexed into a tree so that we can search a sub-path by traversing a sub-path tree, instead of hashing it to find a corresponding value as the symbol-pair search engine (i.e. \textit{Tangent}~\cite{symbolpairs15}) does. 
-This allows us to save a lot space as the reverted sub-paths of a large collection will have a great percentage of level sharing a common substring with each other. 
-Also the way to search in a tree structure with a limited branch factor does not lose much efficiency compared to the HASH methods used in \textit{Tangent}, while also offer great storage efficiency.
-Second, by searching from all the ``reverted" sub-paths of a query expression in our proposed index, and apply an intersection on the results from different sub-paths, we will find all the expressions having that query as subexpression (number four observed property from section~\ref{observationlabel}). And during this search process, upon going further from the query expression root in the ``reverted" sub-path, we can merge the next search directories by pruning all the entries that are not shared in common among all the ``reverted" search paths. 
-Furthermore, if a relevant indexed formula has been found in a search path level, then other relevant sub-paths will be found at the same level too, thus some implementation strategies can be applied to speed search further (i.e. distributed search to quick search massive).
-
-\begin{figure}
-\begin{minipage}[b]{2.65in}
-\begin{center}
-\includegraphics[height=1.8in]{leafroottree}
-\\$a(b+c)$ in operation tree
-\end{center}
-\end{minipage}
-\hspace*{.38in}
-\begin{minipage}[b]{2.65in}
-\begin{center}
-\raisebox{.0in}{\includegraphics[height=1.8in]{leafrootpath}}
-Generated leaf-root paths
-\end{center}
-\end{minipage}
-\caption{Leaf-root path example}\label{oprtreeExample}
-\end{figure}
-
-\section{Structure Similarity}
-The basic ideas used in our approach, to test whether a mathematical expression is an sub-structure of another, to prune and constrain search set are the foundation work in our research. It is desired to give a description in a formal language so that we can deliver these ideas in the most precise way. Some important observations as well as brief justifications are provided for completeness.
-
-\subsection{Definitions}
-For the second issue addressed in section~\ref{measure_sim}, specifically, to assess the structural similarity. 
-Some formal definitions are proposed from previous study~\cite{improving09} which provides a quantified \mbox{$n$-similarity} relation to address the similarity degree between math expressions, based on the max-weight common subtree. 
-The subtree, by their definition, includes all descendants from a node,
-however, we are going to use the subtree definition in graph theory here to describe the sub-structure relation. 
-To be explicit, given a rooted tree $T$, the connected graph whose edges are also in $T$ is defined as the subtree of $T$.  
-We are also going to give a definition to describe a ``match'' between query and a document math formula.
-
-Because we are using some formal descriptions to better illustrate our ideas, there are some notations we need to clarify that are used throughout this paper. 
-
-A \textit{path} $p$ is a sequence of numbers given by $p = p_0 p_1 \ldots p_n$ where $n\ge0$, $p_i \in \mathbf{R}$. $\mathbf{P}$ is the set of all paths.
-A \textit{leaf-root path} is a path from root to a leaf in a tree.
-Any function $f: \mathbf{R} \rightarrow \mathbf{R}$ applied on path $p$ is mapped to a path too: $f(p)=f(p_0)f(p_1) \ldots f(p_n)$.
-And we name  a \textit{concatenation} of two paths $\,^1p = p_0p_1 \ldots p_n$ and $\,^2p = p_np_{n+1} \ldots p_m$ where $m \ge n$, to be a new path denoted as $\,^1p \cdot \,^2p = p_0p_1 \ldots p_n p_{n+1} \ldots p_m$,
-and the concatenation of a path $p$ on a path set $S = \{ s_1, s_2 \ldots s_n \}$ is defined as $S \cdot p = \{ s_1\cdot p,\  s_2\cdot p \ \ldots \ s_n\cdot p \}$.
-The \textit{longest common prefix} path $p^*$ between two paths $p_1$ and $p_2$ is mapped by the function named $\mathrm{lcp}$, which is defined by $p^* = \mathrm{lcp}(p_1, p_2) = \mathrm{lcp}(p_2, p_1)$.
-
-Each node in a formula tree is associated with a label (labels are not required to be distinct here) to represent an unified mathematical operator, variable, constance etc., 
- a class of similar operators can have the same label value (e.g. same label for token $+$, $\oplus$ and $\pm$).
-Also each leaf node is associated with a symbol value to represent a symbolic instance of that constance or variable (e.g. ``123", $\beta$, \textit{x, y} etc.). 
-Besides, a \textit{formula subtree} relation is also defined to address the sub-structure relation between two mathematical expressions.
-Below are our formal definitions.
-
-\subsubsection{Formula tree}
-A \textit{formula tree} is a labeled rooted tree $T = T(V,E,r)$ with root $r$, where each vertices $v \in V(T)$ is associated with a label (not necessarily unique in the same tree) $\ell_T(v) \in \mathbf{R}$ mapped by label function $\ell_T$,
-and each leaf $l \in V(T)$ is further associated with a symbol $\mathcal{S}_T(l) \in \mathbf{R}$ mapped by symbol function $\mathcal{S}_T$. 
-For convenience, we will write function $\ell$ and $\mathcal{S}$ as their short names which refer to the tree implied by the context, and we use $\mathcal{S}(p)$ to indicate the symbol of the leaf in a leaf-root path $p$.
-In addition, we use $^s T$ to denote a subtree in $T$ rooted by vertices $s \in V(T)$, with all its descendants.
-
-\subsubsection{Formula subtree}
-\label{frmlsubtreeDef}
-Given formula tree $S$ and $T$, we say $S$ is a \textit{formula subtree} of $T$ if there exists an injective mapping $\phi: V(S) \rightarrow V(T)$ satisfying:
-
-\begin{enumerate}
-\item 
-$\forall\; (v_1,v_2) \in E(S)$, we have $(\phi(v_1),\phi(v_2)) \in E(T)$;
-\item
-$\forall\; v \in V(S)$, we have $\ell(v) = \ell(\phi(v))$;
-\item
-If $v \in V(S)$ is a leaf vertices in $S$, then $\phi(v)$ is also a leaf in $T$.
-\end{enumerate}
-Such a mapping $\phi$ is called a \textit{formula subtree isomorphic embedding} (or \textit{formula embedding}) for $S \rightarrow T$. 
-If satisfied, we denote $S \preceq_l T$ on $\Phi$, where $\Phi$ ($\Phi \neq \emptyset$) is the set of all the possible formula embeddings for $S \rightarrow T$.
-
-\subsubsection{Leaf-root path set}
-A \textit{leaf-root path set} generated by tree $T$ is a set of all the leaf-root paths from tree $T$, mapped by a function $g(T)$. 
-
-\subsubsection{Index}
-An \textit{index} $\Pi$ is a set of trees such that $\forall\; T \in \Pi$, we have $T \in \mathcal{I}_{\Pi}(a)$ for any $a \in \ell(g(T))$, we say $T$ is \textit{indexed} in $\Pi$ and $\mathcal{I}_{\Pi}$ is called \textit{index look-up function} for index $\Pi$. 
-
-\subsection{Search method}
-\label{se-method}
-For a collection of document expressions, we will index them by merging all the reverted leaf-root paths from each document formula tree into a large ``inverted" index tree, 
-in which each node at path $a$ stores the information of all the indexed formula trees in $\mathcal{I}_{\Pi}(a)$.
-Through searching all sub-paths from a query formula tree $T_q$ at the same time, we are able to limit the set of possible formula trees being structurally matching (in formula subtree relation) with $T_q$, to only a subset of our index. 
-This is illustrated as follows.
-
-Given an index $\Pi$ and a formula tree $T_q$, $\forall\; T_d \in \Pi$:
-If $T_q \preceq_l T_d$ on $\Phi$, then $\exists\; \hat{a} \in \mathbf{P},\; s.t.$
-$$
-T_d \in \bigcap_{a \in L} \mathcal{I}_{\Pi}(a)
-$$
-where $L = \ell(g(T_q)) \cdot \hat{a}$.
-
-\textit{Justification.}
-Denote the root of $T_q$ and $T_d$ as $r$ and $s$ respectively.
-Let $\hat{p}$ be the path determined by vertices from $t=\phi(r)$ to $s$ in $T_d$,
-and $\,^1p, \,^2p \ldots \,^np,\; n \ge 1$ be all the leaf-node paths in $T_q$.
-Then $\hat{a} = \ell(\hat{p})$, this is because:
-$L = \ell(\{ \,^1p, \,^2p \ldots \,^np \}) \cdot \hat{a} = 
-\ell(\{ \phi(\,^1p), \phi(\,^2p) \ldots \phi(\,^np) \}) \cdot \ell(\hat{p}) =
-\{ \ell(\phi(\,^1p) \cdot \hat{p}), \ell(\phi(\,^2p) \cdot \hat{p}) \ldots \ell(\phi(\,^np) \cdot \hat{p}) \}
-$.
-According to definition~\ref{frmlsubtreeDef} and $t=\phi(r)$, we have $\phi(\,^ip) \cdot \hat{p} \in g(T_d),\; 1 \le i \le n$.
-Since $ T_d \in \Pi$, $T_d$ is indexed in $\Pi$ with respect to each of the elements in $L$, that is to say $\forall\; a \in L, \; T_d \in \mathcal{I}_{\Pi}(a)$.
-
-To summarize, we search the index by intersecting the indexed formula trees from all the generated leaf-node paths at the same time, then further possible search path $\hat{a}$ is only possible when paths along the generated leaf-node paths in the index have a common postfix.
-Therefore we can ``merge" the paths ahead and prune those paths not in common. Level by level, we are always able to find the structurally matched formula tree as long as it is indexed in $\Pi$.
-
-\subsection{Substructure matching}
-\label{observationlabel}
-However, query formula tree will not necessarily be formula subtree of all the document (indexed) formula trees in our search set
-$\bigcap_{a \in L} \mathcal{I}_{\Pi}(a)$,
-even if their generated leaf-root paths are identical.
-One supporting example for this point is shown in figure~\ref{notnecessary}.
-To address this problem, we propose an algorithm described in in figure~\ref{submatchalgo}, to test the document formula trees in our search set to see if they are in formula subtree relation with query formula tree.
-This algorithm is inspired from the following observations. 
-
-\subsubsection{Observation \#1} 
-\label{observation1}
-For two formula trees which satisfy $T_q \preceq_l T_d$ on $\Phi$, then $\forall\; \phi \in \Phi,\, p \in g(T_q)$, also any vertices $v$ along path $p$, the following properties are obtained:
-\begin{eqnarray}
-\deg(v) \le \deg(\phi(v)) \label{prop1} \\
-\ell(p) = \ell(\phi(p)) \label{prop3} \\
-\left| g(T_q) \right| \le \left| g(T_d) \right| \label{prop4}
-\end{eqnarray}
-\textit{Justification.} 
-Because $\forall\; w \in V(T_q) \  s.t. \  (v, w) \in E(T_q)$, there exists $(\phi(v), \phi(w)) \in E(T_d)$. 
-And for any (if exists) two different edges $(v, w_1), (v, w_2) \in E(T_q),\, w_1 \not= w_2 \in V(T_q) $, we know $(\phi(v), \phi(w_1)) \not= (\phi(v), \phi(w_2))$ by definition~\ref{frmlsubtreeDef}. 
-Therefore any different edge from $v$ is associated with a distinct edge from $\phi(v)$, thus we can get (\ref{prop1}). 
-Given the fact that every non-empty path $p$ can be decomposed into a series of edges $(p_0, p_1), (p_1, p_2) \ldots (p_{n-1}, p_n), \; n > 0$,
-property (\ref{prop3}) is trivial.
-Because there is exact one path between every two nodes in a tree, the leaf-root path is uniquely determined by a leaf node in a tree. Hence the rationale of (\ref{prop4}) can be obtained in a similar manner with that of (\ref{prop1}), expect neighbor edges are replaced by leaf-node paths.
-
-
-\subsubsection{Observation \#2} 
-\label{observation2}
-Given two formula trees $T_q$ and $T_d$, if $\left| g(T_q) \right| = 1$ and $\ell(g(T_{q})) \subseteq \ell(g(T_d))$, then $T_q \preceq_l T_d$.
-
-\noindent \textit{Justification.} 
-Obviously there is only one leaf-root path in $T_q$ because $\left| g(T_q) \right| = 1$. 
-Denote the path as $p = p_0 \ldots p_n,\; n \ge 0$ where $p_n$ is the leaf.
-Since $\ell(p) \subseteq \ell(g(T_d))$, we know that there must exist a path $p'=p'_0 \ldots p'_n \in g(T_d)$ such that $\ell(p) = \ell(p')$ 
-where $p'_n$ is the leaf of $T_d$.
-%Without loss of generality,  
-Then
-the injective function $\phi: p_i \rightarrow p'_i,\  0 \le i \le n$ satisfies all the requirements for $T_q$ as a formula subtree of $T_d$.
-
-\subsubsection{Observation \#3} 
-\label{observation3}
-For two formula trees $T_q$ and $T_d$, if $T_q = T(V,E,r) \preceq_l T_d$ on $\Phi$,  
-$\forall a,b \in g(T_q)$ and a mapping $\phi \in \Phi$. 
-Let $T_d' = \, ^{t}T_d$ where $t = \phi(r)$ and $a' = \phi(a)$, $\forall\; b' \in g(T_d')$, it follows that:
-$$
-\begin{array}{lcr}
-b' = \phi(b)  & \Rightarrow & 
-\left| \mathrm{lcp}(a,b) \right| = \left| \mathrm{lcp}(a',b') \right|
-\end{array}
-$$
-Furthermore, $\forall\; c \in g(T_q)\; s.t.\; \left| \mathrm{lcp}(a,b) \right| \neq \left| \mathrm{lcp}(a,c) \right| $, we have
-$$
-\begin{array}{lcr}
-\left| \mathrm{lcp}(a,b) \right| = \left| \mathrm{lcp}(a',b') \right|
-& \Rightarrow &
-b' \neq \phi(c)
-\end{array} 
-$$
-\textit{Justification.} 
-Because $a,b \in g(T_q)$, thus $a_0 = b_0 = r$, and we can also make sure $\mathrm{lcp}(a,b) \ge 1$. 
-Denote the path of $a = a_0 \ldots a_n a_{n+1} \ldots a_{l-1}$, similarly denote the path of $b$ as $b=b_0 \ldots b_n b_{n+1} \ldots b_{m-1}$,
-where the length of each $l,m \ge 1$ and $a_i = b_i,\, 0 \le i \le n \le \min(l-1, m-1)$ while $a_{n+1} \neq b_{n+1}$ if $l,m > 1$.
-On the other hand $a' = \phi(a)$ and $b' \in g(\,^{t}T_d)$, therefore $a'_0 = \phi(a_0) = \phi(r) = t = b'_0$.
-For the first conclusion, if $b' = \phi(b)$, there are two cases. If either $|a|$ or $|b|$ is equal to one then $\left| \mathrm{lcp}(a,b) \right| = \left| \mathrm{lcp}(a',b') \right| = 1$;
-Otherwise if $l,m > 1$, path $a_0 \ldots a_n = b_0 \ldots b_n$ and $a_{n+1} \neq b_{n+1}$ follow that $\phi(a_0 \ldots a_n) = \phi(b_0 \ldots b_n)$ and $\phi(a_{n+1}) \neq \phi(b_{n+1})$ by definition.
-Because edge $(\phi(a_n), \phi(a_{n+1}))$ and $(\phi(b_n), \phi(b_{n+1}))$ are both in $E(T'_d)$, 
-we have $\left| \mathrm{lcp}(a,b) \right| = \left| \mathrm{lcp}(a',b') \right| = n$.
-For the second conclusion, we prove by contradiction. 
-Assume $b' = \phi(c)$, by the first conclusion we know $\left| \mathrm{lcp}(a,c) \right| = \left| \mathrm{lcp}(a',b') \right|$.
-On the other hand, because $\left| \mathrm{lcp}(a,c) \right| \neq \left| \mathrm{lcp}(a,b) \right| =  \left| \mathrm{lcp}(a',b') \right|$, 
-thus $\left| \mathrm{lcp}(a,c) \right| \neq \left| \mathrm{lcp}(a',b') \right|$ which is impossible. 
-
-
-\subsection{Interpretation}
-\label{labelinterp}
-The observations above offer some insights on how to test a substructure of a mathematical expression. 
-
-First we give some explanations on the definition.
-A formula subtree relation defined in \ref{frmlsubtreeDef} describes not only a sub-structure relation between two math expressions, it also requires a label similarity and leaf inclusion.
-Because structure shape (subtree isomorphic) is not only one factor to determine whether a math formula is a subexpression of another. 
-Given expression in figure~\ref{oprtreeExample} as an example, $b+c$ and $a \times (b+c)$ are considered ``similar" because $b+c$ is structurally an subexpression of $a \times (b+c)$.
-However, if expressions with different symbols but in similar semantics are given, e.g. $b \oplus c$ or $b \pm c$, 
-they should also be considered as similar to $a \times (b+c)$ because both the operations has the similar semantical meaning as ``add". 
-These operations should be labeled in which all the similar operation tokens have the same label value. 
-Also, operation tree representation generally puts operator in the intermediate nodes and operands in the leaves, so it is not common to address a sub-structure without leaves, like ``$a \times + $". 
-This is the reason that a structure-similarity relation of two should also contain their leaves.
-
-Now that we have defined our structure similarity rule as whether two trees $T_q$ and $T_d$ can satisfy: $T_q \preceq_l T_d$,
-we break down a formula tree into leaf-root paths $p$ and index the label of each path $\ell(p)$. So if given a ``similar" path $q$, we can further find the previous trees that also have $\ell(q)$ as its labeled path.
-In section~\ref{observationlabel}, the first observation gives some constrains to test if two leaf-node paths are similar without knowing the complete tree from which they are generated.
-However, comparing all the paths from the index one by one would be very inefficient. Section~\ref{se-method} suggests if we search the index by all the generated leaf-node paths from a tree at the same time, then we may just need to look into an intersected region instead of the whole collection.
-Because every tree indexed ($T_d \in \Pi$) and matched by the query will be found at our defined search set.
-
-\begin{figure}
-\begin{minipage}[b]{2.65in}
-\begin{center}
-\includegraphics[height=1.8in]{not-necessary}
-\\ $(a+b) \times (c+d) \times e$
-\end{center}
-\end{minipage}
-\hspace*{.38in}
-\begin{minipage}[b]{2.65in}
-\begin{center}
-{\includegraphics[height=1.8in]{not-necessary2}}
-\\ $(a+b+c+d) \times e$
-\end{center}
-\end{minipage}
-\caption{Leaf-root paths with different structure}\label{notnecessary}
-\end{figure}
-
-However, knowing the matched tree in in a set does not necessarily mean all the tree in the set match with query. 
-Figure~\ref{notnecessary} gives one case where two set of leaf-root paths are identical while the structures from which they are generated are different, and not in any sub-tree relation. If left figure is the query, then we can certainly find the tree in right figure as long as it is indexed, indicated by section~\ref{se-method}.
-Although leaf-root paths offer some desired properties, whether the trees found through searching sub-paths of a query are also structure isomorphic with the query tree is still unknown. 
-
-Observations \#2 and \#3 in section~\ref{observationlabel} offer the way to test structure isomorphic.
-The former is a sufficient condition to test structure isomorphic, but the tree must first have only one leaf-root path. The latter states two necessary conditions to be a formula subtree of another.
-This leads to an idea to decompose the tree and divide the problem into subtree matching problems by ruling out impossible matches between leaf-root paths using observation \#3, until it is obvious to conclude the structure isomorphic in a sub-problem by using observation \#2.
-These observations inspire the idea to filter expressions with structure isomorphism in our search set $\bigcap_{a \in L} \mathcal{I}_{\Pi}(a)$.
-
-\begin{figure}
-\begin{minipage}[b]{2.65in}
-\begin{center}
-\includegraphics[height=2.8in,width=2.7in]{lpd}
-\\ (a)
-\end{center}
-\end{minipage}
-\hspace*{.38in}
-\begin{minipage}[b]{2.65in}
-\begin{center}
-{\includegraphics[height=2.8in,width=2.5in]{lpd2}}
-\\ (b) 
-\end{center}
-\end{minipage}
-\caption{Formula subtree matching}\label{submatch}
-\end{figure}
-
-\subsection{The decompose-and-match algorithm}
-Here we propose and describe an algorithm for formula subtree matching based on the interpretation in section~\ref{labelinterp}.
-Figure~\ref{submatch} illustrates a general case in which query tree (a) is trying to match a document tree (b).
-
-Initially every leaf-root path in (a) should be associated with a set of leaf-root paths in (b) that are possible (by the constrains of observation~\#1 in \ref{observationlabel}) to be isomorphic, we call this set \textit{candidate set}. Given figure~\ref{submatch}, the candidate set of path $a$ in (a) probably is $\{a',\ b'\}$ in (b) if the nodes are assigned universally the same label. 
-Then we arbitrarily choose a path in (a) as a reference path (heuristically a \textit{heavy path}~\cite{heavypathde}), for each of the paths in its candidate set, we choose it as reference path in (b), and suppose we choose $a'$ here. At this time we can apply the two constrains from observation~\#3 and ruling out some impossible isomorphic paths in candidate set of each path in (a), then divide the problems further. 
-For example, because $\left| \mathrm{lcp}(a,b) \right| = \left| \mathrm{lcp}(a',b') \right|$, we know $b'$ is still in candidate set of $b\,$; while $b'$ is not in candidate of $c$ anymore because $\left| \mathrm{lcp}(a,b) \right| \neq \left| \mathrm{lcp}(a,c) \right|$. 
-After going through these eliminations for each leaf-node path (except the reference path $a$) in (a), we now have two similar subproblems: $c$ as a subtree along with its candidate set, and $b$ as a subtree along with its candidate set. 
-We can apply this algorithm recursively until a very simple subproblem is encountered (e.g. the case in observation~\#2). 
-During this process, if we find any candidate set to be empty, we stop the subproblem process and change to another reference path or stop the algorithm completely if every possible reference path is tried.
-
-The detailed algorithm is described in figure~\ref{submatchalgo}. 
-The main procedure is \textit{decomposeAndMatch} where the parameters $Q$ and $C$ are the set of leaf-root paths in query tree and the candidate sets associated with all leaf-root paths respectively.
-The procedure returns SUCC if a match is found, otherwise FAIL is returned indicating the formula tree in (a) cannot be a formula subtree of that in (b).
-
-\begin{figure}
-\begin{algorithmic}[1]
-
-\Procedure{removeCandidate}{$d,Q,C$} 
-\For {$a \in Q$}
-\If{$C_a = \emptyset$}
-\State \textbf{return} $\emptyset$ 
-\Else
-\State {$C_a := C_a - \{d\}$} 
-\EndIf
-\EndFor
-\State \textbf{return} $C$
-\EndProcedure
-
-\State {}
-
-\Procedure{match}{$a, a', Q, C$}
-\For {$b \in Q$}
-\State $t := \mathrm{lcp}(a,b)$
-\State $Q_t := Q_t \cup \{b\}$
-\State $P := P \cup \{t\}$
-\EndFor
-\For {$t \in P$}
-\For {$b \in Q_t$}
-\For {$b' \in C_b$}
-\If {$t \not= \mathrm{lcp}(a',b')$} 
-\State $C := $ \Call{removeCandidate}{$b', Q_t, C$}
-\If {$|C| = 0$} 
-\State \textbf{return} FAIL
-\EndIf
-\EndIf
-\EndFor
-\EndFor
-\If {\Call{decomposeAndMatch}{$Q_t, C$} = FAIL} 
-\State \textbf{return} FAIL
-\EndIf
-\EndFor
-\State \textbf{return} SUCC 
-\EndProcedure
-
-\State {}
-
-\Procedure{decomposeAndMatch}{$Q, C$}
-\If {$Q = \emptyset$} \textbf{return} SUCC 
-\EndIf
-\State $a$ := OnePathIn(Q)
-\Comment{Choose a reference path in Q}
-\State $Q_{\mathrm{new}} := Q - \{a\}$
-\For {$a' \in C_a$}
-\State $C_{\mathrm{new}} := $ \Call{removeCandidate}{$a', Q_{\mathrm{new}}, C$}
-\If {$C_{\mathrm{new}} = \emptyset$} \textbf{return} FAIL 
-\EndIf
-\If {\Call{match}{$a, a', Q_{\mathrm{new}}, C_{\mathrm{new}}$}}
-\textbf{return} SUCC 
-\EndIf
-\EndFor
-\State \textbf{return} FAIL
-\EndProcedure
-
-\end{algorithmic}
-\caption{The decompose-and-match algorithm}\label{submatchalgo}
-\end{figure}
-
-\section{Symbolic Similarity}
-\label{symSimi}
-Besides structural similarity, symbolic similarity is also essential to be considered,
-because it has some benefits to further differentiate math expression similarity.
-
-Firstly, it is essential to score equations with symbolic matches a higher similarity because they may imply more semantic meaning. 
-For example, $E=mc^2$ is considered more meaningful when exact symbols are used rather than just being structure identical with $y=ax^2$.
-
-Secondly, as illustrated in section~\ref{measure_sim}, same mathematical symbols in an expression (or bound variables) usually can only maintain semantical equality if the changes are made by substitutions. (similar to the notion of $\alpha$-equality~\cite{Hindley1986}). 
-This is an important semantic information that we need to capture 
-in most math expressions that contain bound variables, to capture this kind of equality between expressions certainly involves comparison of symbols. 
-
-There is one thing to address here, in many mathematical search systems, a query may be specified with wildcards and thus will match any document with an expression substitution to that wildcard. 
-And a query symbol not specified by wildcard is expecting an exact symbolic occurrence in document.
-Yet in our approach, same symbols imply a higher rank, we can get an exact symbolic match if it does exist in our index. 
-On the other hand, we do not have to specify wildcard to match its $\alpha$-equalities.
-\cite{mias11a} also doubts the wildcard demand in mathematical search as it is not common to expect an exact symbol occurrence when we query in mathematical language.
-
-\subsection{Ranking constrains}
-As we have discussed, symbolic similarity is essential to be captured, in order to further rank document expressions. 
-Here we propose two constrains to addressed all the considerations, they can be summarized as:
-
-\begin{itemize}
-\item Given two formula trees
-$T_q \preceq_l T_d$ on $\Phi$,  
-suppose a leaf $l \in V(T_q)$ is isomorphic to leaf $l' \in V(T_d)$, that is to say, there exists $\phi(l)=l'$, where $\phi \in \Phi$, then if their symbol matches, i.e. $\mathcal{S}(l) = \mathcal{S}(l')$, we score them higher than those do not match symbolically. And the more symbolic matches there are, the higher symbolic relevance degree two expressions would expect to have.
-\item $\alpha$-equivalent expressions have more symbolic relevance degree than those are not, and the more \textit{bond variables} (variable with same symbol in an expression) two expressions match at the structurally matching positions, the more symbolically relevant they are considered to be.
-\end{itemize}
-
-In this paper, we use these two constrains as the rule to rank retrieval results in terms of symbolic similarity.
-And in cases where both constrains can be applied, we prioritize the second constrain. 
-This is because, intuitively, as long as the semantic meaning of two expressions is the same, using different set of symbols does not make a difference. 
-However, bound variable match is more important because an mathematical expression with more than one identical symbols most often implies those symbols represents the same variable. 
-
-The constrains and idea above are illustrated by the following example. 
-Let the rank of a document math expression $d$ be $r(d)$, and given query $\sqrt a (a - b)$ for instance. 
-It is easy to see under the first constrain: 
-$$
-r\big(\sqrt a (a - b)\big) > r\big(\sqrt a (a - x)\big) > r\big(\sqrt x (x - y)\big)
-$$
-The document with the highest rank here is an exact match, with three symbols matching in total. 
-The second document has two symbols matching while the third document has no symbolic match at all. 
-
-In the same manner, by the second constrain we have:
-$$
-r\big(\sqrt x (x - b)\big) > r\big(\sqrt x (y - b)\big)
-$$
-The first document uses bound variable $x$ but it preserves the same semantics compared to the query, except for the symbol of that bond variable is different with that of query.
-The second one does not have bound variable match, in another word, it uses different symbols (i.e. ``$x,\ y$") at positions where query expression uses the same symbols (i.e. ``$a$").
-
-One common pattern the first example follows is all ``ranking'' documents in the first example have the bound variable match, the only difference is the number of symbol matches. 
-On the other hand, all ``ranking'' documents in the second example  have the same number of symbol matches (only ``$b$" is matched in a symbolic way). 
-So it is easy to follow only one of the two constrain. 
-However, sometimes both constrains can be applied so that conflict may occur and we have to choose only one to follow. 
-For example, given document expression $\sqrt a (x - b)$ and $\sqrt x (x - b)$, the former has two symbolic matches (i.e. ``$a,\ b$") with our query $\sqrt a (a - b)$,
-while it does not have bound variable match. 
-The latter, on the other hand, has bound variable match while only has one symbolic match (i.e. ``$b$"). We nevertheless score the latter higher because it does not lose any semantics. 
-
-\subsection{The mark-and-cross algorithm}
-Here we propose an algorithm to score symbolic similarity between query and document expressions.
-To follow all the constrains and issues addressed, 
-intuitively, we first take the bond variable with greatest number of occurrence in query expression, try to match as much as possible with each bond variable from document expression. 
-The \textit{best-matching} bond variable in document expression is chosen to contribute to the final symbolic relevance score (proportionally to the number of matches in that bond variable), 
-and we exclude its paths from matching query paths in future iterations.
-In the next iteration, we choose the bond variable with the second number of occurrence in query expression and repeat this process until all the query bond variables are iterated.
-
-\begin{figure}
-\begin{algorithmic}[1]
-
-\Procedure{markAndCross}{$D,Q,C$} 
-\State score := 0
-
-\If {$D = \emptyset$} 
-\State \textbf{return} 0 
-\EndIf
-\For {$a' \in D$}
-\State $T_{a'} := \mathrm{unmark}$ 
-\EndFor
-\For {$v \in \mathcal{V}(D)$}
-\State $B_v := 0$ 
-\EndFor
-
-\State QList := \Call{sortByOccurAndSymbol}{Q}
-
-\For {$a$ {\bf in} QList}
-
-\For {$v \in \mathcal{V}(D)$}
-\State $m := -\infty$
-\State $m_p := \varnothing$
-\For {$a' \in C_a \cap \{ y \mid \mathcal{S}(y) = v,\ y \in D\} $}
-\If {$T_{a'} = \mathrm{unmark}$ {\bf and} $\mathrm{sim}(a, a') > m$} 
-\State $m := \mathrm{sim}(a, a')$ 
-\State $m_p := a'$ 
-\EndIf
-\EndFor
-\If {$m_p \not= \varnothing$}
-\State $T_{m_p} := \mathrm{mark}$ 
-\State $B_v := B_v + m$
-\Else
-\Comment{Exhausted all candidates}
-\State \textbf{return} 0 
-\EndIf
-\EndFor
-
-\If {$\mathcal{S}(a) \mathrm{\ changed}$ {\bf or} $\mathrm{\ last\ iteration\ of\ } a$}
-\label{line_bond_finish}
-
-\State $m := -\infty$
-\State $m_v := \varnothing $
-\For {$v \in \mathcal{V}(D)$}
-\If {$B_v > m$} 
-\State $m := B_v$ 
-\State $m_v := v$ 
-\EndIf
-\State $B_v := 0$ 
-\EndFor
-\State $\mathrm{score} := \mathrm{score} + m$ 
-
-\For {$v \in \mathcal{V}(D)$}
-\If {$v = m_v$} 
-\State $\mathrm{nextState} := \mathrm{unmark}$ 
-\Else
-\State $\mathrm{nextState} := \mathrm{cross}$ 
-\EndIf
-\For {$a' \in C_a \cap \{ y \mid \mathcal{S}(y) = v,\ y \in D\} $}
-\If {$T_{a'} = \mathrm{mark}$} 
-\State $T_{a'} := \mathrm{nextState}$ 
-\EndIf
-\EndFor
-\EndFor
-
-\EndIf
-
-\EndFor
-
-\State \textbf{return} score
-\EndProcedure
-
-\end{algorithmic}
-\caption{The mark-and-cross algorithm}\label{markcrossalgo}
-\end{figure}
-
-The algorithm is described in figure~\ref{markcrossalgo}. It takes three arguments, the set of leaf-root paths $D$ and $Q$ in document expression and query expression respectively, and the candidate sets $C$ associated with all leaf-root paths in query. 
-The bound variables in $D$ is defined by a set $V(D) = \{x \mid \mathcal{S}(x),\ x \in D\}$, which contains all the leaf node symbols from document expression.
-Procedure \textit{sortBySymbolAndOccur} takes a set of leaf-root paths and return a list of all the leaf-root paths. 
-The list is sorted by tuple $\big(N_p, \mathcal{S}(p)\big)$ for list element $p$, where $N_p$ is the number of $\mathcal{S}(p)$ occurred in all the list path symbols. 
-Take the example expression $\left(b \cdot \dfrac{a+b}{a+c} + a\right)$ again, the result list returned by \textit{sortBySymbolAndOccur} is a sequence of leaf-root path of $a,a,a,b,b,c$ respectively.
-
-Each document path $a'$ is associated with a tag $T_{a'}$ which has three possible states: marked, unmarked and crossed. And bond variable $v \in \mathcal{V}(D)$ can be given a score $B_v$ which represents the similarity degree between current evaluating query/document bond variables. 
-The function $\mathrm{sim}(a,a')$ measures the symbolic similarity degree between two leaf-root paths $a$ and $a'$. 
-
-Intuitively, we set the similarity function
-$$
-\mathrm{sim}(a,a') = 
-\left\{
-\begin{array}{ll}
-1    &\qquad \mathrm{if}\  \mathcal{S}(a) = \mathcal{S}(a')
-\\
-\\
-\alpha < 1  &\qquad \mathrm{otherwise}
-\end{array}
-\right.
-$$
-to give more similarity weights to leaf-root paths with exact symbol match.
-(this function $\mathrm{sim}(a,a')$ is used only when a document path is in candidate set, see figure~\ref{markcrossalgo}).
-
-Let us determine the proper value for $\alpha$. 
-Consider the conflicting cases stated in this section by using another example here, 
-given query expression $a+\frac 1 a + \sqrt{a}$ and document expression $a+\frac 1 a + b + \frac 1 b + \sqrt{b}$, we consider bond-variable matching 
-$$\fbox{a}+\dfrac 1 {\fbox{a}} + \sqrt{\fbox{a}}$$
-with 
-$$a+\dfrac 1 a + \fbox{b} + \dfrac 1 {\fbox{b}} + \sqrt{\fbox{b}}$$
-weighted more than exact symbol matching 
-$$\fbox{a}+\dfrac 1 {\fbox{a}} + \sqrt{a}$$ 
-with 
-$$\fbox{a}+\dfrac 1 {\fbox{a}} + b + \dfrac 1 b + \sqrt{b}$$
-(expressions surrounded by a box here indicates the matching part)
-
-Because the former matching has more variables involved even if they are not identical symbolic matches compared with its counterpart of the latter. 
-That is to say, given a document bond-variable matching $k$ variables with that in query, we need $\alpha$ to satisfy $ k \alpha > (k-1) \times 1 = k - 1 $
-and $\alpha < 1$. 
-Therefore, in our practice, we set $\alpha$ to a value close to $1$, e.g. $0.9$.
-
-By sorting the query paths in $Q$, the algorithm is able to take out paths from same bond variable in maximum-occurrence-first order from QList. 
-Each query path $a$ tries to match a path $a'$ in each document bond variable $v$ by selecting the unmarked path $m_p$ with maximum $\mathrm{sim}(a,a')$ value, and accumulate this value on $B_v$ indicating the similarity between currently evaluating query bond variable and the bond variable $v$ in document expression.
-In addition, mark the tag $T_{m_p}$ associated with the document path $m_p$.
-Once a query bond variable has been iterated completely (line~\ref{line_bond_finish}),
-let the document bond variable $m_v$ with greatest $B_v$ value $m$, be the best-matching bond variable in $\mathcal{V}(D)$ with the query bond variable just iterated, then add $m$ to the score.
-Before iterating a new query bond variable, we will cross all the document paths of variable $m_v$ to indicate they are confirmed been matched, 
-and unmark the tags of those marked paths that are not variable $m_v$.
-We continue doing so until all the query paths are iterated, finally return the score indicating the symbolic similarity between the two expressions.
-
-\section{Combine the Two}
-\label{CombineTheTwo}
-We have already discussed the problem and proposed the algorithms to both test structure isomorphic and measure symbolic similarity between mathematical expressions. The two algorithms, however, do not cooperate in an unified way. 
-To illustrate this point, assume we first use \textproc{decompose-and-match} algorithm and have concluded one is a formula subtree of another, but we only get one possible substructure match. 
-There are very likely other possible positions where this tree can also be formula subtree of another, because the candidate sets are not unique (or $|\Phi| > 1$). 
-Thus we need to exhaust all possibilities and apply \textproc{mark-and-cross} algorithm to each of them, in order to find the maximum symbolic similarity pair. 
-Analogously, assume we first want to get the symbolic similarity degree, then we are uncertain about the paths we have specified in candidate set are really isomorphic paths to the query path, i.e. we will not guarantee substructure relation when using \textproc{decompose-and-match} algorithm.
-
-One possible way to both test strict structure isomorphism and measure symbolic similarity is to decompose the tree and try to match all the substructures but at the same time heuristically choose reference paths to find the best simbolic match in a greedy way, if no possible substructure can be matched isomorphically, we have to rollback and try other candidates using backtracking.
-From efficiency perspective, the \textproc{mark-and-cross} algorithm already has an worst case time complexity of $O\big(|Q| \times |D|\big)$, if we try to find the best match (find the one with not only the most symbolic similarity but also who satisfies structure isomorphism), then it will eventually lead to more time complexity.
-
-\subsection{Relaxed structure match}
-The complexity introduced to combine the two methods will make our approach infeasible to efficiently deal with large data set. 
-Here we choose to relax our constrain on strict structure isomorphism. 
-As figure~\ref{notnecessary} has illustrated, we know that the labels of a leaf-node path set being a subset of another does not necessarily mean the tree generating the former path set is a formula subtree of that generating the latter.
-To further generalize it, we say for any two formula tree $T_q$ and $T_d$ and $\forall\; \hat{a} \in \mathbf{P}$, if $\ell(g(T_q)) \cdot \hat{a} \subseteq \ell(g(T_d))$, it is not sufficient to imply $T_q \preceq_l T_d$.
-Nevertheless, we think the cases which makes the above statement insufficient are fairly rare in common mathematical content, and the complexity introduced from considering those cases will offset the benefit to strictly identify the structure isomorphism.
-Therefore, we loose our constrain on structure similarity so that any  $T_d \in \bigcap_{a \in L} \mathcal{I}_{\Pi}(a) $ is considered structurally relevant to query formula tree $T_q$ in section~\ref{se-method},
-and we say $T_d$ is \textit{searchable} by $T_q$ in index $\Pi$.
-Optionally, we can apply constrain \ref{prop1} in observation \#1 to further eliminate cases such as the one in figure~\ref{notnecessary} so that less query/document expressions which are not in formula subtree relation would be considered relevant. We name this constrain as \textit{fan-number constrain}.
-
-The revised method will collect all the ``structurally similar" document formula trees that satisfy the fan-number constrain in the set $\bigcap_{a \in L} \mathcal{I}_{\Pi}(a)$. 
-Then use \textproc{mark-and-cross} algorithm to rank their symbolic similarity.
-
-\subsection{Matching-depth}
-On the other hand, we introduce a \textit{matching depth} $d = |\hat{a}|$ into symbolic similarity measurement algorithm, to make it also consider the depth of a structural match. 
-As it is addressed in \cite{mias11a}, the deeper level at where two formula matches, the lower similarity weight would it be, since the deeper sub-formulae in in mathematical expression will make it less important to the overall formula.
-For example, given query formula $\sqrt a$, expression $\sqrt {x}$ would score higher than $\sqrt{\sqrt{x}}$ does. 
-To reflect the impact on score, we define \textit{matching depth factor} $f(d)$ to be a function value where $f$ is in negative correlation with matching depth: $f(d) = 1/(1 + d)$.
-
-\subsection{Matching-ratio}
-We may also need a way to evaluate how many percentage is a query matching a document expression.
-According to the property \ref{prop4} in section~\ref{observationlabel} (observation~\#1), for two expression in formula subtree relation, we have $\dfrac{|g(T_q)|}{|g(T_d)|} \le 1$, 
-we name the ratio of left-hand as \textit{matching-ratio}, which characterises the structural coverage for a matching query in an expression.
-Consider the scenario where a query expression is structural isomorphic to two document expressions, and the symbolic similarity between them are the same.
-However, the different ``area'' that the query matches to the two document expressions essentially makes them scored differently.
-For example, for query $ax + b$, document expression $ax + b$ should precede $x^2 + ax + b$ although the query matches both two document expressions equally in terms of symbol.
-
-\subsection{Final ranking schema}
-\label{rankingTuple}
-Before matching-depth and matching-ratio is introduced, if a formula subtree relation is inferred between two formula trees, they are considered structurally matching in a boolean manner. 
-There is no similarity degree between a complete match (or a sub-formula) and structurally irrelevant. 
-In another word, structural differences is considered in a way to filter indexed expressions, for further symbolic similarity assessment. 
-The final output ranking is determined by symbolic similarity degree, without considering structural similarity. 
-Matching-depth and matching-ratio are metres introduced to measure the structural similarity, in the end we need to combine them with symbolic similarity to rank search results.
-Denote symbolic similarity score calculated by \textproc{mark-and-cross} algorithm to be $s$, and $f(d)$ being the matching depth factor, $r$ being the matching ratio for a pair of query/document. 
-We will use them together in a tuple $(s, f(d), r)$, to indicate the overall similarity and rank items in search results,
-
-\input{chap-2-example}
+\chapter{Related Work}
+\label{relatedwork}
+Boolean or similarity search for mathematical content is not a new topic, conference in this topic is getting increasingly research attention and the proposed systems have progressed considerably~\cite{ov}. 
+A variety of approaches have already emerged in an early timeline~\cite{egomath13}, but we can nevertheless categorize them into several different ideas.
+\cite{WikiMirs13,symbolpairs15,Youssef14} use the same way to classify them into text-based and tree-based (structure-based),
+here we decide to follow the same classification method and give an overview on those different ideas.
+
+\section{Text-based methods}
+Many researchers are utilizing existing models to deal with mathematical search, and use texted-based approaches to capture structural information on top of matured text search engine and tools (such as \textit{Apache Lucene}). 
+
+DLMF project from NIST~\cite{Youssef03} uses ``flattening process" to convert math to textualized terms, and normalize them into \textit{sorted parse tree normal form} which creates an unique form for all possible orders of nodes among associative and commutative operators. 
+Then further introduces serialization and scoping to stack terms~\cite{Youssef05}, trying to capture structure information by using text-IR based systems that supports phrase search. 
+Similar idea is also used by \cite{extending08}, expressions are also augmented for various possible representations, but variables are also replaced and normalized, but they are using postfix notation, allows to search subexpressions without knowing the operator between them.  
+MIaS system~\cite{mias11a,mias11,mias:thesis}, like the methods above, are also trying to reorder commutative operations, normalize variables and constance numbers into unified symbols, doing augmentation in a similar fashion. 
+It indexes expressions and subexpressions from all depth levels. The system is able to discriminate and assign different weight based on their generalization level, and place emphasis on that a match in a complex expression is assigned higher weight~\cite{mias:thesis}.
+
+Augmentation usually consists a storage demand for combination of both symbols (e.g. \textit{a} and \textit{b}) and unified items (\textit{id, const}) in different levels, in order to capture both symbolic information and structure information. Thus implies complex expressions with many commutative operators will cost inevitably larger storage space, the benefits of capturing expression variances will be overshadowed.
+
+Although named as structured-based approach, \cite{not-really-struct} is using \textit{longest common subsequence} algorithm to capture structure information (in an unified \textit{preprocessed string} and a \textit{level string}). The method takes $O(n^2)$ complexity for comparing a pair of formulae, and no index method is proposed. Therefore is not feasible to efficiently apply to a large collection.
+The Mathdex search engine~\cite{queryf_datan07}, from another perspective, uses query likelihood approach~\cite{iir} to estimate how likely the document will generate the query expression.
+Math GO!~\cite{Adeel_mathgo} is another system advances some transitional method to better search math content. It tries to find all the symbols and map formula pattern to pattern name keywords (like \textit{matrix} or \textit{root}), and proposes to replace term frequency by co-occurrence of a term with other terms.
+
+\section{Structure-based methods}
+\label{Structure-based}
+What text-based methods share in common is they are converting math language symbols to linear tokens, the intrinsic defect when using a bag of words to replace structured information will make conversion process lose considerable information or cause storage-inefficiency.
+In order to cope with the problems from text-based approach, structure-based methods generally generate intermediate tree structure, and use these information to index or search.
+
+\subsection*{Term Indexing}
+Whelp~\cite{whelp04} and MathWebSearch (MWS) directed by Kohlhase~\cite{Kohlhase06,Kohlhase0p4,Kohlhase0p5}, are one of the notable structure-based ones which are derived from \textit{automatic theorem proving} and \textit{unification theory}~\cite{AIbook}. The system of MWS uses \textit{term indexing}~\cite{graf96} in a \textit{substitution tree index}~\cite{graf96} to to minimize access time and storage. Because the subexpression is not easy to search using substitution tree, MWS indexes all sub-terms, but the increased index size remains manageable~\cite{Kohlhase06}. However, their index relies heavily on RAM memory, 
+the considerable RAM resource usage (170GB reportedly~\cite{Kohlhase0p5}) makes it have to scale to accommodate $72\%$ papers on arXiv. 
+
+\subsubsection*{Leaf-root path}
+\label{leafrootmethod}
+\cite{MathMLleafroot} uses leaf to root XML path in a MathML object to represent math formula. When efficiency is considered, it only indexes the first and deepest path (to indicate how a formula is started and presumably the most characteristic part of a formula); 
+when user wants to obtain the perfect-match result, it indexes all the MathML object leaf-root path. The boolean search is performed by giving all the paths match with those of the search query. 
+\cite{sefobyfo} further develops with incorporation of previous method using breath-first search, to add sibling nodes information into index and have achieved better effectiveness.
+
+Very similar idea is proposed by \cite{signifjap} and used in \cite{signfused}. The latter transform MathML to an ``apply free" markup from which the leaf-root path are extracted. Leaf-root path is also used to evaluate similarity between two expressions in MathML.
+
+\subsection*{Symbol layout tree}
+A \textit{symbol layout tree}~\cite{symbollayout12} (SLT) or \textit{presentation tree}~\cite{WikiMirs13} describes geometric layouts of mathematical expression. 
+WikiMirs~\cite{WikiMirs13} uses two templates to parse \LaTeX\  markup with two typical operator terms: explicit ones (``\bbb frac", ``\bbb sqrt", etc.) and implicit ones (``$+$", ``$\div$", etc.) to form a presentation tree, then extracts original terms and generalized terms from normalized presentation tree, to provide the flexibility of both fuzzy and exact search. 
+\cite{symbollayout12} uses symbol layout tree as a kind of substitution tree, each branch in the tree represents a binding chain for variables, and every child node is an instance of its parent for a generalized term. 
+They introduce \textit{baseline size} to help group similar expressions together in their substitution SLT in order to decrease tree branch factor, however, this makes a single substitution variable not able to match multiple terms along the baseline. 
+Also their implementation makes it unable to index certain formula (e.g. a left-side superscript) and have to generate many queries (e.g. all possible format variations and sub-expressions etc.) for a single query at the time of search.
+Later \cite{symbolpairs15,symbolpair15:2} have developed a \textit{symbol pairs} idea to capture a relative position information between symbol pairs. Due to the many possible combinations of symbol pairs in a complex math expression, the storage cost is intrinsically large. However, the key-value storage style will be suitable for fast lookup (e.g. HASH). 
+
+\subsection*{Other structure-based methods}
+A novel indexing scheme and lookup algorithm is proposed by \cite{newretrievalsystem}, its index has hash signature for each subtree because they have observed a lot of common subtree structure occur in math formula collection. This idea will result in a slower index growth. Their lookup algorithm supports wildcards, and performs a boolean match test. Although their lookup time is generally below 700ms, the index size where query lookup time is tested is unclear, but presumably no greater than 70,000 expressions.
+By constructing a DOM tree, \cite{DOMextraction} extracts semantic keywords, structure descriptions to indicate subordinative relationship in a string format. The similarity is calculated using normalized tf-idf vector (trained by clustering algorithms) by dot product. Although the final index is generated from text, promising results have been achieved.  
+Tree edit distance is adopted by \cite{editdisXML11}, it tries to overcome the bad time complexity of original algorithm by summarizing and using a structure-preserving compromised edit distance algorithm. Although the result shows query processing time is long but it is reduced to average 0.8 seconds by applying with an early termination algorithm along with a distance cache~\cite{editdisXML13}.
+
+\section{Other related work}
+There are a number of articles trying to use image to assess math expression similarity. \cite{imageb11} compares their image-based approach using connected component-based feature vector with a proposed text-based method, reported precision@k values are low, but the potential for this method to be combined with shape representations or other features will potentially improve it and make it valuable for searching mathematical expressions in image format. 
+\cite{handwrite} uses \mbox{X-Y} tree to cuts the page in vertical and horizontal directions alternatively, in order to retrieve math symbols from images. 
+
+A lattice-based approach~\cite{lattice} builds formal concept based on selected feature sets of each formula. The ranking is calculated by the distances from query in the lattice map when the query is inserted. 
+
+\section{Performance Review}
+In the review of many related past research in section~\ref{relatedwork}, we find the combination of state-of-art general text search engine (i.e. \textit{Apache Lucene}) with the efforts to augment expressions by permutation and unification to satisfy the needs of mathematical search have achieved a good result in different metrics of evaluation: 
+The text-based system of MIaS over-performs those of structure-based and ranked the first in four out of six measurement in NTCIR-11 conference~\cite{NTCIR11res}. 
+However, structure-based method such as symbol pairs proposed in \cite{symbolpairs15,symbolpair15:2} also gets a competitive result~\cite{NTCIR11res}. 
+
+Although text-based methods have achieved relatively better effectiveness, their commonly adoption of augmentation makes it expensive in terms of hardware storage. 
+On the other hand, structure-based method has the merit to best capture semantic information of a typical mathematical expression, thus still has the potential to further improve effectiveness given the fact that the tools and theory behind test-based methods are already mature and have been developed for decades.

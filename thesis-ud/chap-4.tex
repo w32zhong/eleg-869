@@ -1,41 +1,338 @@
-\chapter{Conclusion and Future Work}
-We try to advance the search method for math expression using sub-paths.
-This is a structure-based approach (as described in section~\ref{Structure-based}) to search and assess mathematical expression similarity.
-Without using vector-space model as opposed to its presence on text-based approach, our method has tried to further develop structure-based method and offer some new insights for future research, 
-and the evaluation results already indicate the feasibility of our methods.
-One of our hypothesis is structure-based method better captures mathematical expression semantics. 
-We believe there is large potential to further refine our novel similarity-search method as our presented attempt to improve mathematical-similarity search has demonstrated some promising aspects of our method, and lured some new ideas to improve our method.
+\chapter{Implementation and Evaluation}
+Based on the method we propose, we have implemented a search engine as well as a crawler and a parser for \LaTeX\ content. Also, a demo~\footnote{demo page: \url{http://infolab.ece.udel.edu:8912/cowpie/}} with Web interface is available for demonstration. 
+In this chapter, we will introduce the way we implement our proposed method and use this system to evaluate its effectiveness and efficiency.
 
-\section{Summary and Conclusion}
-Our method tries to measure math-expression similarity from the perspective of their structures and operand symbols. 
-We search structurally relevant expressions in a subset of index and our evaluation results have demonstrated the overall cost-effectiveness of adding symbolic similarity-search method on proposed structural similarity-search.
-This paper's main contribution includes, 
-first gives definitions and algorithms for evaluating the similarity between two math expressions to allow a math-aware search system to rank candidate expressions against a query expression;
-second gives a novel search method to reduce the search set of structurally similar expressions given a query. 
-By implementing those ideas and conducting experiments on our dataset, we have offered insights into a new way to perform matching of structured content in general.
-Given the newness of the domain, we have showed an appealing new direction to handle math expression search from an angel of both symbolic and structural similarity. 
+\section{System Overview}
+Our system is consisted of a crawler, a parser, an indexer, a search program back-end and a Web front-end. 
+The crawler searches and extracts math mode \LaTeX\ from Website that directly returns \LaTeX\ markup (e.g. from math content websites using client-side rendering, e.g. MathJax). The parser parses \LaTeX\ markup and prints the generated operation tree.
+The indexer uses parser to transform \LaTeX\ markup into operation tree and indexes sub-paths on disk. 
+The search program searches a query in index and returns search results, also exports a library for Web front-end which is a CGI program to interactive with user. 
 
-\section{Current Problems}
-We expect our index to be less redundant because our method does not need augmentation to capture the same semantical meanings between different alternative forms of a math expression,
-while it is observed that our index size is still relatively large (9.4GB) compared to the size of input raw data (around 60MB).
-There are presumably two reasons for this: 
-Firstly we are implementing our index based on file system directories for the ease of implementation, the overhead for constructing directories in file system cannot be overlooked. 
-Secondly, the 60MB raw data are all math formula in \LaTeX,	in contrast to a general text search engine, whose raw data usually contains the entire document text, our raw data is comparatively more data-intensive, and carries more information than general text. 
-Moreover, we do not use any kind of compression in our index.
-Another observation is, the absolute value of our query lookup time is not ideal, especially
-the first-time querying takes much longer time (because cache miss) than the time of subsequent same queries. 
-Furthermore, queries with simple decomposed sub-paths takes relative much longer time to search (e.g. query number 2 takes almost 4 seconds in average). 
+The outline of our system process is, crawl and convert math expressions into an in-memory tree structure, then write the leaf-root path labels along with degree number associated with each nodes (we call \textit{branch word}) to disk as our index. 
+When a user uses our Web front end to search, the Web CGI program calls the search library to search and score similar expressions in index, the search library outputs ranking results and Web CGI program rewrite them in HTML.
 
-\section{Future Work}
-In the next stage, trying to reduce the overhead for searching the index can be a good way to fix our bottleneck on both improving storage space efficiency and speeding up query look-up process. 
-We may try to index the data into a single large file (e.g. implement a B-tree like file structure to store sub-paths) instead of small files spread over directories, to lower the system overhead in storage and take advantage of cache locality. 
-It maybe also a good idea to try compressing the index and saving less information on disk for a branch word to further reduce the storage demand for our index.
-Nevertheless, Considering the fact that our system is newly created, we have already met the goal to test our new ideas on concerned domain, despite the less usability compared to already mature existing tools for general text search.
+\section{Implementation}
+Each component of our search engine is implemented as a separated module, the only way to interact with each module is by calling library API another module exposes, or by reading/writing to a plain text file. 
+In this section, we will describe the implementation detail for each isolated module.
 
-Also, the experiments we have is not based on popular NTCIR dataset in this research domain, because of the problem we mentioned in section~\ref{datasetAndIndex}. 
-This leaves a comparison of our method with mainstream math information retrieval methods to be desired.  
-In the future, we may try to create a new parser for MathML content so that we are able to give experiments on some standard dataset of math IR, with larger data size and more testing queries, in order to provide more comparable results on evaluation.
+\subsection{Crawler}
+The crawler is a python script using \textit{BeautifulSoup} to crawl Web pages and extract math mode \LaTeX. 
+We have implemented a crawler specifically for the posts on Math Stack Exchange website, crawler can be specified to crawl posts by page or post ID.
+For a post, the crawler searches the pattern of a \LaTeX\ inline or display mode text using regular expression. 
+When a \LaTeX\ mode has been extracted, it is stripped with line feed and saved as plain text file one mode text per line and one file per post.
 
-Other than the problems addressed above, it is also desired to integrate general text search ability into our math-only search method. 
-Additionally, the manner we use to break math formula into branch words and to index them through posting list makes it easy to parallelize and distribute the searching process,
-which means there is a large potential for future efforts to improve the efficiency of this method.
+\subsection{Parser}
+We are tokenizing math content using lexer generator \textit{flex} and have implemented a LALR parser generated from a set of grammar rules in \textit{GNU bison}, specifically for MathJax content in a subset of \LaTeX\ (those related to mathematics).
+Our parser transforms a math formula into an in-memory operation tree (representing formula tree), as an intermediate step to extract the path labels, path ID, and degree numbers associated, for every leaf-root path from the tree. 
+Our lexer omits all \LaTeX\ control sequences not matching any pattern of our defined tokens, most of them are considered unrelated to math formula semantics (environment statement, color, mbox etc.).
+
+The complete grammar rules we use to parse \LaTeX\ math mode text is listed in Appendix~\ref{grammarRules}. 
+The start rule \textit{doc} represents a \LaTeX\ math mode (either inline or display mode).
+Sub-rules (lower case names in grammar rules) handle mathematical patterns such as addition/subtraction, modular, relation (e.g. equality, greater than, less than), factor, script, brackets etc. 
+Tokens are using upper case names, the \textit{atom} rule represents a series of tokens that are mostly used as an atom unit in mathematical context (e.g. fraction, root, infinity). Other tokens are as part of some grammar rules.
+The partial list of lexer tokens for our parser are listed in Appendix~\ref{lexerTokens}, the left field is escaped \LaTeX\ command string, the right field in curly brackets is the token that the left command mapped to.
+Although enumerating \LaTeX\ math mode commands results in a long lexer list, we get a very simple grammar rules that is enough to handle most of our crawled data.
+
+An example of an operation tree plain text output generated from our parser for math expression 
+$ -b \pm \sqrt{b^2 - 4ac}$ is shown by figure~\ref{exout}.
+Where every node is associated with five values: symbol value (meaningful only for leaf node), label value, node ID (indicated by ``\#''), degree of that node (indicated by ``*'') and the rank of a node (indicated by ``@'') in terms of its father node.
+The node ID for a leaf will be used to identify the leaf-root path with respect to that leaf node, and the rank of child node will used to locate non-commutative tokens in a math expression.
+The indexer later will choose some of these information from nodes along a leaf-root path to index the tree.
+
+\begin{figure}
+\begin{center}
+\begin{verbatim}
+   `--(ADD, ADD, #14, *2, @0)
+       `--(NEG, NEG, #7, *1, @0)
+       |   `--[`b', VAR, #1, *1, @0]
+       `--(SQRT, SQRT, #13, *1, @1)
+           `-(ADD, ADD, #12, *2, @0)
+               |--(HANGER, HANGER, #9, *2, @0)
+               |   |--(SUP_SCRIPT, SUP_SCRIPT, #8, *1, @0)
+               |   |   `-[`2', NUM, #2, *1, @0]
+               |   `-[`b', VAR, #3, *1, @1]
+               `-(NEG, NEG, #11, *1, @1)
+                   `-(TIMES, TIMES, #10, *3, @0)
+                       |--[`4', NUM, #4, *1, @0]
+                       |--[`a', VAR, #5, *1, @1]
+                       `-[`c', VAR, #6, *1, @2]
+\end{verbatim}
+\end{center}
+\caption{Example parser output}\label{exout}
+\end{figure}
+
+\subsection{Index}
+The indexer writes the information extracted from parser into disk. 
+There are two parts in our index, the first part uses native file system (for the sake of implementation simplicity) to store leaf-root path labels in directories from which our search engine can go level by level. 
+Path ID, degree numbers, and also the formula ID generating that leaf-root path (we refer these three as \textit{branch word}) are stored in a ``posting" file at the directory corresponding to that branch word labels, 
+e.g. the tree in figure~\ref{oprtreeExample} will result in indexing two directories: ./VAR/TIMES and ./VAR/ADD/TIMES. 
+All the indexed branch words with path labels corresponding to directory ./VAR/TIMES/ are stored in the posting file of that directory, located at ./VAR/TIMES/posting.bin in this case.
+Branch words in a posting file are ordered by their formula IDs to speed search (so we can merge two posting files with size $M$ and $N$ respectively, then find the branch words with same formula ID in $O(M\times N)$ time).
+The second part of our index is a key-value database (using \textit{Kyoto Cabinet}) to map a formula ID to additional information for that formula (e.g. original markup, number of leaf-root paths $|T_d|$ and the URL on which the formula is crawled).
+
+\subsection{Search program}
+\label{se-and-rank}
+The compromised substructure searching (described in section~\ref{se-method}) is used in our search engine to filter out likely isomorphic expressions in our index.
+Searching is performed by simultaneously going from all the directories corresponding to the generated leaf-root paths of query formula tree,
+to all their merged subdirectories. 
+We keep traversing, at each level intersect the branch words (by their formula IDs) in the posting files from all the searching directories. 
+The intersected formula IDs actually represent the trees in our search set $\bigcap_{a \in L} \mathcal{I}_{\Pi}(a)$.
+Every document formula spotted in the search set is considered as a hit, we then apply \textproc{markAndCross} algorithm to get its symbolic similarity score with query formula
+(using the branch word information indexed in posting file)
+.
+The search program uses our ranking tuple described in section~\ref{rankingTuple} to indicate the overall similarity and rank items in search results,
+i.e. to decide whether one should be ranked higher than the other, first compare $s$, if equal, compare $f(d)$ and then $r$.
+In addition, we use a min-heap to keep the top-$k$ scored items in our search results (by replacing the lowest scored items if we find a newer hit with higher score), where $k$ is the maximum number of items we keep in search results.
+We also place a early termination valve on the number of branch words can be searched for one query at a time,
+so that when exceeding this limit, search engine will stop and return the search results it has up to that time. Because some query can potentially have a very long posting list, doing so would make our searching response time no more than a certain value.
+
+\begin{figure}
+\begin{minipage}[b]{2.65in}
+\begin{center}
+\includegraphics[height=2.5in]{se-page}
+Search page
+\end{center}
+\end{minipage}
+\hspace*{.38in}
+\begin{minipage}[b]{2.65in}
+\begin{center}
+\raisebox{.0in}{\includegraphics[height=2.5in]{res-page}}
+Results page
+\end{center}
+\end{minipage}
+\caption{Web front-end}\label{frontEnd}
+\end{figure}
+
+\subsection{Web front-end}
+The Web front-end presents user a Web page (search page) that accepts a query in an input box and returns search results in several Web pages (result pages). 
+User query is sent from browser to the front-end program by HTTP POST method and the start page of all ranked hits is specified by HTTP GET request.
+The front end CGI program calls search library and wrap search results in HTML list elements, at the same time creates navigation links to help user browse results by page.
+Figure~\ref{frontEnd} shows a screenshot of the search page and a result page from Web front-end.
+
+\begin{table}
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|c|c||c|c|}\hline
+ID & formula & ID & formula \\ \thickhline
+1 & 
+$\int_0^\infty dx \int_{x}^\infty F(x,y)dy  =\int_0^\infty dy \int_{0}^y F(x,y)dx$ &
+2 & 
+$X(i\omega)$ \\\hline
+
+3 & 
+$x^n + y^n=z^n$ &
+4 & 
+$\int^{\infty}_{-\infty} e^{-x^2} dx$ \\\hline
+
+5 & 
+$\frac{f(x+h)-f(x)}{h}$ &
+6 & 
+$\frac {\sin x} x$ \\\hline
+
+7 & 
+$ax^2 + bx +c$ &
+8 & 
+$\frac {e^x + y}{z}$ \\\hline
+
+9 & 
+$O(n \log n)$ &
+10 & 
+$H^n(X) = Z^n (X) / B^n(X)$ \\\hline
+
+11 & 
+$A_n = \frac 1 \pi \int_{-\pi}^\pi F(x) \cos(nx) dx$ &
+12 & 
+$\lim_{x \to \infty} (1 + \dfrac 1x)^x$ \\\hline
+
+13 & 
+$f(x) = f(0) + f'(0)x + \frac{f''(0)}{2!} x^2 + \ldots$ &
+14 & 
+$f(a) = \frac 1 {2 \pi i} \oint_r \frac{f(z)}{z-a} \;\mathrm{d}z$ \\\hline
+
+15 & 
+$x^2 + 2xy + y^2 = |x|^2 + 2|x||y| + |y| ^2$ &
+16 & 
+$\int_a^b f(x) \;\mathrm{d}x = F(b) - F(a)$ \\\hline
+
+17 & 
+$\frac {n!}{r_1! \cdot r_2! \cdots r_k!}$ &
+18 & 
+$-b \pm \sqrt{b^2 - 4ac}$ \\\hline
+
+19 & 
+$1+\tan^2 \theta = \sec^2 \theta$ &
+20 & 
+$\bar{u} = (x,y,z)$ \\\hline
+
+\end{tabular}
+\renewcommand{\arraystretch}{1}
+\end{center}
+\caption{Test query set}\label{TestQ}
+\end{table}
+
+\section{Evaluation}
+We rely on the search engine described in previous section to evaluate our search methods proposed in this paper.
+Yet retrieval based on an equation is a relatively new task, previously studied in the context of NTCIR Math Tasks. 
+The criteria to give judges about assessing the level of similarity degree between math expressions is not in a high level of agreement.
+Nevertheless, we choose to evaluate our system by comparison to a naive baseline, and provide our intuitive guidelines for relevance judgements, given the newness of the domain.
+
+\subsection{Dataset and index}
+\label{datasetAndIndex}
+Our own dataset is created to evaluate proposed method.
+We have crawled \LaTeX\ content from the posts of nearly entire (27180 pages of questions) Math Stack Exchange website before March 2015. 
+The data set~\footnote{raw data: \url{http://infolab.ece.udel.edu:8912/cowpie/raw.tar.bz2} }
+is plain text files generated by crawler output (\LaTeX\ math mode content per line, one file for each post).  
+Over 8 million expressions of math mode are contained in the data set. 
+The dataset is available through a roughly 60MB \textit{bzip2} compressed file.
+
+Our test query set~\footnote{query set: \url{http://infolab.ece.udel.edu:8912/cowpie/test-queries.tex}} 
+consists queries mostly from \cite{ntcirtopic} and \cite{symbolpairs15}, some of them are excluded here because we are unable to find similar formula in our own dataset.
+Table~\ref{TestQ} shows our complete test queries used in our evaluation. 
+
+The popular evaluation dataset in this research domain, the NTCIR Math Task collection, is in MathML/XML format, and original \LaTeX\ information is not always preserved in their dataset. 
+Here we choose not to use their dataset because we are parsing \LaTeX\ directly.
+Although converting MathML/XML formula to \LaTeX\ is possible, we fail to convert all the document in NTCIR dataset correctly (using \textit{pandoc}).
+Furthermore, supporting wildcard query is a default requirement in NTCIR Math Task, while our approach does not support wildcard (see section~\ref{symSimi}).
+
+After parsing our dataset using the indexer, the resulting index includes an 892 MB key-value database file and roughly 9.4GB directories and posting files.
+
+\subsection{Relevance judgement}
+We have defined four relevance levels, scored from 0 to 4 in our evaluation experiment.
+This criteria considers both structural similarity and symbolic similarity. 
+Structural similarity is scored by either 0, 1 (mostly similar) or 2 (complete matching);
+symbolic similarity is scored by 0, 1 (mostly identical symbols for the matching parts) or 2 (identical symbols for the matching parts).
+The overall level of relevance is simply the sum of the two scores.
+Table~\ref{JudgTab} lists all possible values for the overall relevance score in each case.
+
+\begin{table}
+\begin{minipage}[b]{4.65in}
+\begin{center}
+%%%%%%%%%%%%%%%%%%%%%
+\begin{tabular}{|c|c"c|c|c|}
+\hline
+\multicolumn{2}{|c"}{\multirow{2}{*}{Relevance Score}} 
+& \multicolumn{3}{c|}{Structurally} \\
+\cline{3-5}
+\multicolumn{2}{|c"}{} & Low similarity & High similarity & Complete match \\
+\thickhline
+\multirow{3}{*}{Symbolically} 
+& Low similarity &  0 & 1 & 2 \\
+\cline{2-5}
+& High similarity &  1 & 2 & 3 \\
+\cline{2-5}
+& Complete match &  2 & 3 & 4 \\
+\hline
+\end{tabular}
+%%%%%%%%%%%%%%%%%%%%%
+\end{center}
+\end{minipage}
+\caption{Judgement Score Table}\label{JudgTab}
+\end{table}
+
+\begin{table}
+\begin{minipage}[b]{2.65in}
+\begin{center}
+\begin{tabular}{|c"c|c|c|c|c|c|}
+\hline
+\multirow{2}{*}{Query} & \multicolumn{5}{c|}{Relevance Score} & \multirow{2}{*}{Judged} \\
+\cline{2-6}
+& 0 & 1 & 2 & 3 & 4 &   \\ \thickhline
+1  &  15 &  2 &  2 &  0 &  1 &  20\\
+2  &  20 &  0 &  0 &  0 &  0 &  20\\
+3  &  15 &  4 &  1 &  0 &  0 &  20\\
+4  &  0 &  0 &  0 &  6 &  14 &  20\\
+5  &  0 &  0 &  0 &  8 &  12 &  20\\
+6  &  0 &  2 &  5 &  2 &  11 &  20\\
+7  &  1 &  4 &  3 &  3 &  9 &  20\\
+8  &  4 &  2 &  13 &  1 &  0 &  20\\
+9  &  17 &  2 &  1 &  0 &  0 &  20\\
+10  &  5 &  1 &  1 &  1 &  0 &  8\\
+11  &  0 &  0 &  4 &  11 &  5 &  20\\
+12  &  0 &  0 &  1 &  16 &  3 &  20\\
+13  &  0 &  0 &  0 &  1 &  6 &  7\\
+14  &  0 &  0 &  4 &  13 &  3 &  20\\
+15  &  14 &  3 &  1 &  1 &  1 &  20\\
+16  &  0 &  2 &  5 &  8 &  5 &  20\\
+17  &  0 &  0 &  0 &  15 &  5 &  20\\
+18  &  8 &  6 &  2 &  2 &  2 &  20\\
+19  &  0 &  0 &  5 &  13 &  2 &  20\\
+20  &  19 &  1 &  0 &  0 &  0 &  20\\
+\hline
+\end{tabular}
+% \\[0.3cm] Baseline method
+\end{center}
+\end{minipage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\hspace*{.38in}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{minipage}[b]{2.65in}
+\begin{center}
+\begin{tabular}{|c"c|c|c|c|c|c|}
+\hline
+\multirow{2}{*}{Query} & \multicolumn{5}{c|}{Relevance Score} & \multirow{2}{*}{Judged} \\
+\cline{2-6}
+& 0 & 1 & 2 & 3 & 4 &   \\ \thickhline
+1  &  13 &  2 &  2 &  1 &  1 &  19\\
+2  &  15 &  1 &  0 &  3 &  1 &  20\\
+3  &  0 &  0 &  0 &  0 &  20 &  20\\
+4  &  0 &  0 &  0 &  1 &  19 &  20\\
+5  &  0 &  0 &  0 &  0 &  20 &  20\\
+6  &  1 &  0 &  0 &  0 &  19 &  20\\
+7  &  0 &  0 &  0 &  0 &  20 &  20\\
+8  &  4 &  3 &  12 &  1 &  0 &  20\\
+9  &  0 &  0 &  0 &  0 &  20 &  20\\
+10  &  4 &  1 &  1 &  1 &  0 &  7\\
+11  &  0 &  0 &  4 &  11 &  5 &  20\\
+12  &  0 &  0 &  0 &  9 &  11 &  20\\
+13  &  0 &  0 &  0 &  1 &  6 &  7\\
+14  &  0 &  0 &  9 &  6 &  5 &  20\\
+15  &  14 &  2 &  1 &  1 &  2 &  20\\
+16  &  0 &  0 &  0 &  0 &  20 &  20\\
+17  &  0 &  0 &  0 &  14 &  6 &  20\\
+18  &  0 &  0 &  2 &  0 &  18 &  20\\
+19  &  0 &  0 &  0 &  0 &  20 &  20\\
+20  &  0 &  0 &  2 &  7 &  11 &  20\\
+\hline
+\end{tabular}
+% \\[0.3cm] Similarity search
+\end{center}
+\end{minipage}
+\caption{Relevance score distribution}\label{distrtab}
+\end{table}
+
+
+\subsection{Results}
+
+We have evaluated two methods here. 
+The baseline method is a boolean search for structural related document using the method in section~\ref{se-method}. 
+We compare the baseline method with the more comprehensive search method proposed in this paper, 
+which further considers symbolic similarity score, matching depth factor and matching ratio as described in section~\ref{CombineTheTwo}.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=4.8in, height=3.6in]{partial-rel}
+\\Partial relevance (relevance score $\ge 1$)
+\\[0.4in]
+\includegraphics[width=4.8in, height=3.6in]{total-rel}
+\\ Relevance (relevance score $\ge 3$)
+\end{center}
+\caption{Effectiveness performance}\label{perfcomp}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=4.7in, height=3.3in]{response-time.eps}
+\end{center}
+\caption{Efficiency performance}\label{effiperf}
+\end{figure}
+
+Table~\ref{distrtab} shows the distribution of hits and relevance judgement score of top 20 results (or less, if the number of hits are fewer than 20) for each test query listed in table~\ref{TestQ}.
+The relevance scores directly reflect the effectiveness of our methods.
+figure~\ref{perfcomp} has visualized the relevance level of our evaluation.
+On the other hand,
+we also have done a performance evaluation on the average query look up time for each test query.
+The efficiency performance comparison of these two methods is shown in figure~\ref{effiperf} 
+(The query look-up time is the time consumed for searching directories and posting files, this is the majority of time consumption for the query look-up in our implementation).
+
+Results show that our similarity measurement, if used, can boost search effectiveness in all the five metres evaluated, 
+and consumes a reasonable extra time on top of the baseline method. 
