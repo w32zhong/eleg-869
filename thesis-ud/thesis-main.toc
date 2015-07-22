@@ -7,48 +7,48 @@
 \contentsline {section}{\numberline {1.2}Issues in Measuring Similarity}{3}{section.1.2}
 \contentsline {section}{\numberline {1.3}Contribution Summary}{5}{section.1.3}
 \contentsline {chapter}{\numberline {2}Related Work}{6}{chapter.2}
-\contentsline {section}{\numberline {2.1}Text-based methods}{6}{section.2.1}
-\contentsline {section}{\numberline {2.2}Structure-based methods}{7}{section.2.2}
-\contentsline {section}{\numberline {2.3}Other related work}{10}{section.2.3}
+\contentsline {section}{\numberline {2.1}Text-Based Methods}{6}{section.2.1}
+\contentsline {section}{\numberline {2.2}Structure-Based Methods}{7}{section.2.2}
+\contentsline {section}{\numberline {2.3}Other Related Work}{10}{section.2.3}
 \contentsline {section}{\numberline {2.4}Performance Review}{10}{section.2.4}
 \contentsline {chapter}{\numberline {3}Methodology}{11}{chapter.3}
 \contentsline {section}{\numberline {3.1}Intuitions}{11}{section.3.1}
-\contentsline {subsection}{\numberline {3.1.1}Commutative immunity}{12}{subsection.3.1.1}
-\contentsline {subsection}{\numberline {3.1.2}Sub-structure query ability}{12}{subsection.3.1.2}
-\contentsline {subsection}{\numberline {3.1.3}Index and search properties}{12}{subsection.3.1.3}
+\contentsline {subsection}{\numberline {3.1.1}Commutative Immunity}{12}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}Sub-Structure Query Ability}{12}{subsection.3.1.2}
+\contentsline {subsection}{\numberline {3.1.3}Index and Search Properties}{12}{subsection.3.1.3}
 \contentsline {section}{\numberline {3.2}Structure Similarity}{13}{section.3.2}
 \contentsline {subsection}{\numberline {3.2.1}Definitions}{14}{subsection.3.2.1}
-\contentsline {subsubsection}{\numberline {3.2.1.1}Formula tree}{15}{subsubsection.3.2.1.1}
-\contentsline {subsubsection}{\numberline {3.2.1.2}Formula subtree}{15}{subsubsection.3.2.1.2}
-\contentsline {subsubsection}{\numberline {3.2.1.3}Leaf-root path set}{15}{subsubsection.3.2.1.3}
+\contentsline {subsubsection}{\numberline {3.2.1.1}Formula Tree}{15}{subsubsection.3.2.1.1}
+\contentsline {subsubsection}{\numberline {3.2.1.2}Formula Subtree}{15}{subsubsection.3.2.1.2}
+\contentsline {subsubsection}{\numberline {3.2.1.3}Leaf-Root Path Set}{15}{subsubsection.3.2.1.3}
 \contentsline {subsubsection}{\numberline {3.2.1.4}Index}{16}{subsubsection.3.2.1.4}
-\contentsline {subsection}{\numberline {3.2.2}Search method}{16}{subsection.3.2.2}
-\contentsline {subsection}{\numberline {3.2.3}Substructure matching}{17}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.2}Search Method}{16}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Substructure Matching}{17}{subsection.3.2.3}
 \contentsline {subsubsection}{\numberline {3.2.3.1}Observation \#1}{17}{subsubsection.3.2.3.1}
 \contentsline {subsubsection}{\numberline {3.2.3.2}Observation \#2}{18}{subsubsection.3.2.3.2}
 \contentsline {subsubsection}{\numberline {3.2.3.3}Observation \#3}{18}{subsubsection.3.2.3.3}
 \contentsline {subsection}{\numberline {3.2.4}Interpretation}{19}{subsection.3.2.4}
-\contentsline {subsection}{\numberline {3.2.5}The decompose-and-match algorithm}{21}{subsection.3.2.5}
+\contentsline {subsection}{\numberline {3.2.5}The Decompose-and-Match Algorithm}{21}{subsection.3.2.5}
 \contentsline {section}{\numberline {3.3}Symbolic Similarity}{22}{section.3.3}
-\contentsline {subsection}{\numberline {3.3.1}Ranking constrains}{24}{subsection.3.3.1}
-\contentsline {subsection}{\numberline {3.3.2}The mark-and-cross algorithm}{25}{subsection.3.3.2}
-\contentsline {section}{\numberline {3.4}Combine the Two}{29}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}Relaxed structure match}{29}{subsection.3.4.1}
-\contentsline {subsection}{\numberline {3.4.2}Matching-depth}{30}{subsection.3.4.2}
-\contentsline {subsection}{\numberline {3.4.3}Matching-ratio}{31}{subsection.3.4.3}
-\contentsline {subsection}{\numberline {3.4.4}Final ranking schema}{31}{subsection.3.4.4}
-\contentsline {subsection}{\numberline {3.4.5}Illustrated by an example}{31}{subsection.3.4.5}
+\contentsline {subsection}{\numberline {3.3.1}Ranking Constrains}{24}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}The Mark-and-Cross Algorithm}{25}{subsection.3.3.2}
+\contentsline {section}{\numberline {3.4}Combine The Two}{29}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Relaxed Structure Match}{29}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Matching-Depth}{30}{subsection.3.4.2}
+\contentsline {subsection}{\numberline {3.4.3}Matching-Ratio}{31}{subsection.3.4.3}
+\contentsline {subsection}{\numberline {3.4.4}Final Ranking Schema}{31}{subsection.3.4.4}
+\contentsline {subsection}{\numberline {3.4.5}Illustrated by an Example}{31}{subsection.3.4.5}
 \contentsline {chapter}{\numberline {4}Implementation and Evaluation}{36}{chapter.4}
 \contentsline {section}{\numberline {4.1}System Overview}{36}{section.4.1}
 \contentsline {section}{\numberline {4.2}Implementation}{37}{section.4.2}
 \contentsline {subsection}{\numberline {4.2.1}Crawler}{37}{subsection.4.2.1}
 \contentsline {subsection}{\numberline {4.2.2}Parser}{37}{subsection.4.2.2}
 \contentsline {subsection}{\numberline {4.2.3}Index}{39}{subsection.4.2.3}
-\contentsline {subsection}{\numberline {4.2.4}Search program}{39}{subsection.4.2.4}
-\contentsline {subsection}{\numberline {4.2.5}Web front-end}{40}{subsection.4.2.5}
+\contentsline {subsection}{\numberline {4.2.4}Search Program}{39}{subsection.4.2.4}
+\contentsline {subsection}{\numberline {4.2.5}Web Front-End}{40}{subsection.4.2.5}
 \contentsline {section}{\numberline {4.3}Evaluation}{41}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Dataset and index}{42}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4.3.2}Relevance judgement}{42}{subsection.4.3.2}
+\contentsline {subsection}{\numberline {4.3.1}Dataset and Index}{42}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Relevance Judgement}{42}{subsection.4.3.2}
 \contentsline {subsection}{\numberline {4.3.3}Results}{43}{subsection.4.3.3}
 \contentsline {chapter}{\numberline {5}Conclusion and Future Work}{47}{chapter.5}
 \contentsline {section}{\numberline {5.1}Summary and Conclusion}{47}{section.5.1}

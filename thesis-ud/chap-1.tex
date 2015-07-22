@@ -42,17 +42,17 @@ Zentralblatt math from MathWebSearch~\footnote{\url{http://search.mathweb.org/zb
 )
 are able to search query with mixed text and mathematical formula.
 These search engines can be useful in many ways, for example, student may utilize it to know which identity can be applied to a formulae in order to give a proof of that formulae.
-This is also the area where we focus in this paper. 
+This is the area where we focus in this paper. 
 
 Digital mathematical content document can also be in an image format (e.g. a handwritten formula), topics on retrieving information in these image requires detection and recognition of their visual features (texture, outline, shape etc.).
 
 Also, because the nature of mathematical language, a query (e.g. an algebra expression) can potentially derived into alternate forms, or calculated and evaluated into a value. 
 These potentially require a system to handle symbolic or numeric calculation, or even a good knowledge of derivation rules implied by different mathematical expression. 
 Those numeric search engines
-(e.g. computational engine \textit{Symbolab}~\footnote{Symbolab Web Search: \url{http://www.symbolab.com}} and WolframAlpha)
+(e.g. computational engine Symbolab~\footnote{Symbolab Web Search: \url{http://www.symbolab.com}} and WolframAlpha)
 can help evaluate mathematical expressions and reveal the deeper information contained from those expressions.
 
-Besides the first three concentrations, there are many other topics. Knowledge mining, for example, will need deeper level of understanding on math language. A typical goal of this topic is to give a solution or answer based on all the document information retrieved. e.g. ``Find an article related to the \textit{Four Color Theorem}"~\cite{ntcirtopic}.
+Besides the three concentrations mentioned, there are many other topics. Knowledge mining, for example, will need deeper level of understanding on math language. A typical goal of this topic is to give a solution or answer based on all the document information retrieved. e.g. ``Find an article related to the \textit{Four Color Theorem}"~\cite{ntcirtopic}.
 
 These topics somehow overlap in some cases, for example, some derivation can be used to better assess the similarity between math formulae, e.g. $\dfrac{a + b}{c}$ and $\dfrac{a}{c} + \dfrac{b}{c}$ should be considered as relevant because their equivalent form of representation.
 Similarly, mathematical knowledge is required to understand the same meaning (thus high similarity) between $ \dbinom n 1 $ and $C_n^1$.
@@ -78,7 +78,7 @@ In cases when a set of matches occur within some measure of ``distance", we may 
 We need metrics to score these similarity under certain rules for relevance assessments. 
 
 Lastly, when trying to capture more semantic information from expressions, we can improve our measurement on similarity but it may introduce more ambiguity. 
-For example, semantically incorrect math markups in document, e.g. using ``sin" in \LaTeX\ markup instead of macro ``\textbackslash sin", will make it difficult to tell whether it is a product of three symbols or a \textit{sine} function if we want to capture their semantical meaning in such a depth. 
+For example, semantically incorrect math markups in document, e.g. using ``sin" in \LaTeX\ markup instead of macro ``\textbackslash sin", will make it difficult to tell whether it is a product of three variables or a \textit{sine} function if we want to capture their semantical meaning in such a depth. 
 And depending on what level of semantical meaning we want to capture, ambiguity cases can be different. 
 Consider $f(2x+1)$, if we want to know if $f$ is a function rather than a variable, the only possibility is looking for its contexts, but we can nevertheless always think of it as a product without losing the possibility to search similar expression like $f(1 + 2y)$, the same way goes reciprocal $a^{-1}$ and inverse function $f^{-1}$. 
 Most often, even if no semantic ambiguity occurs, efforts are needed to capture some semantical meanings. e.g. In $\sin 2 \pi$, it is not easy to figure out,

@@ -24,7 +24,7 @@ Secondly, the 60MB raw data are all math formula in \LaTeX,	in contrast to a gen
 Moreover, we do not use any kind of compression in our index.
 Another observation is, the absolute value of our query lookup time is not ideal, especially
 the first-time querying takes much longer time (because cache miss) than the time of subsequent same queries. 
-Furthermore, queries with simple decomposed sub-paths takes relative much longer time to search (e.g. query number 2 takes almost 4 seconds in average). 
+Furthermore, queries with simple decomposed sub-paths take relative much longer time to search (e.g. query number 2 takes almost 4 seconds in average). 
 
 \section{Future Work}
 In the next stage, trying to reduce the overhead for searching the index can be a good way to fix our bottleneck on both improving storage space efficiency and speeding up query look-up process. 
@@ -34,7 +34,7 @@ Nevertheless, Considering the fact that our system is newly created, we have alr
 
 Also, the experiments we have is not based on popular NTCIR dataset in this research domain, because of the problem we mentioned in section~\ref{datasetAndIndex}. 
 This leaves a comparison of our method with mainstream math information retrieval methods to be desired.  
-In the future, we may try to create a new parser for MathML content so that we are able to give experiments on some standard dataset of math IR, with larger data size and more testing queries, in order to provide more comparable results on evaluation.
+In the future, we may try to create a new parser for MathML content to generate operation tree defined in this paper, so that we are able to give experiments on some standard dataset of math IR, with larger data size and more testing queries, in order to provide more comparable results on evaluation.
 
 Other than the problems addressed above, it is also desired to integrate general text search ability into our math-only search method. 
 Additionally, the manner we use to break math formula into branch words and to index them through posting list makes it easy to parallelize and distribute the searching process,
